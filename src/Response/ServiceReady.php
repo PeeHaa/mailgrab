@@ -6,6 +6,6 @@ class ServiceReady extends Message
 {
     public function __construct(string $message)
     {
-        parent::__construct(200, $message);
+        parent::__construct(220, $message);
     }
 }
