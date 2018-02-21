@@ -1,28 +1,28 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab;
+namespace PeeHaa\MailGrab\Smtp;
 
 use Amp\Promise;
 use Amp\Socket\ServerSocket;
-use PeeHaa\MailGrab\Command\BodyLine;
-use PeeHaa\MailGrab\Command\Ehlo;
-use PeeHaa\MailGrab\Command\EndBody;
-use PeeHaa\MailGrab\Command\Factory as CommandFactory;
-use PeeHaa\MailGrab\Command\Helo;
-use PeeHaa\MailGrab\Command\MailFrom;
-use PeeHaa\MailGrab\Command\Quit;
-use PeeHaa\MailGrab\Command\RcptTo;
-use PeeHaa\MailGrab\Command\Rset;
-use PeeHaa\MailGrab\Command\StartBody;
-use PeeHaa\MailGrab\Command\StartData;
-use PeeHaa\MailGrab\Command\StartHeader;
-use PeeHaa\MailGrab\Command\Unfold;
-use PeeHaa\MailGrab\Log\Output;
-use PeeHaa\MailGrab\Response\ActionCompleted;
-use PeeHaa\MailGrab\Response\ClosingTransmission;
-use PeeHaa\MailGrab\Response\ServiceReady;
-use PeeHaa\MailGrab\Response\StartInput;
-use PeeHaa\MailGrab\Response\SyntaxError;
+use PeeHaa\MailGrab\Smtp\Command\BodyLine;
+use PeeHaa\MailGrab\Smtp\Command\Ehlo;
+use PeeHaa\MailGrab\Smtp\Command\EndBody;
+use PeeHaa\MailGrab\Smtp\Command\Factory as CommandFactory;
+use PeeHaa\MailGrab\Smtp\Command\Helo;
+use PeeHaa\MailGrab\Smtp\Command\MailFrom;
+use PeeHaa\MailGrab\Smtp\Command\Quit;
+use PeeHaa\MailGrab\Smtp\Command\RcptTo;
+use PeeHaa\MailGrab\Smtp\Command\Rset;
+use PeeHaa\MailGrab\Smtp\Command\StartBody;
+use PeeHaa\MailGrab\Smtp\Command\StartData;
+use PeeHaa\MailGrab\Smtp\Command\StartHeader;
+use PeeHaa\MailGrab\Smtp\Command\Unfold;
+use PeeHaa\MailGrab\Smtp\Log\Output;
+use PeeHaa\MailGrab\Smtp\Response\ActionCompleted;
+use PeeHaa\MailGrab\Smtp\Response\ClosingTransmission;
+use PeeHaa\MailGrab\Smtp\Response\ServiceReady;
+use PeeHaa\MailGrab\Smtp\Response\StartInput;
+use PeeHaa\MailGrab\Smtp\Response\SyntaxError;
 use function Amp\call;
 
 // @todo: split this up into a client and a transaction

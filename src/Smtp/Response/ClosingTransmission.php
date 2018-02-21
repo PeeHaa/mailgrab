@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Response;
+namespace PeeHaa\MailGrab\Smtp\Response;
 
 class ClosingTransmission extends Message
 {

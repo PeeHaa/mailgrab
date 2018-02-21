@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab;
+namespace PeeHaa\MailGrab\Smtp;
 
 use MyCLabs\Enum\Enum;
 

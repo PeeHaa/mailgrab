@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Command;
+namespace PeeHaa\MailGrab\Smtp\Command;
 
-class Quit implements Command
+class StartData implements Command
 {
-    private const PATTERN = '/^QUIT$/';
+    private const PATTERN = '/^DATA$/';
 
     public static function isValid(string $line): bool
     {

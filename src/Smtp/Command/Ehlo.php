@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Command;
+namespace PeeHaa\MailGrab\Smtp\Command;
 
 class Ehlo implements Command
 {

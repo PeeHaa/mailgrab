@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab;
+namespace PeeHaa\MailGrab\Smtp;
 
 use Amp\Loop;
 use Amp\Socket\ServerSocket;
-use PeeHaa\MailGrab\Command\Factory as CommandFactory;
-use PeeHaa\MailGrab\Log\Output;
+use PeeHaa\MailGrab\Smtp\Command\Factory as CommandFactory;
+use PeeHaa\MailGrab\Smtp\Log\Output;
 use function Amp\asyncCall;
 use function Amp\Socket\listen;
 

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Command;
+namespace PeeHaa\MailGrab\Smtp\Command;
 
-class StartData implements Command
+class StartBody implements Command
 {
-    private const PATTERN = '/^DATA$/';
+    private const PATTERN = '/^$/';
 
     public static function isValid(string $line): bool
     {

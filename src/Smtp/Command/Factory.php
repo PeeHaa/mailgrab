@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Command;
+namespace PeeHaa\MailGrab\Smtp\Command;
 
-use PeeHaa\MailGrab\ClientStatus;
+use PeeHaa\MailGrab\Smtp\ClientStatus;
 
 class Factory
 {

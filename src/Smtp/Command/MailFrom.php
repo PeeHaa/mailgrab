@@ -1,12 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Command;
+namespace PeeHaa\MailGrab\Smtp\Command;
 
-class RcptTo implements Command
+class MailFrom implements Command
 {
-    private const PATTERN = '/^RCPT TO:\s*(?<name>.*?)?\s*?\<(?<email>.*)\>\s*$/';
-
-    private $name;
+    private const PATTERN = '/^MAIL FROM:\s*\<(?<email>.*)\>( .*)?$/';
 
     private $address;
 
@@ -19,18 +17,7 @@ class RcptTo implements Command
     {
         preg_match(self::PATTERN, $line, $matches);
 
-        $this->name = $matches['email'];
-
-        if ($matches['name']) {
-            $this->name = $matches['name'];
-        }
-
         $this->address = $matches['email'];
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     public function getAddress(): string

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Log;
+namespace PeeHaa\MailGrab\Smtp\Log;
 
 class Output
 {
