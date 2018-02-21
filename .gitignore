@@ -1,2 +1,4 @@
 vendor
 .idea
+node_modules
+public
