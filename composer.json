@@ -12,6 +12,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
+        "amphp/aerys": "^0.7.4",
         "amphp/socket": "^0.10.5",
         "myclabs/php-enum": "^1.5",
         "rdlowrey/auryn": "^1.4"

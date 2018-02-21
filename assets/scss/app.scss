@@ -1,3 +1,116 @@
+@import "./reset";
+@import "./fonts";
+@import "./colors";
+@import "./sizes";
+
+@import "./render/plain-text";
+
 body {
-    background: red;
+    font-family: $font-main;
+}
+
+header {
+    border-bottom: 1px solid $color-border;
+    height: $size-header;
+
+    h1 {
+        font-family: $font-header;
+        font-size: 20px;
+        line-height: $size-header;
+        margin: 0 $size-padding;
+        float: left;
+    }
+
+    ul {
+        float: right;
+
+        li {
+            display: block;
+            float: left;
+            line-height: $size-header;
+            padding: 0 $size-padding;
+            border-left: 1px solid $color-border;
+            cursor: pointer;
+
+            &.subject {
+                border-left: none;
+
+                &:hover {
+                    background: transparent;
+                }
+
+                h2 {
+                    margin: 0;
+                    font-size: 16px;
+                }
+            }
+
+            &:hover, &.active {
+                background: $color-hover;
+            }
+
+            &.delete:hover {
+                background: #e05050;
+                color: white;
+            }
+        }
+    }
+}
+
+nav {
+    height: $size-content;
+    max-height: $size-content;
+    overflow-y: scroll;
+    width: 325px;
+    border-right: 1px solid $color-border;
+    float: left;
+
+    li {
+        border-bottom: 1px solid $color-border;
+        font-size: 13px;
+        cursor: pointer;
+
+        &.new {
+            font-weight: bold;
+        }
+
+        &.active {
+            a {
+                background: $color-hover;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            color: $color-text;
+            padding: $size-padding;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &:hover {
+                background: $color-hover;
+            }
+
+            time {
+                font-weight: normal;
+                font-size: 9px;
+                display: block;
+            }
+        }
+    }
+}
+
+main {
+    margin-left: 325px;
+    padding: 0 0 $size-padding $size-padding;
+    height: $size-content;
+    box-sizing: border-box;
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
 }
