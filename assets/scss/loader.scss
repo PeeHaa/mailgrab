@@ -1,0 +1,18 @@
+@import "./colors";
+@import "./sizes";
+@import "./mixins";
+
+.loader {
+    background: $color-background-loader;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    i {
+        color: $color-text;
+        font-size: 50px;
+        @include centerer;
+    }
+}

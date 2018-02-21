@@ -20,6 +20,11 @@ class Message
         $this->from = $from;
     }
 
+    public function getFrom(): string
+    {
+        return $this->from;
+    }
+
     public function addRecipient(string $email, string $name): void
     {
         $this->recipients[$email] = $name;
@@ -41,7 +46,7 @@ class Message
 
     public function finalizeHeader(): void
     {
-        $this->headers[] = $this->headerBuffer;
+        $this->headers[strtolower($this->headerBuffer->getKey())] = $this->headerBuffer;
 
         $this->headerBuffer = null;
     }
@@ -49,5 +54,10 @@ class Message
     public function appendToBody(string $content): void
     {
         $this->body .= $content . "\r\n";
+    }
+
+    public function getHeaders(): array
+    {
+        return $this->headers;
     }
 }

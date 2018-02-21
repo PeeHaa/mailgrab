@@ -2338,6 +2338,21 @@ ul {
   overflow: visible;
   clip: auto; }
 
+.loader {
+  background: rgba(243, 240, 240, 0.8);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; }
+  .loader i {
+    color: #1e1c1c;
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+
 pre {
   white-space: pre-wrap; }
 

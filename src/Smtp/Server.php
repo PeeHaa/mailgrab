@@ -17,17 +17,20 @@ class Server
 
     private $commandFactory;
 
+    private $callback;
+
     private $logger;
 
-    public function __construct(CommandFactory $commandFactory, Output $logger)
+    public function __construct(CommandFactory $commandFactory, callable $callback, Output $logger)
     {
         $this->commandFactory = $commandFactory;
+        $this->callback       = $callback;
         $this->logger         = $logger;
     }
 
     public function run()
     {
-        Loop::run(function() {
+        //Loop::run(function() {
             asyncCall(function () {
                 $server = listen(self::ADDRESS);
 
@@ -37,13 +40,13 @@ class Server
                     $this->handleClient($socket);
                 }
             });
-        });
+        //});
     }
 
     private function handleClient(ServerSocket $socket)
     {
         asyncCall(function () use ($socket) {
-            $client = new Client(self::BANNER, $socket, $this->commandFactory, $this->logger);
+            $client = new Client(self::BANNER, $socket, $this->commandFactory, $this->callback, $this->logger);
 
             $this->logger->info('Accepted new client: ' . $client->getId());
 

@@ -38,18 +38,27 @@ class Client
 
     private $commandFactory;
 
+    private $callback;
+
     private $logger;
 
     private $status;
 
     private $message;
 
-    public function __construct(string $banner, ServerSocket $socket, CommandFactory $commandFactory, Output $logger)
+    public function __construct(
+        string $banner,
+        ServerSocket $socket,
+        CommandFactory $commandFactory,
+        callable $callback,
+        Output $logger
+    )
     {
         $this->id             = $socket->getRemoteAddress();
         $this->banner         = $banner;
         $this->socket         = $socket;
         $this->commandFactory = $commandFactory;
+        $this->callback       = $callback;
         $this->logger         = $logger;
         $this->status         = new ClientStatus(ClientStatus::NEW);
         $this->message        = new Message();
@@ -306,6 +315,8 @@ class Client
         $this->socket->write((string) new ActionCompleted('OK'));
 
         $this->logger->smtpOut((string) new ActionCompleted('OK'));
+
+        ($this->callback)(clone $this->message);
 
         $this->processReset();
     }
