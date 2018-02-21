@@ -6,4 +6,6 @@ This SMTP server catches all e-mail being sent through it and provides an interf
 
 *Note: this SMTP server is meant to be run locally. As such several security considerations (e.g. SMTP transaction delays) has been omitted by design. Never run this project as a public service.*
 
-https://github.com/SAM-IT/react-smtp/blob/master/src/Connection.php
+## Project status
+
+Currently just a PoC. All things will change.
