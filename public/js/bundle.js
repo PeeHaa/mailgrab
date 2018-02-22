@@ -16294,7 +16294,7 @@ var commandProcessor = new _Processor2.default();
 var connection = new _Connection2.default('ws://localhost:8000/ws', commandProcessor.process.bind(commandProcessor));
 connection.connect();
 
-new _Interface2.default(connection);
+var gui = new _Interface2.default(connection);
 
 /***/ }),
 /* 121 */
@@ -16366,15 +16366,17 @@ var _NewMail = __webpack_require__(124);
 
 var _NewMail2 = _interopRequireDefault(_NewMail);
 
+var _MailInfo = __webpack_require__(132);
+
+var _MailInfo2 = _interopRequireDefault(_MailInfo);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Processor = function () {
-    function Processor(gui) {
+    function Processor() {
         _classCallCheck(this, Processor);
-
-        this.gui = gui;
     }
 
     _createClass(Processor, [{
@@ -16390,6 +16392,7 @@ var Processor = function () {
                     break;
 
                 case 'mail-info':
+                    new _MailInfo2.default().process(data);
                     break;
             }
         }
@@ -16902,6 +16905,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var moment = __webpack_require__(0);
+
 var Interface = function () {
     function Interface(connection) {
         _classCallCheck(this, Interface);
@@ -16910,13 +16915,15 @@ var Interface = function () {
 
         this.activeItem = null;
 
-        this.navbar = new _NavBar2.default(this.loadMail.bind(this));
+        this.navbar = new _NavBar2.default(this.selectMail.bind(this));
         this.toolbar = new _Toolbar2.default(this.processToolbar.bind(this));
+
+        setInterval(this.updateTimestamp.bind(this), 10000);
     }
 
     _createClass(Interface, [{
-        key: 'loadMail',
-        value: function loadMail(id) {
+        key: 'selectMail',
+        value: function selectMail(id) {
             this.connection.send({
                 type: 'mail-info',
                 data: {
@@ -16928,6 +16935,9 @@ var Interface = function () {
 
             this.toolbar.activate();
         }
+    }, {
+        key: 'loadMail',
+        value: function loadMail(mail) {}
     }, {
         key: 'processToolbar',
         value: function processToolbar(type) {
@@ -16948,6 +16958,14 @@ var Interface = function () {
                     this.navbar.delete();
                     return;
             }
+        }
+    }, {
+        key: 'updateTimestamp',
+        value: function updateTimestamp() {
+            document.querySelectorAll('time').forEach(function (time) {
+                console.log(time.dataset.timestamp);
+                time.textContent = moment(time.dataset.timestamp).fromNow();
+            });
         }
     }]);
 
@@ -17024,6 +17042,141 @@ var Toolbar = function () {
 }();
 
 exports.default = Toolbar;
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Info = __webpack_require__(133);
+
+var _Info2 = _interopRequireDefault(_Info);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var MailInfo = function () {
+    function MailInfo() {
+        _classCallCheck(this, MailInfo);
+    }
+
+    _createClass(MailInfo, [{
+        key: 'process',
+        value: function process(data) {
+            new _Info2.default(data.id, data.from, data.to, data.subject, data.timestamp).render();
+
+            if (document.querySelector('header li.active')) {
+                document.querySelector('header li.active').classList.remove('active');
+            }
+
+            document.querySelector('header li[data-type="info"]').classList.add('active');
+        }
+    }]);
+
+    return MailInfo;
+}();
+
+exports.default = MailInfo;
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var moment = __webpack_require__(0);
+
+var Info = function () {
+    function Info(id, from, to, subject, timestamp) {
+        _classCallCheck(this, Info);
+
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.subject = subject;
+        this.timestamp = moment(timestamp);
+    }
+
+    _createClass(Info, [{
+        key: 'render',
+        value: function render() {
+            var container = document.querySelector('main');
+
+            this.deleteContent(container);
+
+            var template = document.getElementById('mail-info');
+            var item = document.importNode(template.content, true);
+
+            container.prepend(item);
+
+            var newItem = document.querySelector('main table');
+
+            this.addFrom(newItem);
+            this.addTo(newItem);
+            this.addSubject(newItem);
+            this.addTimestamp(newItem);
+        }
+    }, {
+        key: 'deleteContent',
+        value: function deleteContent(container) {
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+        }
+    }, {
+        key: 'addFrom',
+        value: function addFrom(newItem) {
+            newItem.getElementsByTagName('td')[0].textContent = this.from;
+        }
+    }, {
+        key: 'addTo',
+        value: function addTo(newItem) {
+            var to = [];
+            for (var key in this.to) {
+                if (!this.to.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                to.push(this.to[key] + ' <' + key + '>');
+            }
+
+            newItem.getElementsByTagName('td')[1].textContent = to.join(', ');
+        }
+    }, {
+        key: 'addSubject',
+        value: function addSubject(newItem) {
+            newItem.getElementsByTagName('td')[2].textContent = this.subject;
+        }
+    }, {
+        key: 'addTimestamp',
+        value: function addTimestamp(newItem) {
+            newItem.getElementsByTagName('time')[0].textContent = this.timestamp.fromNow();
+            newItem.getElementsByTagName('time')[0].dataset.timestamp = this.timestamp.toISOString();
+        }
+    }]);
+
+    return Info;
+}();
+
+exports.default = Info;
 
 /***/ })
 /******/ ]);

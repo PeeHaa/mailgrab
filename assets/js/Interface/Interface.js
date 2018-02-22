@@ -1,17 +1,21 @@
 import NavBar from './NavBar';
 import Toolbar from './Toolbar';
 
+const moment = require('moment');
+
 export default class Interface {
     constructor(connection) {
         this.connection = connection;
 
         this.activeItem = null;
 
-        this.navbar  = new NavBar(this.loadMail.bind(this));
+        this.navbar  = new NavBar(this.selectMail.bind(this));
         this.toolbar = new Toolbar(this.processToolbar.bind(this));
+
+        setInterval(this.updateTimestamp.bind(this), 10000);
     }
 
-    loadMail(id) {
+    selectMail(id) {
         this.connection.send({
             type: 'mail-info',
             data: {
@@ -22,6 +26,10 @@ export default class Interface {
         this.activeItem = id;
 
         this.toolbar.activate();
+    }
+
+    loadMail(mail) {
+
     }
 
     processToolbar(type) {
@@ -42,5 +50,12 @@ export default class Interface {
                 this.navbar.delete();
                 return;
         }
+    }
+
+    updateTimestamp() {
+        document.querySelectorAll('time').forEach((time) => {
+            console.log(time.dataset.timestamp);
+            time.textContent = moment(time.dataset.timestamp).fromNow();
+        });
     }
 }

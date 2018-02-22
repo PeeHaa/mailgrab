@@ -6,8 +6,7 @@
 
 @import "./components/header";
 @import "./components/nav";
-
-@import "./render/plain-text";
+@import "./components/content/info";
 
 body {
     font-family: $font-main;

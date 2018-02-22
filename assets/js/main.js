@@ -9,4 +9,4 @@ const commandProcessor = new Processor();
 const connection = new Connection('ws://localhost:8000/ws', commandProcessor.process.bind(commandProcessor));
 connection.connect();
 
-new Interface(connection);
+const gui = new Interface(connection);

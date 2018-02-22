@@ -4746,8 +4746,8 @@ nav {
         font-size: 9px;
         display: block; }
 
-pre {
-  white-space: pre-wrap; }
+main th {
+  text-align: left; }
 
 body {
   font-family: "Archivo Narrow", sans-serif; }
