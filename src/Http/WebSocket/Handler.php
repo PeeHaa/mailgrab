@@ -35,7 +35,7 @@ class Handler implements Websocket
         $this->endpoint = $endpoint;
 
         asyncCall(function() {
-            (new Server(new Factory(), [$this, 'pushMessage'], new Output(new Level(Level::ALL))))->run();
+            (new Server(new Factory(), [$this, 'pushMessage'], new Output(new Level(Level::INFO))))->run();
         });
     }
 

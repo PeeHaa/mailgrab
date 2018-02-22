@@ -12,8 +12,6 @@ class Server
 {
     private const ADDRESS = 'tcp://127.0.0.1:8025';
 
-    private const BANNER = 'Welcome to MailGrab SMTP server';
-
     private $commandFactory;
 
     private $callback;
@@ -43,13 +41,13 @@ class Server
     private function handleClient(ServerSocket $socket)
     {
         asyncCall(function () use ($socket) {
-            $client = new Client(self::BANNER, $socket, $this->commandFactory, $this->callback, $this->logger);
+            $client = new Client($socket, $this->commandFactory, $this->callback, $this->logger);
 
-            $this->logger->info('Accepted new client: ' . $client->getId());
+            $this->logger->info('Accepted new client');
 
             yield $client->listen();
 
-            $this->logger->info('Disconnected client: ' . $client->getId());
+            $this->logger->info('Disconnected client');
         });
     }
 }

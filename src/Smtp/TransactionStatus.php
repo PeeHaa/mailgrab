@@ -4,7 +4,7 @@ namespace PeeHaa\MailGrab\Smtp;
 
 use MyCLabs\Enum\Enum;
 
-class ClientStatus extends Enum
+class TransactionStatus extends Enum
 {
     public const NEW         = 0;
     public const SEND_BANNER = 1;

@@ -2,7 +2,7 @@
 
 namespace PeeHaa\MailGrab\Smtp\Command;
 
-use PeeHaa\MailGrab\Smtp\ClientStatus;
+use PeeHaa\MailGrab\Smtp\TransactionStatus;
 
 class Factory
 {
@@ -11,48 +11,48 @@ class Factory
     public function __construct()
     {
         $this->availableCommands = [
-            ClientStatus::SEND_BANNER => [
+            TransactionStatus::SEND_BANNER => [
                 Quit::class,
                 Ehlo::class,
                 Helo::class,
             ],
-            ClientStatus::INIT => [
+            TransactionStatus::INIT => [
                 MailFrom::class,
                 Quit::class,
             ],
-            ClientStatus::FROM => [
+            TransactionStatus::FROM => [
                 RcptTo::class,
                 Quit::class,
                 Rset::class,
             ],
-            ClientStatus::TO => [
+            TransactionStatus::TO => [
                 Quit::class,
                 StartData::class,
                 Rset::class,
                 RcptTo::class,
             ],
-            ClientStatus::HEADERS => [
+            TransactionStatus::HEADERS => [
                 EndBody::class,
                 StartHeader::class,
                 StartBody::class,
             ],
-            ClientStatus::UNFOLDING => [
+            TransactionStatus::UNFOLDING => [
                 StartBody::class,
                 EndBody::class,
                 Unfold::class,
                 StartHeader::class,
             ],
-            ClientStatus::BODY => [
+            TransactionStatus::BODY => [
                 EndBody::class,
                 BodyLine::class,
             ],
-            ClientStatus::PROCESSING => [
+            TransactionStatus::PROCESSING => [
 
             ],
         ];
     }
 
-    public function build(ClientStatus $clientStatus, string $line): Command
+    public function build(TransactionStatus $clientStatus, string $line): Command
     {
         if (!array_key_exists($clientStatus->getValue(), $this->availableCommands)) {
             throw new \Exception('Syntax error, command unrecognised');
