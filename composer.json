@@ -15,6 +15,7 @@
         "amphp/aerys": "^0.7.4",
         "amphp/socket": "^0.10.5",
         "myclabs/php-enum": "^1.5",
+        "ramsey/uuid": "^3.7",
         "rdlowrey/auryn": "^1.4"
     },
     "require-dev": {
