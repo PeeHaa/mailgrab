@@ -1,0 +1,40 @@
+@import "./../colors";
+@import "./../sizes";
+
+nav#messages {
+    height: $size-content-height;
+    max-height: $size-content-height;
+    overflow-y: scroll;
+    width: $size-messages-width;
+    border-right: $size-border solid $color-border;
+    float: left;
+
+    li {
+        border-top: 1px solid white;
+        border-bottom: 1px solid $color-border;
+        font-size: $size-messages-font-subject;
+        cursor: pointer;
+        padding: $size-spacing;
+        border-left: $size-messages-border-active solid transparent;
+
+        &.new {
+            font-weight: bold;
+        }
+
+        &.active {
+            background: $color-messages-background-new;
+        }
+
+        &.active, &:hover {
+            background: $color-messages-background-new;
+            border-left: $size-messages-border-active solid #abd5eb;
+        }
+
+        time {
+            font-weight: normal;
+            font-size: $size-messages-font-timestamp;
+            display: block;
+            margin-bottom: $size-spacing;
+        }
+    }
+}

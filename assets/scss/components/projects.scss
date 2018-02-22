@@ -1,0 +1,47 @@
+@import "./../colors";
+@import "./../sizes";
+
+nav#projects {
+    height: $size-content-height;
+    max-height: $size-content-height;
+    overflow-y: auto;
+    width: $size-projects-width;
+    border-right: $size-border solid $color-border;
+    float: left;
+
+    h2 {
+        margin: 0;
+        padding: $size-spacing;
+        font-weight: normal;
+    }
+
+    li {
+        font-size: $size-projects-font;
+        cursor: pointer;
+        color: $color-theme-1;
+        padding: $size-spacing $size-spacing $size-spacing 20px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+
+        &.active, &:hover {
+            background: $color-theme-2;
+            font-weight: bold;
+            color: $color-theme-1;
+
+            span {
+                background: white;
+            }
+        }
+
+        span {
+            position: absolute;
+            right: $size-spacing;
+            background: $color-theme-2;
+            border-radius: 15px;
+            padding: 0 6px;
+        }
+    }
+}

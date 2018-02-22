@@ -1,0 +1,16 @@
+@import "./../sizes";
+@import "./../colors";
+
+section.info {
+    font-size: 14px;
+    border-bottom: $size-border solid $color-border;
+
+    table {
+        padding: $size-spacing;
+    }
+
+    th {
+        padding-right: $size-spacing;
+        text-align: left;
+    }
+}

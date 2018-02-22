@@ -1,4 +1,20 @@
-$size-header: 40px;
-$size-content: calc(100% - 41px);
+$size-spacing: 10px;
+$size-font-default: 13px;
+$size-border: 2px;
 
-$size-padding: 10px;
+$size-header-height: 40px;
+$size-header-font-title: 20px;
+$size-header-font-menu: $size-font-default;
+
+$size-projects-width: 200px;
+$size-projects-font: $size-font-default;
+
+$size-messages-width: 325px;
+$size-messages-font-subject: $size-font-default;
+$size-messages-font-timestamp: 9px;
+$size-messages-border-active: 3px;
+
+$size-content-height: calc(100% - 40px);
+$size-content-left-margin: 529px;
+
+$size-content-data-height: calc(100% - 156px);

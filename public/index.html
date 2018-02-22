@@ -10,18 +10,72 @@
         <header>
             <h1>MailGrab</h1>
             <ul>
-                <li class="subject"><h2></h2></li>
-                <li data-type="info"><i class="fa fa-info"></i> Info</li>
-                <li data-type="text" class="active"><i class="fa fa-file-text-o"></i> Text view</li>
-                <li data-type="html"><i class="fa fa-file-image-o"></i> Html view</li>
-                <li data-type="source"><i class="fa fa-file-code-o"></i> Source</li>
-                <li data-type="delete" class="delete"><i class="fa fa-trash"></i> Delete</li>
+                <li data-type="text" class="active"><i class="fa fa-file-text-o"></i>Text view</li>
+                <li data-type="html"><i class="fa fa-file-image-o"></i>Html view</li>
+                <li data-type="source"><i class="fa fa-file-code-o"></i>Source</li>
+                <li data-type="delete" class="delete"><i class="fa fa-trash"></i>Delete</li>
             </ul>
         </header>
-        <nav>
-            <ul></ul>
+        <nav id="projects">
+            <h2>Projects</h2>
+            <ul>
+                <li>Project 1</li>
+                <li class="active">Project 2 <span>1</span></li>
+                <li>Project 3</li>
+                <li>Project 4 <span>5</span></li>
+                <li>Project 5</li>
+            </ul>
         </nav>
+        <nav id="messages">
+            <ul>
+                <li class="active">
+                    <time>Just now</time>
+                    Subject 2
+                </li>
+                <li class="new">
+                    <time>Just now</time>
+                    Subject 1
+                </li>
+                <li>
+                    <time>Just now</time>
+                    Subject 3
+                </li>
+                <li>
+                    <time>Just now</time>
+                    Subject 4
+                </li>
+                <li>
+                    <time>Just now</time>
+                    Subject 5
+                </li>
+                <li>
+                    <time>Just now</time>
+                    Subject 6
+                </li>
+            </ul>
+        </nav>
+
         <main>
+            <section class="info">
+                <table>
+                    <tr>
+                        <th>From</th>
+                        <td>peehaa@example.com</td>
+                    </tr>
+                    <tr>
+                        <th>To</th>
+                        <td>foo@example.com &lt;foo@example.com&gt;, T. Test &lt;t.test@example.com&gt;</td>
+                    </tr>
+                    <tr>
+                        <th>Subject</th>
+                        <td>Subject 2</td>
+                    </tr>
+                    <tr>
+                        <th>Timestamp</th>
+                        <td><time>Just now</time></td>
+                    </tr>
+                </table>
+            </section>
             <iframe src="text.html"></iframe>
         </main>
         <template id="new-mail">

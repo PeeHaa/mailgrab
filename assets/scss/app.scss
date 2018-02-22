@@ -5,17 +5,17 @@
 @import "./loader";
 
 @import "./components/header";
-@import "./components/nav";
-@import "./components/content/info";
+@import "./components/projects";
+@import "./components/messages";
+@import "./components/info";
 
 body {
     font-family: $font-main;
 }
 
 main {
-    margin-left: 325px;
-    padding: 0 0 $size-padding $size-padding;
-    height: $size-content;
+    margin-left: $size-content-left-margin;
+    height: $size-content-data-height;
     box-sizing: border-box;
 
     iframe {

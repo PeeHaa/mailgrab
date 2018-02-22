@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300,400,700);@import url(https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700);@charset "UTF-8";
 html, body {
   margin: 0;
   padding: 0;
@@ -4683,17 +4683,19 @@ ul {
   clip: auto; }
 
 header {
-  border-bottom: 1px solid #f3f0f0;
-  height: 40px; }
+  background: #3b3b3b;
+  height: 40px;
+  color: white; }
   header h1 {
-    font-family: "Titillium Web", sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 20px;
     line-height: 40px;
     margin: 0 10px;
-    float: left; }
+    float: left;
+    font-weight: normal; }
   header ul {
     float: right;
-    display: none; }
+    display: block; }
     header ul.active {
       display: block; }
     header ul li {
@@ -4701,61 +4703,92 @@ header {
       float: left;
       line-height: 40px;
       padding: 0 10px;
-      border-left: 1px solid #f3f0f0;
-      cursor: pointer; }
-      header ul li.subject {
-        border-left: none; }
-        header ul li.subject:hover {
-          background: transparent; }
-        header ul li.subject h2 {
-          margin: 0;
-          font-size: 16px; }
+      cursor: pointer;
+      font-size: 13px; }
+      header ul li i {
+        margin-right: 10px; }
       header ul li:hover, header ul li.active {
-        background: #f3f0f0; }
+        background: #5a5959; }
       header ul li.delete:hover {
         background: #e05050;
         color: white; }
 
-nav {
-  height: calc(100% - 41px);
-  max-height: calc(100% - 41px);
+nav#projects {
+  height: calc(100% - 40px);
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+  width: 200px;
+  border-right: 2px solid #e9e9e7;
+  float: left; }
+  nav#projects h2 {
+    margin: 0;
+    padding: 10px;
+    font-weight: normal; }
+  nav#projects li {
+    font-size: 13px;
+    cursor: pointer;
+    color: #3b3b3b;
+    padding: 10px 10px 10px 20px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative; }
+    nav#projects li.active, nav#projects li:hover {
+      background: #e2edf3;
+      font-weight: bold;
+      color: #3b3b3b; }
+      nav#projects li.active span, nav#projects li:hover span {
+        background: white; }
+    nav#projects li span {
+      position: absolute;
+      right: 10px;
+      background: #e2edf3;
+      border-radius: 15px;
+      padding: 0 6px; }
+
+nav#messages {
+  height: calc(100% - 40px);
+  max-height: calc(100% - 40px);
   overflow-y: scroll;
   width: 325px;
-  border-right: 1px solid #f3f0f0;
+  border-right: 2px solid #e9e9e7;
   float: left; }
-  nav li {
-    border-bottom: 1px solid #f3f0f0;
+  nav#messages li {
+    border-top: 1px solid white;
+    border-bottom: 1px solid #e9e9e7;
     font-size: 13px;
-    cursor: pointer; }
-    nav li.new {
+    cursor: pointer;
+    padding: 10px;
+    border-left: 3px solid transparent; }
+    nav#messages li.new {
       font-weight: bold; }
-    nav li.active a {
-      background: #f3f0f0; }
-    nav li a {
-      text-decoration: none;
-      color: #1e1c1c;
-      padding: 10px;
+    nav#messages li.active {
+      background: white; }
+    nav#messages li.active, nav#messages li:hover {
+      background: white;
+      border-left: 3px solid #abd5eb; }
+    nav#messages li time {
+      font-weight: normal;
+      font-size: 9px;
       display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; }
-      nav li a:hover {
-        background: #f3f0f0; }
-      nav li a time {
-        font-weight: normal;
-        font-size: 9px;
-        display: block; }
+      margin-bottom: 10px; }
 
-main th {
-  text-align: left; }
+section.info {
+  font-size: 14px;
+  border-bottom: 2px solid #e9e9e7; }
+  section.info table {
+    padding: 10px; }
+  section.info th {
+    padding-right: 10px;
+    text-align: left; }
 
 body {
-  font-family: "Archivo Narrow", sans-serif; }
+  font-family: "Roboto", sans-serif; }
 
 main {
-  margin-left: 325px;
-  padding: 0 0 10px 10px;
-  height: calc(100% - 41px);
+  margin-left: 529px;
+  height: calc(100% - 156px);
   box-sizing: border-box; }
   main iframe {
     width: 100%;
