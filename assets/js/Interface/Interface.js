@@ -39,16 +39,26 @@ export default class Interface {
 
         switch (type) {
             case 'delete':
-                this.connection.send({
-                    type: 'delete',
-                    data: {
-                        id: this.activeItem
-                    }
-                });
-                this.activeItem = null;
-                this.toolbar.deactivate();
-                this.navbar.delete();
+                this.processDelete();
                 return;
+        }
+    }
+
+    processDelete() {
+        this.connection.send({
+            type: 'delete',
+            data: {
+                id: this.activeItem
+            }
+        });
+        this.activeItem = null;
+        this.toolbar.deactivate();
+        this.navbar.delete();
+
+        const content = document.getElementsByTagName('main')[0];
+
+        while (content.firstChild) {
+            content.removeChild(content.firstChild);
         }
     }
 

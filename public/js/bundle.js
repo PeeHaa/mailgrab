@@ -16947,16 +16947,27 @@ var Interface = function () {
 
             switch (type) {
                 case 'delete':
-                    this.connection.send({
-                        type: 'delete',
-                        data: {
-                            id: this.activeItem
-                        }
-                    });
-                    this.activeItem = null;
-                    this.toolbar.deactivate();
-                    this.navbar.delete();
+                    this.processDelete();
                     return;
+            }
+        }
+    }, {
+        key: 'processDelete',
+        value: function processDelete() {
+            this.connection.send({
+                type: 'delete',
+                data: {
+                    id: this.activeItem
+                }
+            });
+            this.activeItem = null;
+            this.toolbar.deactivate();
+            this.navbar.delete();
+
+            var content = document.getElementsByTagName('main')[0];
+
+            while (content.firstChild) {
+                content.removeChild(content.firstChild);
             }
         }
     }, {
