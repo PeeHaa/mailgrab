@@ -2,12 +2,11 @@
 
 namespace PeeHaa\MailGrab\Smtp;
 
-use Amp\Loop;
-use Amp\Socket\ServerSocket;
 use PeeHaa\MailGrab\Smtp\Command\Factory as CommandFactory;
 use PeeHaa\MailGrab\Smtp\Log\Output;
+use PeeHaa\MailGrab\Smtp\Socket\ServerSocket;
 use function Amp\asyncCall;
-use function Amp\Socket\listen;
+use function PeeHaa\MailGrab\listen;
 
 class Server
 {
@@ -31,7 +30,7 @@ class Server
     public function run()
     {
         asyncCall(function () {
-            $server = listen(self::ADDRESS);
+            $server = listen($this->logger, self::ADDRESS);
 
             $this->logger->info('Server started and listening on ' . $server->getAddress());
 
@@ -39,7 +38,7 @@ class Server
                 $this->handleClient($socket);
             }
         });
-     }
+    }
 
     private function handleClient(ServerSocket $socket)
     {

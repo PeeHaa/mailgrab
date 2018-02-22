@@ -26,7 +26,8 @@
     "autoload": {
         "psr-4": {
             "PeeHaa\\MailGrab\\": "src/"
-        }
+        },
+        "files": ["src/functions.php"]
     },
     "config": {
         "sort-packages": true

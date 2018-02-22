@@ -3,7 +3,6 @@
 namespace PeeHaa\MailGrab\Smtp;
 
 use Amp\Promise;
-use Amp\Socket\ServerSocket;
 use PeeHaa\MailGrab\Smtp\Command\BodyLine;
 use PeeHaa\MailGrab\Smtp\Command\Ehlo;
 use PeeHaa\MailGrab\Smtp\Command\EndBody;
@@ -23,6 +22,7 @@ use PeeHaa\MailGrab\Smtp\Response\ClosingTransmission;
 use PeeHaa\MailGrab\Smtp\Response\ServiceReady;
 use PeeHaa\MailGrab\Smtp\Response\StartInput;
 use PeeHaa\MailGrab\Smtp\Response\SyntaxError;
+use PeeHaa\MailGrab\Smtp\Socket\ServerSocket;
 use function Amp\call;
 
 // @todo: split this up into a client and a transaction
@@ -74,8 +74,6 @@ class Client
         return call(function() {
             yield $this->socket->write((string) (new ServiceReady($this->banner)));
 
-            $this->logger->smtpOut((string) (new ServiceReady($this->banner)));
-
             $this->status = new ClientStatus(ClientStatus::SEND_BANNER);
 
             $buffer = '';
@@ -102,8 +100,6 @@ class Client
                     $buffer = substr($buffer, $pos + strlen(self::LINE_DELIMITER));
 
                     if (strlen($line) > $limit) {
-                        $this->logger->smtpOut((string) new SyntaxError('Line length limit exceeded.'));
-
                         $this->socket->write((string) new SyntaxError('Line length limit exceeded.'));
 
                         continue;
@@ -133,8 +129,6 @@ class Client
             $command = $this->commandFactory->build($this->status, $line);
         } catch (\Exception $e) {
             // @todo: return list of available commands based on status here
-
-            $this->logger->smtpOut((string) new SyntaxError($e->getMessage()));
 
             $this->socket->write((string) new SyntaxError($e->getMessage()));
 
@@ -207,10 +201,6 @@ class Client
         $this->socket->write(
             (string) new ActionCompleted(sprintf('hello %s @ %s', $command->getAddress(), $this->getId()))
         );
-
-        $this->logger->smtpOut(
-            (string) new ActionCompleted(sprintf('hello %s @ %s', $command->getAddress(), $this->getId()))
-        );
     }
 
     private function processEhlo(Ehlo $command): void
@@ -218,10 +208,6 @@ class Client
         $this->status = new ClientStatus(ClientStatus::INIT);
 
         $this->socket->write(
-            (string) new ActionCompleted(sprintf('hello %s @ %s', $command->getAddress(), $this->getId()))
-        );
-
-        $this->logger->smtpOut(
             (string) new ActionCompleted(sprintf('hello %s @ %s', $command->getAddress(), $this->getId()))
         );
     }
@@ -238,8 +224,6 @@ class Client
 
         $this->socket->write((string) new ClosingTransmission('Goodbye.'));
 
-        $this->logger->smtpOut((string) new ClosingTransmission('Goodbye.'));
-
         $this->socket->close();
     }
 
@@ -250,8 +234,6 @@ class Client
         $this->message->setFrom($command->getAddress());
 
         $this->socket->write((string) new ActionCompleted('MAIL OK'));
-
-        $this->logger->smtpOut((string) new ActionCompleted('MAIL OK'));
     }
 
     private function processRcptTo(RcptTo $command): void
@@ -261,8 +243,6 @@ class Client
         $this->message->addRecipient($command->getAddress(), $command->getName());
 
         $this->socket->write((string) new ActionCompleted('Accepted'));
-
-        $this->logger->smtpOut((string) new ActionCompleted('Accepted'));
     }
 
     private function processStartData(): void
@@ -270,8 +250,6 @@ class Client
         $this->status = new ClientStatus(ClientStatus::HEADERS);
 
         $this->socket->write((string) new StartInput('Enter message, end with CRLF . CRLF'));
-
-        $this->logger->smtpOut((string) new StartInput('Enter message, end with CRLF . CRLF'));
     }
 
     private function processStartHeader(StartHeader $command): void
@@ -313,8 +291,6 @@ class Client
         $this->status = new ClientStatus(ClientStatus::PROCESSING);
 
         $this->socket->write((string) new ActionCompleted('OK'));
-
-        $this->logger->smtpOut((string) new ActionCompleted('OK'));
 
         ($this->callback)(clone $this->message);
 

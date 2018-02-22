@@ -6,7 +6,6 @@ use Aerys\Request;
 use Aerys\Response;
 use Aerys\Websocket;
 use Aerys\Websocket\Endpoint;
-use function Amp\asyncCall;
 use PeeHaa\MailGrab\Http\Response\Initialized;
 use PeeHaa\MailGrab\Http\Response\MailInfo;
 use PeeHaa\MailGrab\Http\Response\NewMail;
@@ -15,6 +14,7 @@ use PeeHaa\MailGrab\Smtp\Log\Level;
 use PeeHaa\MailGrab\Smtp\Log\Output;
 use PeeHaa\MailGrab\Smtp\Message;
 use PeeHaa\MailGrab\Smtp\Server;
+use function Amp\asyncCall;
 
 class Handler implements Websocket
 {
@@ -35,7 +35,7 @@ class Handler implements Websocket
         $this->endpoint = $endpoint;
 
         asyncCall(function() {
-            (new Server(new Factory(), [$this, 'pushMessage'], new Output(new Level(Level::INFO))))->run();
+            (new Server(new Factory(), [$this, 'pushMessage'], new Output(new Level(Level::ALL))))->run();
         });
     }
 
