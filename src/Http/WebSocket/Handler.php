@@ -8,6 +8,7 @@ use Aerys\Websocket;
 use Aerys\Websocket\Endpoint;
 use function Amp\asyncCall;
 use PeeHaa\MailGrab\Http\Response\Initialized;
+use PeeHaa\MailGrab\Http\Response\MailInfo;
 use PeeHaa\MailGrab\Http\Response\NewMail;
 use PeeHaa\MailGrab\Smtp\Command\Factory;
 use PeeHaa\MailGrab\Smtp\Log\Level;
@@ -21,6 +22,8 @@ class Handler implements Websocket
     private $endpoint;
 
     private $origin;
+
+    private $mails = [];
 
     public function __construct(string $origin)
     {
@@ -55,14 +58,35 @@ class Handler implements Websocket
 
     public function pushMessage(Message $message)
     {
-        $mail = new NewMail($message);
+        $id = 0;
+
+        if (count($this->mails)) {
+            end($this->mails);
+
+            $id = key($this->mails) + 1;
+        }
+
+        $mail = new NewMail($id, $message);
 
         $this->endpoint->broadcast((string) $mail);
+
+        $this->mails[] = $mail;
     }
 
     public function onData(int $clientId, Websocket\Message $msg)
     {
-        // yielding $msg buffers the complete payload into a single string.
+        $command = json_decode(yield $msg, true);
+
+        switch ($command['type']) {
+            case 'mail-info':
+                $mail = $this->mails[$command['data']['id']];
+                $this->endpoint->broadcast((string) new MailInfo($mail->getId() ,$mail->getMessage()));
+                return;
+
+            case 'delete':
+                unset($this->mails[$command['data']['id']]);
+                return;
+        }
     }
 
     public function onClose(int $clientId, int $code, string $reason)

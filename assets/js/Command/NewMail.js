@@ -6,6 +6,7 @@ export default class NewMail {
 
         const newItem = document.querySelector('nav li');
 
+        this.addId(newItem, data.id);
         this.addSubject(newItem, data.subject);
         this.addTImestamp(newItem, data.timestamp)
     }
@@ -16,6 +17,10 @@ export default class NewMail {
         const item      = document.importNode(template.content, true);
 
         container.prepend(item);
+    }
+
+    addId(newItemd, id) {
+        newItemd.dataset.id = id;
     }
 
     addSubject(newItem, subject) {

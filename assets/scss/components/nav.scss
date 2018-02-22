@@ -1,0 +1,47 @@
+@import "./../colors";
+@import "./../sizes";
+
+nav {
+    height: $size-content;
+    max-height: $size-content;
+    overflow-y: scroll;
+    width: 325px;
+    border-right: 1px solid $color-border;
+    float: left;
+
+    li {
+        border-bottom: 1px solid $color-border;
+        font-size: 13px;
+        cursor: pointer;
+
+        &.new {
+            font-weight: bold;
+        }
+
+        &.active {
+            a {
+                background: $color-hover;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            color: $color-text;
+            padding: $size-padding;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &:hover {
+                background: $color-hover;
+            }
+
+            time {
+                font-weight: normal;
+                font-size: 9px;
+                display: block;
+            }
+        }
+    }
+}

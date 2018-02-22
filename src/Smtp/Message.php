@@ -30,6 +30,11 @@ class Message
         $this->recipients[$email] = $name;
     }
 
+    public function getRecipients(): array
+    {
+        return $this->recipients;
+    }
+
     public function createHeaderBuffer(string $key, string $chunk): void
     {
         $this->headerBuffer = new HeaderBuffer($key, $chunk);

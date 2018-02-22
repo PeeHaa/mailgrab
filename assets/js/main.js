@@ -2,7 +2,11 @@ require('./../scss/app.scss');
 
 import Connection from './Connection';
 import Processor from './Command/Processor';
+import Interface from './Interface/Interface';
 
 const commandProcessor = new Processor();
 
-new Connection('ws://localhost:8000/ws', commandProcessor.process.bind(commandProcessor)).connect();
+const connection = new Connection('ws://localhost:8000/ws', commandProcessor.process.bind(commandProcessor));
+connection.connect();
+
+new Interface(connection);

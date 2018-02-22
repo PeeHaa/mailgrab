@@ -5,7 +5,7 @@ namespace PeeHaa\MailGrab\Http\Response;
 use PeeHaa\MailGrab\Smtp\HeaderBuffer;
 use PeeHaa\MailGrab\Smtp\Message;
 
-class NewMail
+class MailInfo
 {
     private $id;
 
@@ -26,20 +26,10 @@ class NewMail
         }
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getMessage(): Message
-    {
-        return $this->message;
-    }
-
     public function __toString(): string
     {
         return json_encode([
-            'type' => 'new-mail',
+            'type' => 'mail-info',
             'data' => [
                 'id'        => $this->id,
                 'subject'   => $this->subject,

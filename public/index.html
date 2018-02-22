@@ -11,22 +11,15 @@
             <h1>MailGrab</h1>
             <ul>
                 <li class="subject"><h2></h2></li>
-                <li><i class="fa fa-info"></i> Info</li>
-                <li class="active"><i class="fa fa-file-text-o"></i> Text view</li>
-                <li><i class="fa fa-file-image-o"></i> Html view</li>
-                <li><i class="fa fa-file-code-o"></i> Source</li>
-                <li class="delete"><i class="fa fa-trash"></i> Delete</li>
+                <li data-type="info"><i class="fa fa-info"></i> Info</li>
+                <li data-type="text" class="active"><i class="fa fa-file-text-o"></i> Text view</li>
+                <li data-type="html"><i class="fa fa-file-image-o"></i> Html view</li>
+                <li data-type="source"><i class="fa fa-file-code-o"></i> Source</li>
+                <li data-type="delete" class="delete"><i class="fa fa-trash"></i> Delete</li>
             </ul>
         </header>
         <nav>
-            <ul>
-                <li class="active">
-                    <a href="#">
-                        <time>10 seconds ago</time>
-                        My awesome subject, but this one is reeeeeeally long. This should get ellipsisized
-                    </a>
-                </li>
-            </ul>
+            <ul></ul>
         </nav>
         <main>
             <iframe src="text.html">

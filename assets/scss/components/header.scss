@@ -1,0 +1,56 @@
+@import "./../fonts";
+@import "./../colors";
+@import "./../sizes";
+
+header {
+    border-bottom: 1px solid $color-border;
+    height: $size-header;
+
+    h1 {
+        font-family: $font-header;
+        font-size: 20px;
+        line-height: $size-header;
+        margin: 0 $size-padding;
+        float: left;
+    }
+
+    ul {
+        float: right;
+        display: none;
+
+        &.active {
+            display: block;
+        }
+
+        li {
+            display: block;
+            float: left;
+            line-height: $size-header;
+            padding: 0 $size-padding;
+            border-left: 1px solid $color-border;
+            cursor: pointer;
+
+            &.subject {
+                border-left: none;
+
+                &:hover {
+                    background: transparent;
+                }
+
+                h2 {
+                    margin: 0;
+                    font-size: 16px;
+                }
+            }
+
+            &:hover, &.active {
+                background: $color-hover;
+            }
+
+            &.delete:hover {
+                background: #e05050;
+                color: white;
+            }
+        }
+    }
+}
