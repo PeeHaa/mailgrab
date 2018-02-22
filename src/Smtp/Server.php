@@ -30,18 +30,16 @@ class Server
 
     public function run()
     {
-        //Loop::run(function() {
-            asyncCall(function () {
-                $server = listen(self::ADDRESS);
+        asyncCall(function () {
+            $server = listen(self::ADDRESS);
 
-                $this->logger->info('Server started and listening on ' . $server->getAddress());
+            $this->logger->info('Server started and listening on ' . $server->getAddress());
 
-                while ($socket = yield $server->accept()) {
-                    $this->handleClient($socket);
-                }
-            });
-        //});
-    }
+            while ($socket = yield $server->accept()) {
+                $this->handleClient($socket);
+            }
+        });
+     }
 
     private function handleClient(ServerSocket $socket)
     {
