@@ -58,19 +58,11 @@ class Handler implements Websocket
 
     public function pushMessage(Message $message)
     {
-        $id = 0;
-
-        if (count($this->mails)) {
-            end($this->mails);
-
-            $id = key($this->mails) + 1;
-        }
-
-        $mail = new NewMail($id, $message);
+        $mail = new NewMail($message);
 
         $this->endpoint->broadcast((string) $mail);
 
-        $this->mails[] = $mail;
+        $this->mails[$mail->getId()] = $mail;
     }
 
     public function onData(int $clientId, Websocket\Message $msg)

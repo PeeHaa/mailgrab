@@ -4,6 +4,7 @@ namespace PeeHaa\MailGrab\Http\Response;
 
 use PeeHaa\MailGrab\Smtp\HeaderBuffer;
 use PeeHaa\MailGrab\Smtp\Message;
+use Ramsey\Uuid\Uuid;
 
 class NewMail
 {
@@ -13,9 +14,9 @@ class NewMail
 
     private $subject = '';
 
-    public function __construct(int $id, Message $message)
+    public function __construct(Message $message)
     {
-        $this->id      = $id;
+        $this->id      = Uuid::uuid4()->toString();
         $this->message = $message;
 
         /** @var HeaderBuffer[] $headers */
@@ -26,7 +27,7 @@ class NewMail
         }
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
