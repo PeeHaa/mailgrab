@@ -16,6 +16,9 @@ nav#messages {
         cursor: pointer;
         padding: $size-spacing;
         border-left: $size-messages-border-active solid transparent;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         &.new {
             font-weight: bold;

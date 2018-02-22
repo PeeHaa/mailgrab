@@ -4760,7 +4760,10 @@ nav#messages {
     font-size: 13px;
     cursor: pointer;
     padding: 10px;
-    border-left: 3px solid transparent; }
+    border-left: 3px solid transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
     nav#messages li.new {
       font-weight: bold; }
     nav#messages li.active {
