@@ -6,6 +6,7 @@ use MyCLabs\Enum\Enum;
 
 class Level extends Enum
 {
+    public const NONE       = 0;
     public const INFO       = 1;
     public const MESSAGE_IN = 2;
     public const SMTP_IN    = 4;
