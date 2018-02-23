@@ -15,6 +15,8 @@ use PeeHaa\MailGrab\Smtp\Command\StartBody;
 use PeeHaa\MailGrab\Smtp\Command\StartData;
 use PeeHaa\MailGrab\Smtp\Command\StartHeader;
 use PeeHaa\MailGrab\Smtp\Command\Unfold;
+use PeeHaa\MailGrab\Smtp\Header\Buffer;
+use PeeHaa\MailGrab\Smtp\Header\Header;
 use PeeHaa\MailGrab\Smtp\Log\Output;
 use PeeHaa\MailGrab\Smtp\Response\ActionCompleted;
 use PeeHaa\MailGrab\Smtp\Response\ClosingTransmission;
@@ -34,6 +36,9 @@ class Transaction
 
     private $status;
 
+    /** @var Buffer */
+    private $headerBuffer;
+
     private $message;
 
     public function __construct(Output $logger, ServerSocket $socket, CommandFactory $commandFactory, callable $callback)
@@ -43,7 +48,8 @@ class Transaction
         $this->commandFactory = $commandFactory;
         $this->callback       = $callback;
 
-        $this->status  = new TransactionStatus(TransactionStatus::SEND_BANNER);
+        $this->status = new TransactionStatus(TransactionStatus::SEND_BANNER);
+
         $this->message = new Message();
     }
 
@@ -199,25 +205,23 @@ class Transaction
 
     private function processStartHeader(StartHeader $command): void
     {
-        if ($this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
-            $this->message->finalizeHeader();
-        }
+        $this->addHeaderWhenNeeded();
 
-        $this->message->createHeaderBuffer($command->getKey(), $command->getValue());
+        $this->headerBuffer = new Buffer($command->getKey());
+
+        $this->headerBuffer->append($command->getValue());
 
         $this->status = new TransactionStatus(TransactionStatus::UNFOLDING);
     }
 
     private function unfold(Unfold $command): void
     {
-        $this->message->appendToHeaderBuffer($command->getChunk());
+        $this->headerBuffer->append($command->getChunk());
     }
 
     private function startBody(): void
     {
-        if ($this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
-            $this->message->finalizeHeader();
-        }
+        $this->addHeaderWhenNeeded();
 
         $this->status = new TransactionStatus(TransactionStatus::BODY);
     }
@@ -229,9 +233,7 @@ class Transaction
 
     private function endBody(): void
     {
-        if ($this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
-            $this->message->finalizeHeader();
-        }
+        $this->addHeaderWhenNeeded();
 
         $this->status = new TransactionStatus(TransactionStatus::PROCESSING);
 
@@ -240,5 +242,12 @@ class Transaction
         ($this->callback)(clone $this->message);
 
         $this->processReset();
+    }
+
+    private function addHeaderWhenNeeded(): void
+    {
+        if ($this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
+            $this->message->addHeader(new Header($this->headerBuffer));
+        }
     }
 }

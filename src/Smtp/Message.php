@@ -2,15 +2,15 @@
 
 namespace PeeHaa\MailGrab\Smtp;
 
+use PeeHaa\MailGrab\Smtp\Header\Header;
+
 class Message
 {
     private $from;
 
     private $recipients = [];
 
-    /** @var null|HeaderBuffer */
-    private $headerBuffer;
-
+    /** @var Header[] */
     private $headers = [];
 
     private $body = '';
@@ -35,25 +35,9 @@ class Message
         return $this->recipients;
     }
 
-    public function createHeaderBuffer(string $key, string $chunk): void
+    public function addHeader(Header $header): void
     {
-        $this->headerBuffer = new HeaderBuffer($key, $chunk);
-    }
-
-    public function appendToHeaderBuffer(string $chunk): void
-    {
-        if ($this->headerBuffer === null) {
-            throw new \Exception('No open buffer');
-        }
-
-        $this->headerBuffer->append($chunk);
-    }
-
-    public function finalizeHeader(): void
-    {
-        $this->headers[strtolower($this->headerBuffer->getKey())] = $this->headerBuffer;
-
-        $this->headerBuffer = null;
+        $this->headers[strtolower($header->getKey())] = $header;
     }
 
     public function appendToBody(string $content): void
