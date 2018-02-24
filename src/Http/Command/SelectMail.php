@@ -46,7 +46,9 @@ class SelectMail implements Command
             'read'      => $mail->isRead(),
             'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
             'project'   => $mail->getProject(),
-            'text'      => $mail->getText(),
+            'content'   => $mail->getText() !== null ? $mail->getText() : $mail->getHtml(),
+            'hasText'   => $mail->getText() !== null,
+            'hasHtml'   => $mail->getHtml() !== null,
         ];
     }
 }

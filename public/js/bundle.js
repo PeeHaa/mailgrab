@@ -17195,11 +17195,31 @@ var Toolbar = function () {
         value: function openMail(info) {
             this.toolbar.dataset.id = info.id;
 
-            this.deactivateAll();
+            this.reset(info);
 
-            this.toolbar.querySelector('[data-type="text"]').classList.add('active');
+            if (info.hasText) {
+                this.toolbar.querySelector('[data-type="text"]').classList.add('active');
+            } else {
+                this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+            }
 
             this.toolbar.classList.add('active');
+        }
+    }, {
+        key: 'reset',
+        value: function reset(info) {
+            this.toolbar.querySelector('[data-type="text"]').classList.remove('disabled');
+            this.toolbar.querySelector('[data-type="html"]').classList.remove('disabled');
+
+            if (!info.hasText) {
+                this.toolbar.querySelector('[data-type="text"]').classList.add('disabled');
+            }
+
+            if (!info.hasHtml) {
+                this.toolbar.querySelector('[data-type="html"]').classList.add('disabled');
+            }
+
+            this.deactivateAll();
         }
     }, {
         key: 'openText',
@@ -17422,7 +17442,11 @@ var Content = function () {
 
             new _Info2.default(info);
 
-            new _Text2.default(info.text);
+            if (info.hasText) {
+                new _Text2.default(info.content);
+            } else {
+                new _Html2.default(info.content);
+            }
         }
     }, {
         key: 'openText',

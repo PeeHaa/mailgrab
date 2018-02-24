@@ -4692,6 +4692,11 @@ header {
       font-size: 13px; }
       header ul li i {
         margin-right: 10px; }
+      header ul li.disabled {
+        color: gray;
+        cursor: auto; }
+        header ul li.disabled:hover {
+          background: transparent; }
       header ul li:hover, header ul li.active {
         background: #5a5959; }
       header ul li.delete:hover {

@@ -36,6 +36,15 @@ header {
                 margin-right: $size-spacing;
             }
 
+            &.disabled {
+                color: gray;
+                cursor: auto;
+
+                &:hover {
+                    background: transparent;
+                }
+            }
+
             &:hover, &.active {
                 background: $color-header-menu-active;
             }

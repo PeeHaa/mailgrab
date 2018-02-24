@@ -6,11 +6,30 @@ export default class Toolbar {
     openMail(info) {
         this.toolbar.dataset.id = info.id;
 
-        this.deactivateAll();
+        this.reset(info);
 
-        this.toolbar.querySelector('[data-type="text"]').classList.add('active');
+        if (info.hasText) {
+            this.toolbar.querySelector('[data-type="text"]').classList.add('active');
+        } else {
+            this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+        }
 
         this.toolbar.classList.add('active');
+    }
+
+    reset(info) {
+        this.toolbar.querySelector('[data-type="text"]').classList.remove('disabled');
+        this.toolbar.querySelector('[data-type="html"]').classList.remove('disabled');
+
+        if (!info.hasText) {
+            this.toolbar.querySelector('[data-type="text"]').classList.add('disabled');
+        }
+
+        if (!info.hasHtml) {
+            this.toolbar.querySelector('[data-type="html"]').classList.add('disabled');
+        }
+
+        this.deactivateAll();
     }
 
     openText() {

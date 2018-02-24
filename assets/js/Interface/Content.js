@@ -13,7 +13,11 @@ export default class Content {
 
         new Info(info);
 
-        new Text(info.text);
+        if (info.hasText) {
+            new Text(info.content);
+        } else {
+            new Html(info.content);
+        }
     }
 
     openText(source) {
