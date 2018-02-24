@@ -115,20 +115,24 @@ class Transaction
                 return;
 
             case StartHeader::class:
+                $this->message->appendToRawMessage($line);
                 /** @var StartHeader $command */
                 $this->processStartHeader($command);
                 return;
 
             case Unfold::class:
+                $this->message->appendToRawMessage($line);
                 /** @var Unfold $command */
                 $this->unfold($command);
                 return;
 
             case StartBody::class:
+                $this->message->appendToRawMessage($line);
                 $this->startBody();
                 return;
 
             case BodyLine::class:
+                $this->message->appendToRawMessage($line);
                 /** @var BodyLine $command */
                 $this->addBodyLine($command);
                 return;

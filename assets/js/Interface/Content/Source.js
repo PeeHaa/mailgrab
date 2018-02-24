@@ -1,11 +1,11 @@
 export default class Source {
-    constructor(mail) {
+    constructor(source) {
         this.addToDom(() => {
             this.element = document.querySelector('iframe').contentWindow.document;
 
             const pre = this.element.createElement('pre');
 
-            pre.textContent = 'Source of the mail here';
+            pre.textContent = source;
 
             this.element.querySelector('body').appendChild(pre);
         });

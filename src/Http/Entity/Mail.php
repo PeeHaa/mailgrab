@@ -14,6 +14,8 @@ class Mail
 
     private $to = [];
 
+    private $source;
+
     private $message;
 
     private $subject = '';
@@ -28,6 +30,7 @@ class Mail
     {
         $this->id      = Uuid::uuid4()->toString();
         $this->from    = $message->getFrom();
+        $this->source  = $message->getRawMessage();
         $this->message = $message;
 
         foreach ($message->getRecipients() as $email => $name) {
@@ -76,6 +79,11 @@ class Mail
     public function getMessage(): Message
     {
         return $this->message;
+    }
+
+    public function getSource(): string
+    {
+        return $this->source;
     }
 
     public function setRead(): void

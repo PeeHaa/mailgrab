@@ -4,33 +4,49 @@ import Html from './Content/Html';
 import Source from './Content/Source';
 
 export default class Content {
-    constructor(info, type) {
+    constructor() {
         this.container = document.querySelector('main');
+    }
 
-        this.clear();
+    openMail(info) {
+        this.clearAll();
 
         new Info(info);
 
-        this.renderContent(type);
+        new Text(info.text);
     }
 
-    clear() {
-        while (this.container.firstChild) {
-            this.container.removeChild(this.container.firstChild);
-        }
+    openSource(source) {
+        this.clear();
+
+        new Source(source);
     }
 
-    renderContent(type) {
+    renderContent(info, type) {
         if (['text', 'html', 'source'].indexOf(type) === -1) {
             throw 'Type (' + type + ') is not valid';
         }
 
         if (type === 'text') {
-            new Text('foo');
+            new Text(info.text);
         } else if (type === 'html') {
             new Html('foo');
         } else if (type === 'source') {
             new Source('foo');
+        }
+    }
+
+    clearAll() {
+        while (this.container.firstChild) {
+            this.container.removeChild(this.container.firstChild);
+        }
+    }
+
+    clear() {
+        const iframe = this.container.querySelector('iframe');
+
+        if (iframe) {
+            iframe.parentNode.removeChild(iframe);
         }
     }
 }

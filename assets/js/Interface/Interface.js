@@ -10,6 +10,7 @@ export default class Interface {
         this.projects = new Projects();
         this.navBar   = new NavBar();
         this.toolBar  = new Toolbar();
+        this.content  = new Content();
 
         setInterval(this.updateTimestamp.bind(this), 500);
     }
@@ -21,10 +22,14 @@ export default class Interface {
 
     openMail(info) {
         this.navBar.openMail(info);
-        this.toolBar.openMail();
+        this.toolBar.openMail(info);
         this.projects.openMail(info);
+        this.content.openMail(info);
+    }
 
-        new Content(info, 'text');
+    openSource(source) {
+        this.toolBar.openSource();
+        this.content.openSource(source);
     }
 
     updateTimestamp() {

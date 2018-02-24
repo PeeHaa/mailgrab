@@ -6,13 +6,15 @@ import {targetByTagName} from './Util/util';
 
 import Init from './Command/Out/Init';
 import SelectMail from './Command/Out/SelectMail';
+import GetSource from './Command/Out/GetSource';
 
 export default class Application {
     constructor(url) {
         this.connection       = new Connection(url);
         this.commandProcessor = new CommandProcessor({
             newMail: this.onNewMail.bind(this),
-            mailInfo: this.onMailInfo.bind(this)
+            mailInfo: this.onMailInfo.bind(this),
+            source: this.onSource.bind(this)
         });
         this.gui              = new Interface();
 
@@ -33,6 +35,10 @@ export default class Application {
         this.gui.openMail(data.info);
     }
 
+    onSource(data) {
+        this.gui.openSource(data.source);
+    }
+
     addEventListeners() {
         document.querySelector('nav#messages ul').addEventListener('click', (e) => {
             const element = targetByTagName(e.target, 'li');
@@ -40,6 +46,10 @@ export default class Application {
             if (!element) return;
 
             this.connection.send(new SelectMail(element.dataset.id));
+        });
+
+        document.querySelector('header [data-type="source"]').addEventListener('click', (e) => {
+            this.connection.send(new GetSource(e.target.parentNode.dataset.id));
         });
     }
 }

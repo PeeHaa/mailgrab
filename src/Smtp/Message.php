@@ -6,6 +6,8 @@ use PeeHaa\MailGrab\Smtp\Header\Header;
 
 class Message
 {
+    private $rawMessage = '';
+
     private $from;
 
     private $recipients = [];
@@ -14,6 +16,16 @@ class Message
     private $headers = [];
 
     private $body = '';
+
+    public function appendToRawMessage(string $chunk): void
+    {
+        $this->rawMessage .= $chunk . "\r\n";
+    }
+
+    public function getRawMessage(): string
+    {
+        return $this->rawMessage;
+    }
 
     public function setFrom(string $from): void
     {

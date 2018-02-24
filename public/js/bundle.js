@@ -16318,6 +16318,10 @@ var _SelectMail = __webpack_require__(137);
 
 var _SelectMail2 = _interopRequireDefault(_SelectMail);
 
+var _GetSource = __webpack_require__(143);
+
+var _GetSource2 = _interopRequireDefault(_GetSource);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16329,7 +16333,8 @@ var Application = function () {
         this.connection = new _Connection2.default(url);
         this.commandProcessor = new _Processor2.default({
             newMail: this.onNewMail.bind(this),
-            mailInfo: this.onMailInfo.bind(this)
+            mailInfo: this.onMailInfo.bind(this),
+            source: this.onSource.bind(this)
         });
         this.gui = new _Interface2.default();
 
@@ -16356,6 +16361,11 @@ var Application = function () {
             this.gui.openMail(data.info);
         }
     }, {
+        key: 'onSource',
+        value: function onSource(data) {
+            this.gui.openSource(data.source);
+        }
+    }, {
         key: 'addEventListeners',
         value: function addEventListeners() {
             var _this2 = this;
@@ -16366,6 +16376,10 @@ var Application = function () {
                 if (!element) return;
 
                 _this2.connection.send(new _SelectMail2.default(element.dataset.id));
+            });
+
+            document.querySelector('header [data-type="source"]').addEventListener('click', function (e) {
+                _this2.connection.send(new _GetSource2.default(e.target.parentNode.dataset.id));
             });
         }
     }]);
@@ -16509,6 +16523,7 @@ var Interface = function () {
         this.projects = new _Projects2.default();
         this.navBar = new _NavBar2.default();
         this.toolBar = new _Toolbar2.default();
+        this.content = new _Content2.default();
 
         setInterval(this.updateTimestamp.bind(this), 500);
     }
@@ -16523,10 +16538,15 @@ var Interface = function () {
         key: 'openMail',
         value: function openMail(info) {
             this.navBar.openMail(info);
-            this.toolBar.openMail();
+            this.toolBar.openMail(info);
             this.projects.openMail(info);
-
-            new _Content2.default(info, 'text');
+            this.content.openMail(info);
+        }
+    }, {
+        key: 'openSource',
+        value: function openSource(source) {
+            this.toolBar.openSource();
+            this.content.openSource(source);
         }
     }, {
         key: 'updateTimestamp',
@@ -17132,25 +17152,28 @@ var Toolbar = function () {
 
     _createClass(Toolbar, [{
         key: 'openMail',
-        value: function openMail() {
+        value: function openMail(info) {
+            this.toolbar.dataset.id = info.id;
+
+            this.deactivateAll();
+
+            this.toolbar.querySelector('[data-type="text"]').classList.add('active');
+
             this.toolbar.classList.add('active');
         }
     }, {
-        key: 'getNavigationType',
-        value: function getNavigationType(target) {
-            var currentNode = target;
+        key: 'openSource',
+        value: function openSource() {
+            this.deactivateAll();
 
-            do {
-                if (currentNode.tagName === 'LI') {
-                    if ('type' in currentNode.dataset) {
-                        return currentNode.dataset.type;
-                    }
-
-                    return false;
-                }
-            } while (currentNode = currentNode.parentNode);
-
-            return false;
+            this.toolbar.querySelector('[data-type="source"]').classList.add('active');
+        }
+    }, {
+        key: 'deactivateAll',
+        value: function deactivateAll() {
+            [].forEach.call(this.toolbar.querySelectorAll('.active'), function (e) {
+                e.classList.remove('active');
+            });
         }
     }]);
 
@@ -17332,38 +17355,57 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Content = function () {
-    function Content(info, type) {
+    function Content() {
         _classCallCheck(this, Content);
 
         this.container = document.querySelector('main');
-
-        this.clear();
-
-        new _Info2.default(info);
-
-        this.renderContent(type);
     }
 
     _createClass(Content, [{
-        key: 'clear',
-        value: function clear() {
-            while (this.container.firstChild) {
-                this.container.removeChild(this.container.firstChild);
-            }
+        key: 'openMail',
+        value: function openMail(info) {
+            this.clearAll();
+
+            new _Info2.default(info);
+
+            new _Text2.default(info.text);
+        }
+    }, {
+        key: 'openSource',
+        value: function openSource(source) {
+            this.clear();
+
+            new _Source2.default(source);
         }
     }, {
         key: 'renderContent',
-        value: function renderContent(type) {
+        value: function renderContent(info, type) {
             if (['text', 'html', 'source'].indexOf(type) === -1) {
                 throw 'Type (' + type + ') is not valid';
             }
 
             if (type === 'text') {
-                new _Text2.default('foo');
+                new _Text2.default(info.text);
             } else if (type === 'html') {
                 new _Html2.default('foo');
             } else if (type === 'source') {
                 new _Source2.default('foo');
+            }
+        }
+    }, {
+        key: 'clearAll',
+        value: function clearAll() {
+            while (this.container.firstChild) {
+                this.container.removeChild(this.container.firstChild);
+            }
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            var iframe = this.container.querySelector('iframe');
+
+            if (iframe) {
+                iframe.parentNode.removeChild(iframe);
             }
         }
     }]);
@@ -17457,7 +17499,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Text = function () {
-    function Text(mail) {
+    function Text(content) {
         var _this = this;
 
         _classCallCheck(this, Text);
@@ -17467,7 +17509,7 @@ var Text = function () {
 
             var pre = _this.element.createElement('pre');
 
-            pre.textContent = 'Some text here';
+            pre.textContent = content;
 
             _this.element.querySelector('body').appendChild(pre);
         });
@@ -17553,7 +17595,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Source = function () {
-    function Source(mail) {
+    function Source(source) {
         var _this = this;
 
         _classCallCheck(this, Source);
@@ -17563,7 +17605,7 @@ var Source = function () {
 
             var pre = _this.element.createElement('pre');
 
-            pre.textContent = 'Source of the mail here';
+            pre.textContent = source;
 
             _this.element.querySelector('body').appendChild(pre);
         });
@@ -17585,6 +17627,43 @@ var Source = function () {
 }();
 
 exports.default = Source;
+
+/***/ }),
+/* 143 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Command2 = __webpack_require__(133);
+
+var _Command3 = _interopRequireDefault(_Command2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GetSource = function (_Command) {
+    _inherits(GetSource, _Command);
+
+    function GetSource(id) {
+        _classCallCheck(this, GetSource);
+
+        return _possibleConstructorReturn(this, (GetSource.__proto__ || Object.getPrototypeOf(GetSource)).call(this, 'getSource', { id: id }));
+    }
+
+    return GetSource;
+}(_Command3.default);
+
+exports.default = GetSource;
 
 /***/ })
 /******/ ]);

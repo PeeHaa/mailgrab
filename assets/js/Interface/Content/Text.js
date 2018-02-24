@@ -1,11 +1,11 @@
 export default class Text {
-    constructor(mail) {
+    constructor(content) {
         this.addToDom(() => {
             this.element = document.querySelector('iframe').contentWindow.document;
 
             const pre = this.element.createElement('pre');
 
-            pre.textContent = 'Some text here';
+            pre.textContent = content;
 
             this.element.querySelector('body').appendChild(pre);
         });

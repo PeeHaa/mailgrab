@@ -9,7 +9,7 @@ use PeeHaa\AmpWebsocketCommand\Success;
 use PeeHaa\MailGrab\Http\Storage\Storage;
 use function Amp\call;
 
-class SelectMail implements Command
+class GetSource implements Command
 {
     private $storage;
 
@@ -22,13 +22,13 @@ class SelectMail implements Command
     {
         return call(function() use ($input) {
             return new Success([
-                'command' => 'mailInfo',
-                'info'    => $this->getInfo($input->getParameter('id')),
+                'command' => 'source',
+                'source'  => $this->get($input->getParameter('id')),
             ]);
         });
     }
 
-    private function getInfo(string $id): array
+    private function get(string $id): string
     {
         if (!$this->storage->has($id)) {
             throw new \Exception('Message not found');
@@ -36,17 +36,6 @@ class SelectMail implements Command
 
         $mail = $this->storage->get($id);
 
-        $mail->setRead();
-
-        return [
-            'id'        => $mail->getId(),
-            'from'      => $mail->getFrom(),
-            'to'        => $mail->getTo(),
-            'subject'   => $mail->getSubject(),
-            'read'      => $mail->isRead(),
-            'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
-            'project'   => $mail->getProject(),
-            'text'      => $mail->getSource(),
-        ];
+        return $mail->getSource();
     }
 }
