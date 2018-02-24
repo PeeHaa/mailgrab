@@ -17315,6 +17315,18 @@ var _Info = __webpack_require__(139);
 
 var _Info2 = _interopRequireDefault(_Info);
 
+var _Text = __webpack_require__(140);
+
+var _Text2 = _interopRequireDefault(_Text);
+
+var _Html = __webpack_require__(141);
+
+var _Html2 = _interopRequireDefault(_Html);
+
+var _Source = __webpack_require__(142);
+
+var _Source2 = _interopRequireDefault(_Source);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -17328,6 +17340,8 @@ var Content = function () {
         this.clear();
 
         new _Info2.default(info);
+
+        this.renderContent(type);
     }
 
     _createClass(Content, [{
@@ -17335,6 +17349,21 @@ var Content = function () {
         value: function clear() {
             while (this.container.firstChild) {
                 this.container.removeChild(this.container.firstChild);
+            }
+        }
+    }, {
+        key: 'renderContent',
+        value: function renderContent(type) {
+            if (['text', 'html', 'source'].indexOf(type) === -1) {
+                throw 'Type (' + type + ') is not valid';
+            }
+
+            if (type === 'text') {
+                new _Text2.default('foo');
+            } else if (type === 'html') {
+                new _Html2.default('foo');
+            } else if (type === 'source') {
+                new _Source2.default('foo');
             }
         }
     }]);
@@ -17411,6 +17440,151 @@ var Info = function () {
 }();
 
 exports.default = Info;
+
+/***/ }),
+/* 140 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Text = function () {
+    function Text(mail) {
+        var _this = this;
+
+        _classCallCheck(this, Text);
+
+        this.addToDom(function () {
+            _this.element = document.querySelector('iframe').contentWindow.document;
+
+            var pre = _this.element.createElement('pre');
+
+            pre.textContent = 'Some text here';
+
+            _this.element.querySelector('body').appendChild(pre);
+        });
+    }
+
+    _createClass(Text, [{
+        key: 'addToDom',
+        value: function addToDom(callback) {
+            var container = document.querySelector('main');
+            var iframe = document.createElement('iframe');
+
+            container.appendChild(iframe);
+
+            iframe.addEventListener('load', callback);
+        }
+    }]);
+
+    return Text;
+}();
+
+exports.default = Text;
+
+/***/ }),
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Html = function () {
+    function Html(mail) {
+        var _this = this;
+
+        _classCallCheck(this, Html);
+
+        this.addToDom(function () {
+            _this.element = document.querySelector('iframe').contentWindow.document;
+
+            var body = new DOMParser().parseFromString('<html><head><style>body { background: red; }</style></head><body><h1>Title</h1></body></html>', 'text/html');
+
+            _this.element.replaceChild(body.querySelector('html'), _this.element.querySelector('html'));
+        });
+    }
+
+    _createClass(Html, [{
+        key: 'addToDom',
+        value: function addToDom(callback) {
+            var container = document.querySelector('main');
+            var iframe = document.createElement('iframe');
+
+            container.appendChild(iframe);
+
+            iframe.addEventListener('load', callback);
+        }
+    }]);
+
+    return Html;
+}();
+
+exports.default = Html;
+
+/***/ }),
+/* 142 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Source = function () {
+    function Source(mail) {
+        var _this = this;
+
+        _classCallCheck(this, Source);
+
+        this.addToDom(function () {
+            _this.element = document.querySelector('iframe').contentWindow.document;
+
+            var pre = _this.element.createElement('pre');
+
+            pre.textContent = 'Source of the mail here';
+
+            _this.element.querySelector('body').appendChild(pre);
+        });
+    }
+
+    _createClass(Source, [{
+        key: 'addToDom',
+        value: function addToDom(callback) {
+            var container = document.querySelector('main');
+            var iframe = document.createElement('iframe');
+
+            container.appendChild(iframe);
+
+            iframe.addEventListener('load', callback);
+        }
+    }]);
+
+    return Source;
+}();
+
+exports.default = Source;
 
 /***/ })
 /******/ ]);
