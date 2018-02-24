@@ -1,8 +1,17 @@
+import Mail from './NavBar/Mail';
+
 export default class NavBar {
     constructor(callback) {
-        this.callback = callback;
+        this.mails = {};
+        //this.callback = callback;
 
-        this.attachEventListeners();
+        //this.attachEventListeners();
+    }
+
+    addMails(mails) {
+        mails.forEach((mail) => {
+            this.mails[mail.id] = new Mail(mail);
+        });
     }
 
     attachEventListeners() {

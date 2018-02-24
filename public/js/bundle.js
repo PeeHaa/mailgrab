@@ -16273,28 +16273,15 @@ return zhTw;
 "use strict";
 
 
-var _Connection = __webpack_require__(121);
+var _Application = __webpack_require__(134);
 
-var _Connection2 = _interopRequireDefault(_Connection);
-
-var _Processor = __webpack_require__(122);
-
-var _Processor2 = _interopRequireDefault(_Processor);
-
-var _Interface = __webpack_require__(130);
-
-var _Interface2 = _interopRequireDefault(_Interface);
+var _Application2 = _interopRequireDefault(_Application);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(127);
+__webpack_require__(132);
 
-var commandProcessor = new _Processor2.default();
-
-var connection = new _Connection2.default('ws://localhost:8000/ws', commandProcessor.process.bind(commandProcessor));
-connection.connect();
-
-var gui = new _Interface2.default(connection);
+new _Application2.default('ws://localhost:8000/ws').run();
 
 /***/ }),
 /* 121 */
@@ -16312,31 +16299,36 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Connection = function () {
-    function Connection(url, callback) {
+    function Connection(url) {
         _classCallCheck(this, Connection);
 
         this.url = url;
-        this.callback = callback;
-
-        this.socket = new WebSocket(this.url);
+        this.socket = null;
     }
 
     _createClass(Connection, [{
         key: 'connect',
-        value: function connect() {
-            this.socket.addEventListener('message', this.processMessage.bind(this));
-        }
-    }, {
-        key: 'processMessage',
-        value: function processMessage(e) {
-            var message = JSON.parse(e.data);
-            console.log(message);
-            this.callback(message.type, message.data);
+        value: function connect(onOpen, onMessage) {
+            this.socket = new WebSocket(this.url);
+
+            this.socket.addEventListener('open', onOpen);
+            this.socket.addEventListener('message', function (e) {
+                var message = JSON.parse(e.data);
+                console.log(message);
+                var command = message.payload.command;
+
+                delete message.payload.command;
+
+                var payload = message.payload;
+
+                onMessage(command, payload);
+            });
         }
     }, {
         key: 'send',
         value: function send(message) {
-            this.socket.send(JSON.stringify(message));
+            console.log('%c Out: ' + message, 'background: #222; color: #bada55');
+            this.socket.send(message);
         }
     }]);
 
@@ -16358,43 +16350,23 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Initialized = __webpack_require__(123);
-
-var _Initialized2 = _interopRequireDefault(_Initialized);
-
-var _NewMail = __webpack_require__(124);
-
-var _NewMail2 = _interopRequireDefault(_NewMail);
-
-var _MailInfo = __webpack_require__(132);
-
-var _MailInfo2 = _interopRequireDefault(_MailInfo);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Processor = function () {
-    function Processor() {
+    function Processor(handlers) {
         _classCallCheck(this, Processor);
+
+        this.handlers = handlers;
     }
 
     _createClass(Processor, [{
-        key: 'process',
-        value: function process(type, data) {
-            switch (type) {
-                case 'initialized':
-                    _Initialized2.default.process();
-                    break;
-
-                case 'new-mail':
-                    new _NewMail2.default().process(data);
-                    break;
-
-                case 'mail-info':
-                    new _MailInfo2.default().process(data);
-                    break;
+        key: "process",
+        value: function process(command, payload) {
+            if (!this.handlers.hasOwnProperty(command)) {
+                return;
             }
+
+            this.handlers[command](payload);
         }
     }]);
 
@@ -16404,105 +16376,8 @@ var Processor = function () {
 exports.default = Processor;
 
 /***/ }),
-/* 123 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Initialized = function () {
-    function Initialized() {
-        _classCallCheck(this, Initialized);
-    }
-
-    _createClass(Initialized, null, [{
-        key: 'process',
-        value: function process() {
-            var loader = document.querySelector('.loader');
-
-            loader.parentNode.removeChild(loader);
-        }
-    }]);
-
-    return Initialized;
-}();
-
-exports.default = Initialized;
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var moment = __webpack_require__(0);
-
-var NewMail = function () {
-    function NewMail() {
-        _classCallCheck(this, NewMail);
-    }
-
-    _createClass(NewMail, [{
-        key: 'process',
-        value: function process(data) {
-            this.addNewItem();
-
-            var newItem = document.querySelector('nav li');
-
-            this.addId(newItem, data.id);
-            this.addSubject(newItem, data.subject);
-            this.addTImestamp(newItem, data.timestamp);
-        }
-    }, {
-        key: 'addNewItem',
-        value: function addNewItem() {
-            var container = document.querySelector('nav ul');
-            var template = document.getElementById('new-mail');
-            var item = document.importNode(template.content, true);
-
-            container.prepend(item);
-        }
-    }, {
-        key: 'addId',
-        value: function addId(newItemd, id) {
-            newItemd.dataset.id = id;
-        }
-    }, {
-        key: 'addSubject',
-        value: function addSubject(newItem, subject) {
-            newItem.getElementsByTagName('a')[0].appendChild(document.createTextNode(subject));
-        }
-    }, {
-        key: 'addTImestamp',
-        value: function addTImestamp(newItem, timestamp) {
-            newItem.getElementsByTagName('time')[0].dataset.timestamp = timestamp;
-            newItem.getElementsByTagName('time')[0].textContent = moment(timestamp).fromNow();
-        }
-    }]);
-
-    return NewMail;
-}();
-
-exports.default = NewMail;
-
-/***/ }),
+/* 123 */,
+/* 124 */,
 /* 125 */
 /***/ (function(module, exports) {
 
@@ -16791,12 +16666,7 @@ module.exports = webpackContext;
 webpackContext.id = 126;
 
 /***/ }),
-/* 127 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 127 */,
 /* 128 */,
 /* 129 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -16810,32 +16680,109 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _NavBar = __webpack_require__(130);
+
+var _NavBar2 = _interopRequireDefault(_NavBar);
+
+var _Projects = __webpack_require__(138);
+
+var _Projects2 = _interopRequireDefault(_Projects);
+
+var _Toolbar = __webpack_require__(131);
+
+var _Toolbar2 = _interopRequireDefault(_Toolbar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var moment = __webpack_require__(0);
+
+var Interface = function () {
+    function Interface() {
+        _classCallCheck(this, Interface);
+
+        this.projects = new _Projects2.default();
+        this.navBar = new _NavBar2.default();
+
+        setInterval(this.updateTimestamp.bind(this), 10000);
+    }
+
+    _createClass(Interface, [{
+        key: 'addMails',
+        value: function addMails(mails) {
+            this.projects.addMails(mails);
+            this.navBar.addMails(mails);
+        }
+    }, {
+        key: 'updateTimestamp',
+        value: function updateTimestamp() {
+            document.querySelectorAll('time').forEach(function (time) {
+                time.textContent = moment(time.dataset.timestamp).fromNow();
+            });
+        }
+    }]);
+
+    return Interface;
+}();
+
+exports.default = Interface;
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Mail = __webpack_require__(137);
+
+var _Mail2 = _interopRequireDefault(_Mail);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var NavBar = function () {
     function NavBar(callback) {
         _classCallCheck(this, NavBar);
 
-        this.callback = callback;
+        this.mails = {};
+        //this.callback = callback;
 
-        this.attachEventListeners();
+        //this.attachEventListeners();
     }
 
     _createClass(NavBar, [{
-        key: 'attachEventListeners',
-        value: function attachEventListeners() {
+        key: 'addMails',
+        value: function addMails(mails) {
             var _this = this;
 
+            mails.forEach(function (mail) {
+                _this.mails[mail.id] = new _Mail2.default(mail);
+            });
+        }
+    }, {
+        key: 'attachEventListeners',
+        value: function attachEventListeners() {
+            var _this2 = this;
+
             document.querySelector('nav ul').addEventListener('click', function (e) {
-                var item = _this.getNavigationItem(e.target);
+                var item = _this2.getNavigationItem(e.target);
 
                 if (item === false) {
                     return;
                 }
 
-                _this.activateItem(item);
+                _this2.activateItem(item);
 
-                _this.callback(item.dataset.id);
+                _this2.callback(item.dataset.id);
             });
         }
     }, {
@@ -16879,111 +16826,6 @@ var NavBar = function () {
 }();
 
 exports.default = NavBar;
-
-/***/ }),
-/* 130 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _NavBar = __webpack_require__(129);
-
-var _NavBar2 = _interopRequireDefault(_NavBar);
-
-var _Toolbar = __webpack_require__(131);
-
-var _Toolbar2 = _interopRequireDefault(_Toolbar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var moment = __webpack_require__(0);
-
-var Interface = function () {
-    function Interface(connection) {
-        _classCallCheck(this, Interface);
-
-        this.connection = connection;
-
-        this.activeItem = null;
-
-        this.navbar = new _NavBar2.default(this.selectMail.bind(this));
-        this.toolbar = new _Toolbar2.default(this.processToolbar.bind(this));
-
-        setInterval(this.updateTimestamp.bind(this), 10000);
-    }
-
-    _createClass(Interface, [{
-        key: 'selectMail',
-        value: function selectMail(id) {
-            this.connection.send({
-                type: 'mail-info',
-                data: {
-                    id: id
-                }
-            });
-
-            this.activeItem = id;
-
-            this.toolbar.activate();
-        }
-    }, {
-        key: 'loadMail',
-        value: function loadMail(mail) {}
-    }, {
-        key: 'processToolbar',
-        value: function processToolbar(type) {
-            if (type === false) {
-                return;
-            }
-
-            switch (type) {
-                case 'delete':
-                    this.processDelete();
-                    return;
-            }
-        }
-    }, {
-        key: 'processDelete',
-        value: function processDelete() {
-            this.connection.send({
-                type: 'delete',
-                data: {
-                    id: this.activeItem
-                }
-            });
-            this.activeItem = null;
-            this.toolbar.deactivate();
-            this.navbar.delete();
-
-            var content = document.getElementsByTagName('main')[0];
-
-            while (content.firstChild) {
-                content.removeChild(content.firstChild);
-            }
-        }
-    }, {
-        key: 'updateTimestamp',
-        value: function updateTimestamp() {
-            document.querySelectorAll('time').forEach(function (time) {
-                console.log(time.dataset.timestamp);
-                time.textContent = moment(time.dataset.timestamp).fromNow();
-            });
-        }
-    }]);
-
-    return Interface;
-}();
-
-exports.default = Interface;
 
 /***/ }),
 /* 131 */
@@ -17056,6 +16898,13 @@ exports.default = Toolbar;
 
 /***/ }),
 /* 132 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 133 */,
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17067,39 +16916,132 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Info = __webpack_require__(133);
+var _Connection = __webpack_require__(121);
 
-var _Info2 = _interopRequireDefault(_Info);
+var _Connection2 = _interopRequireDefault(_Connection);
+
+var _Processor = __webpack_require__(122);
+
+var _Processor2 = _interopRequireDefault(_Processor);
+
+var _Interface = __webpack_require__(129);
+
+var _Interface2 = _interopRequireDefault(_Interface);
+
+var _Init = __webpack_require__(135);
+
+var _Init2 = _interopRequireDefault(_Init);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MailInfo = function () {
-    function MailInfo() {
-        _classCallCheck(this, MailInfo);
+var Application = function () {
+    function Application(url) {
+        _classCallCheck(this, Application);
+
+        this.connection = new _Connection2.default(url);
+        this.commandProcessor = new _Processor2.default({
+            newMail: this.onNewMail.bind(this)
+        });
+        this.gui = new _Interface2.default();
     }
 
-    _createClass(MailInfo, [{
-        key: 'process',
-        value: function process(data) {
-            new _Info2.default(data.id, data.from, data.to, data.subject, data.timestamp).render();
+    _createClass(Application, [{
+        key: 'run',
+        value: function run() {
+            var _this = this;
 
-            if (document.querySelector('header li.active')) {
-                document.querySelector('header li.active').classList.remove('active');
-            }
-
-            document.querySelector('header li[data-type="info"]').classList.add('active');
+            this.connection.connect(function () {
+                _this.connection.send(new _Init2.default().stringify());
+            }, this.commandProcessor.process.bind(this.commandProcessor));
+        }
+    }, {
+        key: 'onNewMail',
+        value: function onNewMail(data) {
+            this.gui.addMails(data.mails);
         }
     }]);
 
-    return MailInfo;
+    return Application;
 }();
 
-exports.default = MailInfo;
+exports.default = Application;
 
 /***/ }),
-/* 133 */
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Command2 = __webpack_require__(136);
+
+var _Command3 = _interopRequireDefault(_Command2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Init = function (_Command) {
+    _inherits(Init, _Command);
+
+    function Init() {
+        _classCallCheck(this, Init);
+
+        return _possibleConstructorReturn(this, (Init.__proto__ || Object.getPrototypeOf(Init)).call(this, 'init', {}));
+    }
+
+    return Init;
+}(_Command3.default);
+
+exports.default = Init;
+
+/***/ }),
+/* 136 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Command = function () {
+    function Command(name, data) {
+        _classCallCheck(this, Command);
+
+        this.name = name;
+        this.data = data;
+    }
+
+    _createClass(Command, [{
+        key: "stringify",
+        value: function stringify() {
+            return JSON.stringify(Object.assign({ command: this.name }, this.data));
+        }
+    }]);
+
+    return Command;
+}();
+
+exports.default = Command;
+
+/***/ }),
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17115,79 +17057,180 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var moment = __webpack_require__(0);
 
-var Info = function () {
-    function Info(id, from, to, subject, timestamp) {
-        _classCallCheck(this, Info);
+var Mail = function () {
+    function Mail(mail) {
+        _classCallCheck(this, Mail);
 
-        this.id = id;
-        this.from = from;
-        this.to = to;
-        this.subject = subject;
-        this.timestamp = moment(timestamp);
+        this.addToDom();
+
+        var newItem = document.querySelector('nav#messages li');
+
+        this.addId(newItem, mail.id);
+        this.addSubject(newItem, mail.subject);
+        this.addTimestamp(newItem, mail.timestamp);
+        this.setReadStatus(newItem, mail.read);
     }
 
-    _createClass(Info, [{
-        key: 'render',
-        value: function render() {
-            var container = document.querySelector('main');
-
-            this.deleteContent(container);
-
-            var template = document.getElementById('mail-info');
+    _createClass(Mail, [{
+        key: 'addToDom',
+        value: function addToDom() {
+            var container = document.querySelector('nav#messages ul');
+            var template = document.getElementById('new-mail');
             var item = document.importNode(template.content, true);
 
             container.prepend(item);
-
-            var newItem = document.querySelector('main table');
-
-            this.addFrom(newItem);
-            this.addTo(newItem);
-            this.addSubject(newItem);
-            this.addTimestamp(newItem);
         }
     }, {
-        key: 'deleteContent',
-        value: function deleteContent(container) {
-            while (container.firstChild) {
-                container.removeChild(container.firstChild);
-            }
-        }
-    }, {
-        key: 'addFrom',
-        value: function addFrom(newItem) {
-            newItem.getElementsByTagName('td')[0].textContent = this.from;
-        }
-    }, {
-        key: 'addTo',
-        value: function addTo(newItem) {
-            var to = [];
-            for (var key in this.to) {
-                if (!this.to.hasOwnProperty(key)) {
-                    continue;
-                }
-
-                to.push(this.to[key] + ' <' + key + '>');
-            }
-
-            newItem.getElementsByTagName('td')[1].textContent = to.join(', ');
+        key: 'addId',
+        value: function addId(newItem, id) {
+            newItem.dataset.id = id;
         }
     }, {
         key: 'addSubject',
-        value: function addSubject(newItem) {
-            newItem.getElementsByTagName('td')[2].textContent = this.subject;
+        value: function addSubject(newItem, subject) {
+            newItem.appendChild(document.createTextNode(subject));
         }
     }, {
         key: 'addTimestamp',
-        value: function addTimestamp(newItem) {
-            newItem.getElementsByTagName('time')[0].textContent = this.timestamp.fromNow();
-            newItem.getElementsByTagName('time')[0].dataset.timestamp = this.timestamp.toISOString();
+        value: function addTimestamp(newItem, timestamp) {
+            newItem.getElementsByTagName('time')[0].dataset.timestamp = timestamp;
+            newItem.getElementsByTagName('time')[0].textContent = moment(timestamp).fromNow();
+        }
+    }, {
+        key: 'setReadStatus',
+        value: function setReadStatus(newItem, read) {
+            if (read) {
+                return;
+            }
+
+            newItem.classList.add('new');
         }
     }]);
 
-    return Info;
+    return Mail;
 }();
 
-exports.default = Info;
+exports.default = Mail;
+
+/***/ }),
+/* 138 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Project = __webpack_require__(139);
+
+var _Project2 = _interopRequireDefault(_Project);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Projects = function () {
+    function Projects() {
+        _classCallCheck(this, Projects);
+
+        this.projects = {
+            '0': new _Project2.default({
+                id: '0',
+                name: 'Uncategorized'
+            })
+        };
+    }
+
+    _createClass(Projects, [{
+        key: 'addMails',
+        value: function addMails(mails) {
+            var _this = this;
+
+            mails.forEach(function (mail) {
+                // noinspection JSUnresolvedVariable
+                if (!_this.projects.hasOwnProperty(mail.project)) {
+                    // noinspection JSUnresolvedVariable
+                    _this.projects.push(new _Project2.default(mail.project, 'New Project'));
+                }
+
+                if (!mail.read) {
+                    // noinspection JSUnresolvedVariable
+                    _this.projects[mail.project].addUnread();
+                }
+            });
+        }
+    }]);
+
+    return Projects;
+}();
+
+exports.default = Projects;
+
+/***/ }),
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Project = function () {
+    function Project(project) {
+        _classCallCheck(this, Project);
+
+        this.addToDom();
+
+        this.element = document.querySelector('nav#projects li:last-child');
+
+        this.addId(project.id);
+        this.addName(project.name);
+
+        this.element.classList.add('active');
+    }
+
+    _createClass(Project, [{
+        key: 'addToDom',
+        value: function addToDom() {
+            var container = document.querySelector('nav#projects ul');
+            var template = document.getElementById('new-project');
+            var item = document.importNode(template.content, true);
+
+            container.append(item);
+        }
+    }, {
+        key: 'addId',
+        value: function addId(id) {
+            this.element.dataset.id = id;
+        }
+    }, {
+        key: 'addName',
+        value: function addName(subject) {
+            this.element.appendChild(document.createTextNode(subject));
+        }
+    }, {
+        key: 'addUnread',
+        value: function addUnread() {
+            var counter = this.element.querySelector('span');
+
+            counter.textContent = parseInt(counter.textContent, 10) + 1;
+        }
+    }]);
+
+    return Project;
+}();
+
+exports.default = Project;
 
 /***/ })
 /******/ ]);

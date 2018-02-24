@@ -19,38 +19,29 @@
         <nav id="projects">
             <h2>Projects</h2>
             <ul>
-                <li>Project 1</li>
-                <li class="active">Project 2 <span>1</span></li>
-                <li>Project 3</li>
-                <li>Project 4 <span>5</span></li>
-                <li>Project 5</li>
             </ul>
         </nav>
         <nav id="messages">
             <ul>
                 <li class="active">
-                    <time>Just now</time>
-                    Subject 2
-                </li>
-                <li class="new">
-                    <time>Just now</time>
-                    Subject 1
+                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
+                    Fake message
                 </li>
                 <li>
-                    <time>Just now</time>
-                    Subject 3
+                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
+                    Fake message
                 </li>
                 <li>
-                    <time>Just now</time>
-                    Subject 4
+                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
+                    Fake message
                 </li>
                 <li>
-                    <time>Just now</time>
-                    Subject 5
+                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
+                    Fake message
                 </li>
                 <li>
-                    <time>Just now</time>
-                    Subject 6
+                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
+                    Fake message
                 </li>
             </ul>
         </nav>
@@ -78,11 +69,12 @@
             </section>
             <iframe src="text.html"></iframe>
         </main>
+        <template id="new-project">
+            <li><span>0</span></li>
+        </template>
         <template id="new-mail">
-            <li class="new">
-                <a href="#">
-                    <time>Just now</time>
-                </a>
+            <li>
+                <time></time>
             </li>
         </template>
         <template id="mail-info">
@@ -105,7 +97,6 @@
                 </tr>
             </table>
         </template>
-        <div class="loader"><i class="fa fa-spinner fa-pulse"></i></div>
         <script src="/js/bundle.js"></script>
     </body>
 </html>

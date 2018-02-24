@@ -5,6 +5,12 @@ namespace PeeHaa\MailGrab;
 use Aerys\Host;
 use Aerys\Router;
 use Auryn\Injector;
+use PeeHaa\AmpWebsocketCommand\CommandTuple;
+use PeeHaa\AmpWebsocketCommand\Executor;
+use PeeHaa\MailGrab\Http\Command\Init;
+use PeeHaa\MailGrab\Http\Command\NewMail;
+use PeeHaa\MailGrab\Http\Storage\Memory;
+use PeeHaa\MailGrab\Http\Storage\Storage;
 use PeeHaa\MailGrab\Http\WebSocket\Handler;
 use function Aerys\root;
 use function Aerys\websocket;
@@ -12,6 +18,23 @@ use function Aerys\websocket;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $auryn = new Injector();
+$auryn->share($auryn); // yolo
+
+$auryn->alias(Storage::class, Memory::class);
+$auryn->share(Storage::class);
+
+//$auryn->share(Executor::class);
+//$executor = $auryn->make(Executor::class);
+
+
+$auryn->delegate(Executor::class, function() use ($auryn) {
+    $executor = new Executor($auryn);
+
+    $executor->register(new CommandTuple('init', Init::class));
+    $executor->register(new CommandTuple('newMail', NewMail::class));
+
+    return $executor;
+});
 
 $auryn->define(Handler::class, [
     ':origin' => 'http://localhost:8000',

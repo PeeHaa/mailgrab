@@ -1,12 +1,5 @@
 require('./../scss/app.scss');
 
-import Connection from './Connection';
-import Processor from './Command/Processor';
-import Interface from './Interface/Interface';
+import Application from './Application';
 
-const commandProcessor = new Processor();
-
-const connection = new Connection('ws://localhost:8000/ws', commandProcessor.process.bind(commandProcessor));
-connection.connect();
-
-const gui = new Interface(connection);
+new Application('ws://localhost:8000/ws').run();

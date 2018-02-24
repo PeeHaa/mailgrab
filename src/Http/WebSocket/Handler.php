@@ -6,9 +6,9 @@ use Aerys\Request;
 use Aerys\Response;
 use Aerys\Websocket;
 use Aerys\Websocket\Endpoint;
-use PeeHaa\MailGrab\Http\Response\Initialized;
-use PeeHaa\MailGrab\Http\Response\MailInfo;
-use PeeHaa\MailGrab\Http\Response\NewMail;
+use PeeHaa\AmpWebsocketCommand\Executor;
+use PeeHaa\MailGrab\Http\Entity\Mail;
+use PeeHaa\MailGrab\Http\Storage\Storage;
 use PeeHaa\MailGrab\Smtp\Command\Factory;
 use PeeHaa\MailGrab\Smtp\Log\Level;
 use PeeHaa\MailGrab\Smtp\Log\Output;
@@ -23,11 +23,15 @@ class Handler implements Websocket
 
     private $origin;
 
-    private $mails = [];
+    private $executor;
 
-    public function __construct(string $origin)
+    private $storage;
+
+    public function __construct(string $origin, Executor $executor, Storage $storage)
     {
-        $this->origin = $origin;
+        $this->origin   = $origin;
+        $this->executor = $executor;
+        $this->storage  = $storage;
     }
 
     public function onStart(Endpoint $endpoint)
@@ -53,32 +57,28 @@ class Handler implements Websocket
 
     public function onOpen(int $clientId, $handshakeData)
     {
-        $this->endpoint->send((string) new Initialized(), $clientId);
+
     }
 
     public function pushMessage(Message $message)
     {
-        $mail = new NewMail($message);
+        asyncCall(function() use ($message) {
+            $mail = new Mail($message);
 
-        $this->endpoint->broadcast((string) $mail);
+            $this->storage->add($mail);
 
-        $this->mails[$mail->getId()] = $mail;
+            $result = yield $this->executor->execute(json_encode([
+                'command' => 'newMail',
+                'id'      => $mail->getId(),
+            ]));
+
+            $this->endpoint->broadcast((string) $result);
+        });
     }
 
     public function onData(int $clientId, Websocket\Message $msg)
     {
-        $command = json_decode(yield $msg, true);
-
-        switch ($command['type']) {
-            case 'mail-info':
-                $mail = $this->mails[$command['data']['id']];
-                $this->endpoint->broadcast((string) new MailInfo($mail->getId() ,$mail->getMessage()));
-                return;
-
-            case 'delete':
-                unset($this->mails[$command['data']['id']]);
-                return;
-        }
+        $this->endpoint->broadcast((string) yield $this->executor->execute(yield $msg));
     }
 
     public function onClose(int $clientId, int $code, string $reason)

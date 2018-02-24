@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace PeeHaa\MailGrab\Http\Response;
+namespace PeeHaa\MailGrab\Http\Entity;
 
-use PeeHaa\MailGrab\Smtp\HeaderBuffer;
+use PeeHaa\MailGrab\Smtp\Header\Header;
 use PeeHaa\MailGrab\Smtp\Message;
 use Ramsey\Uuid\Uuid;
 
-class NewMail
+class Mail
 {
     private $id;
 
@@ -14,17 +14,25 @@ class NewMail
 
     private $subject = '';
 
+    private $timestamp;
+
+    private $read = false;
+
+    private $project = '0';
+
     public function __construct(Message $message)
     {
         $this->id      = Uuid::uuid4()->toString();
         $this->message = $message;
 
-        /** @var HeaderBuffer[] $headers */
+        /** @var Header[] $headers */
         $headers = $message->getHeaders();
 
         if (isset($headers['subject'])) {
             $this->subject = $headers['subject']->getValue();
         }
+
+        $this->timestamp = new \DateTimeImmutable();
     }
 
     public function getId(): string
@@ -32,20 +40,28 @@ class NewMail
         return $this->id;
     }
 
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
+
+    public function getTimestamp(): \DateTimeImmutable
+    {
+        return $this->timestamp;
+    }
+
     public function getMessage(): Message
     {
         return $this->message;
     }
 
-    public function __toString(): string
+    public function isRead(): bool
     {
-        return json_encode([
-            'type' => 'new-mail',
-            'data' => [
-                'id'        => $this->id,
-                'subject'   => $this->subject,
-                'timestamp' => (new \DateTime())->format(\DateTime::RFC3339_EXTENDED),
-            ],
-        ]);
+        return $this->read;
+    }
+
+    public function getProject(): string
+    {
+        return $this->project;
     }
 }
