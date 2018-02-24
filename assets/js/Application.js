@@ -2,7 +2,7 @@ import Connection from './WebSocket/Connection';
 import CommandProcessor from './Command/Processor';
 import Interface from './Interface/Interface';
 
-import {targetByTagName} from './Util/util';
+import {parentByTagName} from './Util/util';
 
 import Init from './Command/Out/Init';
 import SelectMail from './Command/Out/SelectMail';
@@ -53,7 +53,7 @@ export default class Application {
 
     addEventListeners() {
         document.querySelector('nav#messages ul').addEventListener('click', (e) => {
-            const element = targetByTagName(e.target, 'li');
+            const element = parentByTagName(e.target, 'li');
 
             if (!element) return;
 
@@ -61,15 +61,15 @@ export default class Application {
         });
 
         document.querySelector('header [data-type="text"]').addEventListener('click', (e) => {
-            this.connection.send(new GetText(e.target.parentNode.dataset.id));
+            this.connection.send(new GetText(parentByTagName(e.target, 'ul').dataset.id));
         });
 
         document.querySelector('header [data-type="html"]').addEventListener('click', (e) => {
-            this.connection.send(new GetHtml(e.target.parentNode.dataset.id));
+            this.connection.send(new GetHtml(parentByTagName(e.target, 'ul').dataset.id));
         });
 
         document.querySelector('header [data-type="source"]').addEventListener('click', (e) => {
-            this.connection.send(new GetSource(e.target.parentNode.dataset.id));
+            this.connection.send(new GetSource(parentByTagName(e.target, 'ul').dataset.id));
         });
     }
 }

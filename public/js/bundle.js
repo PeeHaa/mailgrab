@@ -16391,7 +16391,7 @@ var Application = function () {
             var _this2 = this;
 
             document.querySelector('nav#messages ul').addEventListener('click', function (e) {
-                var element = (0, _util.targetByTagName)(e.target, 'li');
+                var element = (0, _util.parentByTagName)(e.target, 'li');
 
                 if (!element) return;
 
@@ -16399,15 +16399,15 @@ var Application = function () {
             });
 
             document.querySelector('header [data-type="text"]').addEventListener('click', function (e) {
-                _this2.connection.send(new _GetText2.default(e.target.parentNode.dataset.id));
+                _this2.connection.send(new _GetText2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
             });
 
             document.querySelector('header [data-type="html"]').addEventListener('click', function (e) {
-                _this2.connection.send(new _GetHtml2.default(e.target.parentNode.dataset.id));
+                _this2.connection.send(new _GetHtml2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
             });
 
             document.querySelector('header [data-type="source"]').addEventListener('click', function (e) {
-                _this2.connection.send(new _GetSource2.default(e.target.parentNode.dataset.id));
+                _this2.connection.send(new _GetSource2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
             });
         }
     }]);
@@ -17325,8 +17325,8 @@ exports.default = Command;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.targetByTagName = targetByTagName;
-function targetByTagName(element, target) {
+exports.parentByTagName = parentByTagName;
+function parentByTagName(element, target) {
     var tagName = target.toUpperCase();
 
     do {

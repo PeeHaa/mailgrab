@@ -1,4 +1,4 @@
-export function targetByTagName(element, target) {
+export function parentByTagName(element, target) {
     const tagName = target.toUpperCase();
 
     do {
