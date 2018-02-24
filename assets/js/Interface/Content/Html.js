@@ -1,9 +1,9 @@
 export default class Html {
-    constructor(mail) {
+    constructor(content) {
         this.addToDom(() => {
             this.element = document.querySelector('iframe').contentWindow.document;
 
-            const body = new DOMParser().parseFromString('<html><head><style>body { background: red; }</style></head><body><h1>Title</h1></body></html>', 'text/html');
+            const body = new DOMParser().parseFromString(content, 'text/html');
 
             this.element.replaceChild(body.querySelector('html'), this.element.querySelector('html'));
         });

@@ -7,7 +7,9 @@ use Aerys\Router;
 use Auryn\Injector;
 use PeeHaa\AmpWebsocketCommand\CommandTuple;
 use PeeHaa\AmpWebsocketCommand\Executor;
+use PeeHaa\MailGrab\Http\Command\GetHtml;
 use PeeHaa\MailGrab\Http\Command\GetSource;
+use PeeHaa\MailGrab\Http\Command\GetText;
 use PeeHaa\MailGrab\Http\Command\Init;
 use PeeHaa\MailGrab\Http\Command\NewMail;
 use PeeHaa\MailGrab\Http\Command\SelectMail;
@@ -31,6 +33,8 @@ $auryn->delegate(Executor::class, function() use ($auryn) {
     $executor->register(new CommandTuple('init', Init::class));
     $executor->register(new CommandTuple('newMail', NewMail::class));
     $executor->register(new CommandTuple('selectMail', SelectMail::class));
+    $executor->register(new CommandTuple('getText', GetText::class));
+    $executor->register(new CommandTuple('getHtml', GetHtml::class));
     $executor->register(new CommandTuple('getSource', GetSource::class));
 
     return $executor;

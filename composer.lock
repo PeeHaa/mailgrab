@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4ffbbe3fca398462248c3a16a29a01a",
+    "content-hash": "82b27eb03b577574c759515af20ddaca",
     "packages": [
         {
             "name": "amphp/aerys",
@@ -1376,6 +1376,57 @@
                 "prompt"
             ],
             "time": "2017-03-18T11:32:45+00:00"
+        },
+        {
+            "name": "zbateson/mail-mime-parser",
+            "version": "0.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zbateson/MailMimeParser.git",
+                "reference": "b05f32a1902d4e395384ff64e9f505c23d2714e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zbateson/MailMimeParser/zipball/b05f32a1902d4e395384ff64e9f505c23d2714e5",
+                "reference": "b05f32a1902d4e395384ff64e9f505c23d2714e5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "evert/phpdoc-md": "~0.1.1",
+                "phing/phing": "~2.15.0",
+                "phpdocumentor/phpdocumentor": "~2.8.0",
+                "phpunit/phpunit": "~4.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ZBateson\\MailMimeParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Zaahid Bateson",
+                    "email": "zbateson@users.noreply.github.com"
+                }
+            ],
+            "description": "MIME email message parser",
+            "homepage": "https://github.com/zbateson/MailMimeParser",
+            "keywords": [
+                "email",
+                "mail",
+                "mime",
+                "parser",
+                "php-imap"
+            ],
+            "time": "2018-02-07T07:42:33+00:00"
         }
     ],
     "packages-dev": [

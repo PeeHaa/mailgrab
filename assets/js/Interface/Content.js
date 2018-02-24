@@ -16,24 +16,22 @@ export default class Content {
         new Text(info.text);
     }
 
+    openText(source) {
+        this.clear();
+
+        new Text(source);
+    }
+
+    openHtml(source) {
+        this.clear();
+
+        new Html(source);
+    }
+
     openSource(source) {
         this.clear();
 
         new Source(source);
-    }
-
-    renderContent(info, type) {
-        if (['text', 'html', 'source'].indexOf(type) === -1) {
-            throw 'Type (' + type + ') is not valid';
-        }
-
-        if (type === 'text') {
-            new Text(info.text);
-        } else if (type === 'html') {
-            new Html('foo');
-        } else if (type === 'source') {
-            new Source('foo');
-        }
     }
 
     clearAll() {

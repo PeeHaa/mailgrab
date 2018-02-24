@@ -27,6 +27,16 @@ export default class Interface {
         this.content.openMail(info);
     }
 
+    openText(source) {
+        this.toolBar.openText();
+        this.content.openText(source);
+    }
+
+    openHtml(source) {
+        this.toolBar.openHtml();
+        this.content.openHtml(source);
+    }
+
     openSource(source) {
         this.toolBar.openSource();
         this.content.openSource(source);

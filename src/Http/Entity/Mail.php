@@ -5,6 +5,7 @@ namespace PeeHaa\MailGrab\Http\Entity;
 use PeeHaa\MailGrab\Smtp\Header\Header;
 use PeeHaa\MailGrab\Smtp\Message;
 use Ramsey\Uuid\Uuid;
+use ZBateson\MailMimeParser\MailMimeParser;
 
 class Mail
 {
@@ -21,6 +22,8 @@ class Mail
     private $subject = '';
 
     private $timestamp;
+
+    private $parsed;
 
     private $read = false;
 
@@ -45,6 +48,8 @@ class Mail
         }
 
         $this->timestamp = new \DateTimeImmutable();
+
+        $this->parsed = (new MailMimeParser())->parse($message->getRawMessage());
     }
 
     public function getId(): string
@@ -79,6 +84,21 @@ class Mail
     public function getMessage(): Message
     {
         return $this->message;
+    }
+
+    public function isMultiPart(): bool
+    {
+        return true;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->parsed->getTextContent();
+    }
+
+    public function getHtml(): ?string
+    {
+        return $this->parsed->getHtmlContent();
     }
 
     public function getSource(): string

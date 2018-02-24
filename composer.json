@@ -17,7 +17,8 @@
         "myclabs/php-enum": "^1.5",
         "peehaa/amp-websocket-command": "dev-master",
         "ramsey/uuid": "^3.7",
-        "rdlowrey/auryn": "^1.4"
+        "rdlowrey/auryn": "^1.4",
+        "zbateson/mail-mime-parser": "^0.4.8"
     },
     "require-dev": {
         "phpmailer/phpmailer": "^6.0",

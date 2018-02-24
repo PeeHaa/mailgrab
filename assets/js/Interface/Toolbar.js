@@ -13,6 +13,18 @@ export default class Toolbar {
         this.toolbar.classList.add('active');
     }
 
+    openText() {
+        this.deactivateAll();
+
+        this.toolbar.querySelector('[data-type="text"]').classList.add('active');
+    }
+
+    openHtml() {
+        this.deactivateAll();
+
+        this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+    }
+
     openSource() {
         this.deactivateAll();
 

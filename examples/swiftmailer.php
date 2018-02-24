@@ -10,7 +10,7 @@ $mailer = new \Swift_Mailer($transport);
 $logger = new \Swift_Plugins_Loggers_ArrayLogger();
 $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($logger));
 
-$message = (new \Swift_Message('Wonderful Subject'))
+$message = (new \Swift_Message('Swift Mailer'))
     ->setFrom(['john@doe.com' => 'John Doe'])
     ->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
     ->setBody('Here is the message itself')

@@ -20,7 +20,7 @@ $mail->addReplyTo('info@example.com', 'Information');
 $mail->addCC('cc@example.com');
 $mail->addBCC('bcc@example.com');
 
-$mail->Subject = 'Here is the subject';
+$mail->Subject = 'PHPMailer';
 $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 

@@ -6,6 +6,8 @@ import {targetByTagName} from './Util/util';
 
 import Init from './Command/Out/Init';
 import SelectMail from './Command/Out/SelectMail';
+import GetText from "./Command/Out/GetText";
+import GetHtml from "./Command/Out/GetHtml";
 import GetSource from './Command/Out/GetSource';
 
 export default class Application {
@@ -14,6 +16,8 @@ export default class Application {
         this.commandProcessor = new CommandProcessor({
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
+            text: this.onText.bind(this),
+            html: this.onHtml.bind(this),
             source: this.onSource.bind(this)
         });
         this.gui              = new Interface();
@@ -35,6 +39,14 @@ export default class Application {
         this.gui.openMail(data.info);
     }
 
+    onText(data) {
+        this.gui.openText(data.text);
+    }
+
+    onHtml(data) {
+        this.gui.openHtml(data.html);
+    }
+
     onSource(data) {
         this.gui.openSource(data.source);
     }
@@ -46,6 +58,14 @@ export default class Application {
             if (!element) return;
 
             this.connection.send(new SelectMail(element.dataset.id));
+        });
+
+        document.querySelector('header [data-type="text"]').addEventListener('click', (e) => {
+            this.connection.send(new GetText(e.target.parentNode.dataset.id));
+        });
+
+        document.querySelector('header [data-type="html"]').addEventListener('click', (e) => {
+            this.connection.send(new GetHtml(e.target.parentNode.dataset.id));
         });
 
         document.querySelector('header [data-type="source"]').addEventListener('click', (e) => {
