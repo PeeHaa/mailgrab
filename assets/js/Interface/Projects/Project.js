@@ -31,4 +31,10 @@ export default class Project {
 
         counter.textContent = parseInt(counter.textContent, 10) + 1;
     }
+
+    updateUnread() {
+        const counter = this.element.querySelector('span');
+
+        counter.textContent = document.querySelectorAll('nav#messages .new').length;
+    }
 }

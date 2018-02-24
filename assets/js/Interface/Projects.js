@@ -24,4 +24,8 @@ export default class Projects {
             }
         });
     }
+
+    openMail(info) {
+        this.projects[info.project].updateUnread();
+    }
 }

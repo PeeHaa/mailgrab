@@ -1,24 +1,10 @@
 export default class Toolbar {
-    constructor(callback) {
-        this.callback = callback;
-
+    constructor() {
         this.toolbar = document.querySelector('header ul');
-
-        this.attachEventListeners();
     }
 
-    activate(subject) {
+    openMail() {
         this.toolbar.classList.add('active');
-    }
-
-    deactivate() {
-        this.toolbar.classList.remove('active');
-    }
-
-    attachEventListeners() {
-        document.querySelector('header ul').addEventListener('click', (e) => {
-            this.callback(this.getNavigationType(e.target));
-        });
     }
 
     getNavigationType(target) {

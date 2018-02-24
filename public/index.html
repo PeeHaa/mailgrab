@@ -18,35 +18,23 @@
         </header>
         <nav id="projects">
             <h2>Projects</h2>
-            <ul>
-            </ul>
+            <ul></ul>
         </nav>
         <nav id="messages">
-            <ul>
-                <li class="active">
-                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
-                    Fake message
-                </li>
-                <li>
-                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
-                    Fake message
-                </li>
-                <li>
-                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
-                    Fake message
-                </li>
-                <li>
-                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
-                    Fake message
-                </li>
-                <li>
-                    <time data-timestamp="2018-02-24T01:21:15.585+00:00"></time>
-                    Fake message
-                </li>
-            </ul>
+            <ul></ul>
         </nav>
-
         <main>
+            <iframe src="text.html"></iframe>
+        </main>
+        <template id="new-project">
+            <li><span>0</span></li>
+        </template>
+        <template id="new-mail">
+            <li>
+                <time></time>
+            </li>
+        </template>
+        <template id="mail-info">
             <section class="info">
                 <table>
                     <tr>
@@ -67,35 +55,6 @@
                     </tr>
                 </table>
             </section>
-            <iframe src="text.html"></iframe>
-        </main>
-        <template id="new-project">
-            <li><span>0</span></li>
-        </template>
-        <template id="new-mail">
-            <li>
-                <time></time>
-            </li>
-        </template>
-        <template id="mail-info">
-            <table>
-                <tr>
-                    <th>From</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>To</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>Subject</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>Timestamp</th>
-                    <td><time>Just now</time></td>
-                </tr>
-            </table>
         </template>
         <script src="/js/bundle.js"></script>
     </body>

@@ -22,7 +22,7 @@ console.log(message);
     }
 
     send(message) {
-        console.log('%c Out: ' + message, 'background: #222; color: #bada55');
-        this.socket.send(message);
+console.log(message);
+        this.socket.send(message.stringify());
     }
 }

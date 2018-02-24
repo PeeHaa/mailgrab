@@ -4680,7 +4680,7 @@ header {
     font-weight: normal; }
   header ul {
     float: right;
-    display: block; }
+    display: none; }
     header ul.active {
       display: block; }
     header ul li {

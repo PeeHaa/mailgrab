@@ -4,12 +4,12 @@ export default class Mail {
     constructor(mail) {
         this.addToDom();
 
-        const newItem = document.querySelector('nav#messages li');
+        this.element = document.querySelector('nav#messages li');
 
-        this.addId(newItem, mail.id);
-        this.addSubject(newItem, mail.subject);
-        this.addTimestamp(newItem, mail.timestamp);
-        this.setReadStatus(newItem, mail.read);
+        this.addId(mail.id);
+        this.addSubject(mail.subject);
+        this.addTimestamp(mail.timestamp);
+        this.setReadStatus(mail.read);
     }
 
     addToDom() {
@@ -20,24 +20,39 @@ export default class Mail {
         container.prepend(item);
     }
 
-    addId(newItem, id) {
-        newItem.dataset.id = id;
+    addId(id) {
+        this.element.dataset.id = id;
     }
 
-    addSubject(newItem, subject) {
-        newItem.appendChild(document.createTextNode(subject));
+    addSubject(subject) {
+        this.element.appendChild(document.createTextNode(subject));
     }
 
-    addTimestamp(newItem, timestamp) {
-        newItem.getElementsByTagName('time')[0].dataset.timestamp = timestamp;
-        newItem.getElementsByTagName('time')[0].textContent = moment(timestamp).fromNow();
+    addTimestamp(timestamp) {
+        this.element.querySelector('time').dataset.timestamp = timestamp;
+        this.element.querySelector('time').textContent = moment(timestamp).fromNow();
     }
 
-    setReadStatus(newItem, read) {
+    setReadStatus(read) {
         if (read) {
             return;
         }
 
-        newItem.classList.add('new');
+        this.element.classList.add('new');
+    }
+
+    activate() {
+        this.element.classList.remove('new');
+        this.element.classList.add('active');
+    }
+
+    deactivate() {
+        this.element.classList.remove('active');
+    }
+
+    updateTime() {
+        const timestamp = this.element.querySelector('time').dataset.timestamp;
+
+        this.element.querySelector('time').textContent = moment(timestamp).fromNow();
     }
 }

@@ -78,7 +78,7 @@ class Handler implements Websocket
 
     public function onData(int $clientId, Websocket\Message $msg)
     {
-        $this->endpoint->broadcast((string) yield $this->executor->execute(yield $msg));
+        $this->endpoint->send((string) yield $this->executor->execute(yield $msg), $clientId);
     }
 
     public function onClose(int $clientId, int $code, string $reason)

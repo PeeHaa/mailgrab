@@ -10,6 +10,10 @@ class Mail
 {
     private $id;
 
+    private $from;
+
+    private $to = [];
+
     private $message;
 
     private $subject = '';
@@ -23,7 +27,12 @@ class Mail
     public function __construct(Message $message)
     {
         $this->id      = Uuid::uuid4()->toString();
+        $this->from    = $message->getFrom();
         $this->message = $message;
+
+        foreach ($message->getRecipients() as $email => $name) {
+            $this->to[] = new Recipient($email, $name);
+        }
 
         /** @var Header[] $headers */
         $headers = $message->getHeaders();
@@ -40,6 +49,20 @@ class Mail
         return $this->id;
     }
 
+    public function getFrom(): string
+    {
+        return $this->from;
+    }
+
+    public function getTo(): string
+    {
+        return implode(', ', array_reduce($this->to, function(array $carry, Recipient $recipient) {
+            $carry[] = sprintf('%s <%s>', $recipient->getName(), $recipient->getEmail());
+
+            return $carry;
+        }, []));
+    }
+
     public function getSubject(): string
     {
         return $this->subject;
@@ -53,6 +76,11 @@ class Mail
     public function getMessage(): Message
     {
         return $this->message;
+    }
+
+    public function setRead(): void
+    {
+        $this->read = true;
     }
 
     public function isRead(): bool
