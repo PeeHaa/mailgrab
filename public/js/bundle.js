@@ -16434,6 +16434,7 @@ var Application = function () {
         key: 'onRefreshMailInfo',
         value: function onRefreshMailInfo(data) {
             this.gui.openMail(data.info);
+            this.navigation.setTitle(data.info.subject);
         }
     }, {
         key: 'onText',
@@ -18410,6 +18411,11 @@ var Navigation = function () {
             history.pushState(data, title, url);
 
             document.querySelector('head title').textContent = title;
+        }
+    }, {
+        key: 'setTitle',
+        value: function setTitle(title) {
+            document.querySelector('head title').textContent = title + ' | ' + this.title;
         }
     }, {
         key: 'resetTitle',

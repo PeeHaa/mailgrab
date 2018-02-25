@@ -31,6 +31,10 @@ export default class Navigation {
         document.querySelector('head title').textContent = title;
     }
 
+    setTitle(title) {
+        document.querySelector('head title').textContent = title + ' | ' + this.title;
+    }
+
     resetTitle() {
         document.querySelector('head title').textContent = this.title;
     }

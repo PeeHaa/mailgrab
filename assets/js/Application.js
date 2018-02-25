@@ -54,6 +54,7 @@ export default class Application {
 
     onRefreshMailInfo(data) {
         this.gui.openMail(data.info);
+        this.navigation.setTitle(data.info.subject);
     }
 
     onText(data) {
