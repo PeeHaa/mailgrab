@@ -16316,7 +16316,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 __webpack_require__(146);
 
-new _Application2.default('ws://localhost:8000/ws').run();
+new _Application2.default().run();
 
 /***/ }),
 /* 122 */
@@ -16374,10 +16374,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Application = function () {
-    function Application(url) {
+    function Application() {
         _classCallCheck(this, Application);
 
-        this.connection = new _Connection2.default(url);
+        this.connection = new _Connection2.default();
         this.commandProcessor = new _Processor2.default({
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
@@ -16491,10 +16491,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Connection = function () {
-    function Connection(url) {
+    function Connection() {
         _classCallCheck(this, Connection);
 
-        this.url = url;
         this.socket = null;
     }
 
@@ -16505,7 +16504,7 @@ var Connection = function () {
 
             onConnecting();
 
-            this.socket = new WebSocket(this.url);
+            this.socket = new WebSocket(this.getWebSocketUrl());
 
             this.socket.addEventListener('open', onOpen);
             this.socket.addEventListener('close', function () {
@@ -16530,6 +16529,19 @@ var Connection = function () {
         value: function send(message) {
             console.log(message);
             this.socket.send(message.stringify());
+        }
+    }, {
+        key: 'getWebSocketUrl',
+        value: function getWebSocketUrl() {
+            var url = 'ws';
+
+            if (location.protocol === 'https:') {
+                url += 's';
+            }
+
+            url += '://' + location.host + '/ws';
+
+            return url;
         }
     }]);
 

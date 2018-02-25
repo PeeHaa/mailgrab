@@ -12,8 +12,8 @@ import GetHtmlWithoutImages from "./Command/Out/GetHtmlWithoutImages";
 import GetSource from './Command/Out/GetSource';
 
 export default class Application {
-    constructor(url) {
-        this.connection       = new Connection(url);
+    constructor() {
+        this.connection       = new Connection();
         this.commandProcessor = new CommandProcessor({
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
