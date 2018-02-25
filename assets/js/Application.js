@@ -22,15 +22,16 @@ export default class Application {
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
             source: this.onSource.bind(this)
         });
-        this.gui              = new Interface();
+        this.gui = new Interface();
 
         this.addEventListeners();
     }
 
     run() {
-        this.connection.connect(() => {
+        this.connection.connect(this.gui.reconnect.bind(this.gui), () => {
+            this.gui.connect();
             this.connection.send(new Init());
-        }, this.commandProcessor.process.bind(this.commandProcessor));
+        }, this.gui.disconnect.bind(this.gui), this.commandProcessor.process.bind(this.commandProcessor));
     }
 
     onNewMail(data) {

@@ -4671,13 +4671,27 @@ header {
   background: #3b3b3b;
   height: 40px;
   color: white; }
+  header span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    display: none; }
+    header span.disconnected {
+      display: block;
+      background: #ea3939; }
+    header span.connecting {
+      display: block;
+      background: #d4c663; }
   header h1 {
     font-family: "Roboto", sans-serif;
     font-size: 20px;
     line-height: 40px;
     margin: 0 10px;
     float: left;
-    font-weight: normal; }
+    font-weight: normal;
+    position: relative; }
   header ul {
     float: right;
     display: none; }

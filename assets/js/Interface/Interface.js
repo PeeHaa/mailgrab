@@ -2,17 +2,31 @@ import NavBar from './NavBar';
 import Projects from './Projects';
 import Toolbar from './Toolbar';
 import Content from './Content';
+import Status from "./Status";
 
 const moment = require('moment');
 
 export default class Interface {
     constructor() {
+        this.status   = new Status();
         this.projects = new Projects();
         this.navBar   = new NavBar();
         this.toolBar  = new Toolbar();
         this.content  = new Content();
 
         setInterval(this.updateTimestamp.bind(this), 500);
+    }
+
+    disconnect() {
+        this.status.disconnect();
+    }
+
+    reconnect() {
+        this.status.reconnect();
+    }
+
+    connect() {
+        this.status.connect();
     }
 
     addMails(mails) {

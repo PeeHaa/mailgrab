@@ -4,10 +4,17 @@ export default class Connection {
         this.socket = null;
     }
 
-    connect(onOpen, onMessage) {
+    connect(onConnecting, onOpen, onClose, onMessage) {
+        onConnecting();
+
         this.socket = new WebSocket(this.url);
 
         this.socket.addEventListener('open', onOpen);
+        this.socket.addEventListener('close', () => {
+            onClose();
+
+            setTimeout(this.connect.bind(this, onConnecting, onOpen, onClose, onMessage), 5000);
+        });
         this.socket.addEventListener('message', (e) => {
             const message = JSON.parse(e.data);
 console.log(message);

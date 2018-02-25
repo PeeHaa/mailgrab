@@ -7,6 +7,25 @@ header {
     height: $size-header-height;
     color: white;
 
+    span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $size-spacing;
+        height: $size-spacing;
+        display: none;
+
+        &.disconnected {
+            display: block;
+            background: $color-connection-status-disconnected;
+        }
+
+        &.connecting {
+            display: block;
+            background: $color-connection-status-connecting;
+        }
+    }
+
     h1 {
         font-family: $font-main;
         font-size: $size-header-font-title;
@@ -14,6 +33,7 @@ header {
         margin: 0 $size-spacing;
         float: left;
         font-weight: normal;
+        position: relative;
     }
 
     ul {
