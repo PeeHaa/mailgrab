@@ -16343,6 +16343,10 @@ var _Interface = __webpack_require__(125);
 
 var _Interface2 = _interopRequireDefault(_Interface);
 
+var _Navigation = __webpack_require__(151);
+
+var _Navigation2 = _interopRequireDefault(_Navigation);
+
 var _util = __webpack_require__(139);
 
 var _Init = __webpack_require__(140);
@@ -16394,6 +16398,7 @@ var Application = function () {
             readNotification: this.onReadNotification.bind(this)
         });
         this.gui = new _Interface2.default();
+        this.navigation = new _Navigation2.default();
 
         this.addEventListeners();
     }
@@ -16406,6 +16411,7 @@ var Application = function () {
             this.connection.connect(this.gui.reconnect.bind(this.gui), function () {
                 _this.gui.connect();
                 _this.connection.send(new _Init2.default());
+                _this.navigation.start(_this.connection);
             }, this.gui.disconnect.bind(this.gui), this.commandProcessor.process.bind(this.commandProcessor));
         }
     }, {
@@ -16417,6 +16423,7 @@ var Application = function () {
         key: 'onMailInfo',
         value: function onMailInfo(data) {
             this.gui.openMail(data.info);
+            this.navigation.openMail(data.info);
         }
     }, {
         key: 'onText',
@@ -16526,8 +16533,6 @@ var Connection = function () {
     _createClass(Connection, [{
         key: 'connect',
         value: function connect(onConnecting, onOpen, onClose, onMessage) {
-            var _this = this;
-
             onConnecting();
 
             this.socket = new WebSocket(this.getWebSocketUrl());
@@ -16536,7 +16541,7 @@ var Connection = function () {
             this.socket.addEventListener('close', function () {
                 onClose();
 
-                setTimeout(_this.connect.bind(_this, onConnecting, onOpen, onClose, onMessage), 5000);
+                //setTimeout(this.connect.bind(this, onConnecting, onOpen, onClose, onMessage), 5000);
             });
             this.socket.addEventListener('message', function (e) {
                 var message = JSON.parse(e.data);
@@ -18303,6 +18308,81 @@ var Notification = function () {
 }();
 
 exports.default = Notification;
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SelectMail = __webpack_require__(141);
+
+var _SelectMail2 = _interopRequireDefault(_SelectMail);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Navigation = function () {
+    function Navigation() {
+        _classCallCheck(this, Navigation);
+    }
+
+    _createClass(Navigation, [{
+        key: 'start',
+        value: function start(connection) {
+            if (location.pathname === '/') {
+                return;
+            }
+
+            var pattern = /^\/(\d+)\/([^\/]+)\/([^\/]+)\/(.*)$/;
+
+            if (!pattern.test(location.pathname)) {
+                console.log('NO MATCH!?');
+                return;
+            }
+
+            var matches = location.pathname.match(pattern);
+
+            connection.send(new _SelectMail2.default(matches[3]));
+        }
+    }, {
+        key: 'openMail',
+        value: function openMail(info) {
+            this.push(info, info.subject + ' | MailGrab', '/0/uncategorized/' + info.id + '/' + this.slugify(info.subject));
+
+            console.warn(location.pathname);
+        }
+    }, {
+        key: 'push',
+        value: function push(data, title, url) {
+            history.pushState(data, title, url);
+
+            document.querySelector('head title').textContent = title;
+        }
+    }, {
+        key: 'slugify',
+        value: function slugify(text) {
+            // https://gist.github.com/mathewbyrne/1280286
+            return text.toString().toLowerCase().replace(/\s+/g, '-') // Replace spaces with -
+            .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+            .replace(/\-\-+/g, '-') // Replace multiple - with single -
+            .replace(/^-+/, '') // Trim - from start of text
+            .replace(/-+$/, ''); // Trim - from end of text
+        }
+    }]);
+
+    return Navigation;
+}();
+
+exports.default = Navigation;
 
 /***/ })
 /******/ ]);

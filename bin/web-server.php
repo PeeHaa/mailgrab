@@ -3,7 +3,11 @@
 namespace PeeHaa\MailGrab;
 
 use Aerys\Host;
+use Aerys\InternalRequest;
+use Aerys\Request;
+use Aerys\Response;
 use Aerys\Router;
+use function Amp\File\get;
 use Auryn\Injector;
 use PeeHaa\AmpWebsocketCommand\CommandTuple;
 use PeeHaa\AmpWebsocketCommand\Executor;
@@ -61,4 +65,13 @@ return (new Host())
     ->expose('127.0.0.1', 8000)
     ->use($router)
     ->use(root(__DIR__ . '/../public'))
+    ->use(function(Request $request, Response $response) {
+        static $cache = '';
+
+        if(!$cache) {
+            $cache = yield get(__DIR__ . '/../public/index.html');
+        }
+
+        $response->end($cache);
+    })
 ;

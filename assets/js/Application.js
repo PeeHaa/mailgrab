@@ -1,6 +1,7 @@
 import Connection from './WebSocket/Connection';
 import CommandProcessor from './Command/Processor';
 import Interface from './Interface/Interface';
+import Navigation from "./Router/Navigation";
 
 import {parentByTagName} from './Util/util';
 
@@ -26,7 +27,8 @@ export default class Application {
             deleteNotification: this.onDeleteNotification.bind(this),
             readNotification: this.onReadNotification.bind(this)
         });
-        this.gui = new Interface();
+        this.gui        = new Interface();
+        this.navigation = new Navigation();
 
         this.addEventListeners();
     }
@@ -35,6 +37,7 @@ export default class Application {
         this.connection.connect(this.gui.reconnect.bind(this.gui), () => {
             this.gui.connect();
             this.connection.send(new Init());
+            this.navigation.start(this.connection);
         }, this.gui.disconnect.bind(this.gui), this.commandProcessor.process.bind(this.commandProcessor));
     }
 
@@ -44,6 +47,7 @@ export default class Application {
 
     onMailInfo(data) {
         this.gui.openMail(data.info);
+        this.navigation.openMail(data.info);
     }
 
     onText(data) {

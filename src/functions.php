@@ -2,12 +2,13 @@
 
 namespace PeeHaa\MailGrab;
 
+use Aerys\Server;
 use Amp\Socket\Server as AmpServer;
 use Amp\Socket\ServerListenContext;
 use Amp\Socket\ServerTlsContext;
 use Amp\Socket\SocketException;
 use PeeHaa\MailGrab\Smtp\Log\Output;
-use PeeHaa\MailGrab\Smtp\Socket\Server;
+use PeeHaa\MailGrab\Smtp\Socket\Server as SocketServer;
 
 /**
  * Listen for client connections on the specified server address.
@@ -50,5 +51,5 @@ function listen(Output $logger, string $uri, ServerListenContext $socketContext 
         throw new SocketException(\sprintf("Could not create server %s: [Error: #%d] %s", $uri, $errno, $errstr), $errno);
     }
 
-    return new Server($logger, $server, 65536);
+    return new SocketServer($logger, $server, 65536);
 }
