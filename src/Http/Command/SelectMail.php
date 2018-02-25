@@ -42,6 +42,8 @@ class SelectMail implements Command
             'id'        => $mail->getId(),
             'from'      => $mail->getFrom(),
             'to'        => $mail->getTo(),
+            'cc'        => $mail->getCc(),
+            'bcc'       => $mail->getBcc(),
             'subject'   => $mail->getSubject(),
             'read'      => $mail->isRead(),
             'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),

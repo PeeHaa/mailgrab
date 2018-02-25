@@ -8,6 +8,8 @@ export default class Info {
 
         this.addFrom(mail.from);
         this.addTo(mail.to);
+        this.addCc(mail.cc);
+        this.addBcc(mail.bcc);
         this.addSubject(mail.subject);
         this.addTimestamp(mail.timestamp);
     }
@@ -28,8 +30,24 @@ export default class Info {
         this.element.querySelectorAll('td')[1].textContent = to;
     }
 
+    addCc(cc) {
+        if (cc === null) {
+            return;
+        }
+
+        this.element.querySelectorAll('td')[2].textContent = cc;
+    }
+
+    addBcc(bcc) {
+        if (bcc === null) {
+            return;
+        }
+
+        this.element.querySelectorAll('td')[3].textContent = bcc;
+    }
+
     addSubject(subject) {
-        this.element.querySelectorAll('td')[2].textContent = subject;
+        this.element.querySelectorAll('td')[4].textContent = subject;
     }
 
     addTimestamp(timestamp) {

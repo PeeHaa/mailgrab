@@ -43,6 +43,20 @@ class Mail
         return $this->parsedMessage->getHeader('to')->getRawValue();
     }
 
+    public function getCc(): ?string
+    {
+        if (!$this->parsedMessage->getHeader('cc')) {
+            return null;
+        }
+
+        return $this->parsedMessage->getHeader('cc')->getRawValue();
+    }
+
+    public function getBcc(): string
+    {
+        return 'todo: implement me';
+    }
+
     public function getSubject(): string
     {
         return $this->parsedMessage->getHeaderValue('subject');

@@ -17519,6 +17519,8 @@ var Info = function () {
 
         this.addFrom(mail.from);
         this.addTo(mail.to);
+        this.addCc(mail.cc);
+        this.addBcc(mail.bcc);
         this.addSubject(mail.subject);
         this.addTimestamp(mail.timestamp);
     }
@@ -17543,9 +17545,27 @@ var Info = function () {
             this.element.querySelectorAll('td')[1].textContent = to;
         }
     }, {
+        key: 'addCc',
+        value: function addCc(cc) {
+            if (cc === null) {
+                return;
+            }
+
+            this.element.querySelectorAll('td')[2].textContent = cc;
+        }
+    }, {
+        key: 'addBcc',
+        value: function addBcc(bcc) {
+            if (bcc === null) {
+                return;
+            }
+
+            this.element.querySelectorAll('td')[3].textContent = bcc;
+        }
+    }, {
         key: 'addSubject',
         value: function addSubject(subject) {
-            this.element.querySelectorAll('td')[2].textContent = subject;
+            this.element.querySelectorAll('td')[4].textContent = subject;
         }
     }, {
         key: 'addTimestamp',
