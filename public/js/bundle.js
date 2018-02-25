@@ -17656,6 +17656,8 @@ var Html = function () {
             var body = new DOMParser().parseFromString(content, 'text/html');
 
             _this.element.replaceChild(body.querySelector('html'), _this.element.querySelector('html'));
+
+            _this.fixLinkTargets();
         });
     }
 
@@ -17668,6 +17670,13 @@ var Html = function () {
             container.appendChild(iframe);
 
             iframe.addEventListener('load', callback);
+        }
+    }, {
+        key: 'fixLinkTargets',
+        value: function fixLinkTargets() {
+            [].forEach.call(this.element.querySelectorAll('a:not([target="_blank"])'), function (link) {
+                link.setAttribute('target', '_blank');
+            });
         }
     }]);
 

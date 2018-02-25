@@ -6,6 +6,8 @@ export default class Html {
             const body = new DOMParser().parseFromString(content, 'text/html');
 
             this.element.replaceChild(body.querySelector('html'), this.element.querySelector('html'));
+
+            this.fixLinkTargets();
         });
     }
 
@@ -16,5 +18,11 @@ export default class Html {
         container.appendChild(iframe);
 
         iframe.addEventListener('load', callback);
+    }
+
+    fixLinkTargets() {
+        [].forEach.call(this.element.querySelectorAll('a:not([target="_blank"])'), function(link) {
+            link.setAttribute('target', '_blank');
+        });
     }
 }
