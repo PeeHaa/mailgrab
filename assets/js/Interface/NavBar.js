@@ -29,4 +29,10 @@ export default class NavBar {
     markAsRead(id) {
         this.mails[id].markAsRead();
     }
+
+    reset() {
+        Object.keys(this.mails).forEach((id) => {
+            this.mails[id].deactivate();
+        });
+    }
 }

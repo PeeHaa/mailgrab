@@ -7,6 +7,7 @@ import {parentByTagName} from './Util/util';
 
 import Init from './Command/Out/Init';
 import SelectMail from './Command/Out/SelectMail';
+import RefreshMail from "./Command/Out/RefreshMail";
 import GetText from "./Command/Out/GetText";
 import GetHtml from "./Command/Out/GetHtml";
 import GetHtmlWithoutImages from "./Command/Out/GetHtmlWithoutImages";
@@ -19,6 +20,7 @@ export default class Application {
         this.commandProcessor = new CommandProcessor({
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
+            refreshInfo: this.onRefreshMailInfo.bind(this),
             text: this.onText.bind(this),
             html: this.onHtml.bind(this),
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
@@ -48,6 +50,10 @@ export default class Application {
     onMailInfo(data) {
         this.gui.openMail(data.info);
         this.navigation.openMail(data.info);
+    }
+
+    onRefreshMailInfo(data) {
+        this.gui.openMail(data.info);
     }
 
     onText(data) {
@@ -117,10 +123,13 @@ export default class Application {
 
         window.addEventListener('popstate', (e) => {
             if (e.state === null) {
+                this.navigation.resetTitle();
+                this.gui.reset();
+
                 return;
             }
 
-            this.connection.send(new SelectMail(e.state.id));
+            this.connection.send(new RefreshMail(e.state.id));
         });
     }
 }

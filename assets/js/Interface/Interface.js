@@ -96,4 +96,10 @@ export default class Interface {
             time.textContent = moment(time.dataset.timestamp).fromNow();
         });
     }
+
+    reset() {
+        this.toolBar.delete();
+        this.navBar.reset();
+        this.content.clearAll();
+    }
 }

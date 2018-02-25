@@ -16357,6 +16357,10 @@ var _SelectMail = __webpack_require__(141);
 
 var _SelectMail2 = _interopRequireDefault(_SelectMail);
 
+var _RefreshMail = __webpack_require__(152);
+
+var _RefreshMail2 = _interopRequireDefault(_RefreshMail);
+
 var _GetText = __webpack_require__(142);
 
 var _GetText2 = _interopRequireDefault(_GetText);
@@ -16389,6 +16393,7 @@ var Application = function () {
         this.commandProcessor = new _Processor2.default({
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
+            refreshInfo: this.onRefreshMailInfo.bind(this),
             text: this.onText.bind(this),
             html: this.onHtml.bind(this),
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
@@ -16424,6 +16429,11 @@ var Application = function () {
         value: function onMailInfo(data) {
             this.gui.openMail(data.info);
             this.navigation.openMail(data.info);
+        }
+    }, {
+        key: 'onRefreshMailInfo',
+        value: function onRefreshMailInfo(data) {
+            this.gui.openMail(data.info);
         }
     }, {
         key: 'onText',
@@ -16503,10 +16513,13 @@ var Application = function () {
 
             window.addEventListener('popstate', function (e) {
                 if (e.state === null) {
+                    _this2.navigation.resetTitle();
+                    _this2.gui.reset();
+
                     return;
                 }
 
-                _this2.connection.send(new _SelectMail2.default(e.state.id));
+                _this2.connection.send(new _RefreshMail2.default(e.state.id));
             });
         }
     }]);
@@ -16555,7 +16568,7 @@ var Connection = function () {
             });
             this.socket.addEventListener('message', function (e) {
                 var message = JSON.parse(e.data);
-                console.log(message);
+
                 var command = message.payload.command;
 
                 delete message.payload.command;
@@ -16568,7 +16581,6 @@ var Connection = function () {
     }, {
         key: 'send',
         value: function send(message) {
-            console.log(message);
             this.socket.send(message.stringify());
         }
     }, {
@@ -16777,6 +16789,13 @@ var Interface = function () {
                 time.textContent = moment(time.dataset.timestamp).fromNow();
             });
         }
+    }, {
+        key: 'reset',
+        value: function reset() {
+            this.toolBar.delete();
+            this.navBar.reset();
+            this.content.clearAll();
+        }
     }]);
 
     return Interface;
@@ -16844,6 +16863,15 @@ var NavBar = function () {
         key: 'markAsRead',
         value: function markAsRead(id) {
             this.mails[id].markAsRead();
+        }
+    }, {
+        key: 'reset',
+        value: function reset() {
+            var _this3 = this;
+
+            Object.keys(this.mails).forEach(function (id) {
+                _this3.mails[id].deactivate();
+            });
         }
     }]);
 
@@ -18351,8 +18379,6 @@ var Navigation = function () {
         key: 'start',
         value: function start(connection) {
             if (location.pathname === '/') {
-                this.push({}, this.title, '/');
-
                 return;
             }
 
@@ -18379,6 +18405,11 @@ var Navigation = function () {
             document.querySelector('head title').textContent = title;
         }
     }, {
+        key: 'resetTitle',
+        value: function resetTitle() {
+            document.querySelector('head title').textContent = this.title;
+        }
+    }, {
         key: 'slugify',
         value: function slugify(text) {
             // https://gist.github.com/mathewbyrne/1280286
@@ -18394,6 +18425,43 @@ var Navigation = function () {
 }();
 
 exports.default = Navigation;
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Command2 = __webpack_require__(1);
+
+var _Command3 = _interopRequireDefault(_Command2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RefreshMail = function (_Command) {
+    _inherits(RefreshMail, _Command);
+
+    function RefreshMail(id) {
+        _classCallCheck(this, RefreshMail);
+
+        return _possibleConstructorReturn(this, (RefreshMail.__proto__ || Object.getPrototypeOf(RefreshMail)).call(this, 'refreshMail', { id: id }));
+    }
+
+    return RefreshMail;
+}(_Command3.default);
+
+exports.default = RefreshMail;
 
 /***/ })
 /******/ ]);

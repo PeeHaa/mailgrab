@@ -16,7 +16,7 @@ export default class Connection {
         });
         this.socket.addEventListener('message', (e) => {
             const message = JSON.parse(e.data);
-console.log(message);
+
             const command = message.payload.command;
 
             delete message.payload.command;
@@ -28,7 +28,6 @@ console.log(message);
     }
 
     send(message) {
-console.log(message);
         this.socket.send(message.stringify());
     }
 

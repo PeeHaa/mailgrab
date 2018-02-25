@@ -7,8 +7,6 @@ export default class Navigation {
 
     start(connection) {
         if (location.pathname === '/') {
-            this.push({}, this.title, '/');
-
             return;
         }
 
@@ -31,6 +29,10 @@ export default class Navigation {
         history.pushState(data, title, url);
 
         document.querySelector('head title').textContent = title;
+    }
+
+    resetTitle() {
+        document.querySelector('head title').textContent = this.title;
     }
 
     slugify(text) {
