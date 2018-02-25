@@ -19,4 +19,10 @@ export default class NavBar {
         this.mails[info.id].activate();
         this.mails[info.id].updateTime();
     }
+
+    delete(id) {
+        this.mails[id].delete();
+
+        delete this.mails[id];
+    }
 }

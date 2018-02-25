@@ -10,6 +10,7 @@ import GetText from "./Command/Out/GetText";
 import GetHtml from "./Command/Out/GetHtml";
 import GetHtmlWithoutImages from "./Command/Out/GetHtmlWithoutImages";
 import GetSource from './Command/Out/GetSource';
+import Delete from "./Command/Out/Delete";
 
 export default class Application {
     constructor() {
@@ -20,7 +21,8 @@ export default class Application {
             text: this.onText.bind(this),
             html: this.onHtml.bind(this),
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
-            source: this.onSource.bind(this)
+            source: this.onSource.bind(this),
+            delete: this.onDelete.bind(this)
         });
         this.gui = new Interface();
 
@@ -58,6 +60,10 @@ export default class Application {
         this.gui.openSource(data.source);
     }
 
+    onDelete(data) {
+        this.gui.delete(data.id);
+    }
+
     addEventListeners() {
         document.querySelector('nav#messages ul').addEventListener('click', (e) => {
             const element = parentByTagName(e.target, 'li');
@@ -89,6 +95,10 @@ export default class Application {
 
         document.querySelector('header [data-type="source"]').addEventListener('click', (e) => {
             this.connection.send(new GetSource(parentByTagName(e.target, 'ul').dataset.id));
+        });
+
+        document.querySelector('header [data-type="delete"]').addEventListener('click', (e) => {
+            this.connection.send(new Delete(parentByTagName(e.target, 'ul').dataset.id));
         });
     }
 }

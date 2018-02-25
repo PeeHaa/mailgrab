@@ -16369,6 +16369,10 @@ var _GetSource = __webpack_require__(145);
 
 var _GetSource2 = _interopRequireDefault(_GetSource);
 
+var _Delete = __webpack_require__(149);
+
+var _Delete2 = _interopRequireDefault(_Delete);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16384,7 +16388,8 @@ var Application = function () {
             text: this.onText.bind(this),
             html: this.onHtml.bind(this),
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
-            source: this.onSource.bind(this)
+            source: this.onSource.bind(this),
+            delete: this.onDelete.bind(this)
         });
         this.gui = new _Interface2.default();
 
@@ -16432,6 +16437,11 @@ var Application = function () {
             this.gui.openSource(data.source);
         }
     }, {
+        key: 'onDelete',
+        value: function onDelete(data) {
+            this.gui.delete(data.id);
+        }
+    }, {
         key: 'addEventListeners',
         value: function addEventListeners() {
             var _this2 = this;
@@ -16466,6 +16476,10 @@ var Application = function () {
 
             document.querySelector('header [data-type="source"]').addEventListener('click', function (e) {
                 _this2.connection.send(new _GetSource2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
+            });
+
+            document.querySelector('header [data-type="delete"]').addEventListener('click', function (e) {
+                _this2.connection.send(new _Delete2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
             });
         }
     }]);
@@ -16684,7 +16698,6 @@ var Interface = function () {
     }, {
         key: 'openHtmlWithoutImages',
         value: function openHtmlWithoutImages(source) {
-            console.log('INTERFACE');
             this.toolBar.openHtmlWithoutImages();
             this.content.openHtmlWithoutImages(source);
         }
@@ -16693,6 +16706,13 @@ var Interface = function () {
         value: function openSource(source) {
             this.toolBar.openSource();
             this.content.openSource(source);
+        }
+    }, {
+        key: 'delete',
+        value: function _delete(id) {
+            this.navBar.delete(id);
+            this.toolBar.delete();
+            this.content.clear();
         }
     }, {
         key: 'updateTimestamp',
@@ -16756,6 +16776,13 @@ var NavBar = function () {
 
             this.mails[info.id].activate();
             this.mails[info.id].updateTime();
+        }
+    }, {
+        key: 'delete',
+        value: function _delete(id) {
+            this.mails[id].delete();
+
+            delete this.mails[id];
         }
     }]);
 
@@ -16846,6 +16873,11 @@ var Mail = function () {
             var timestamp = this.element.querySelector('time').dataset.timestamp;
 
             this.element.querySelector('time').textContent = moment(timestamp).fromNow();
+        }
+    }, {
+        key: 'delete',
+        value: function _delete() {
+            this.element.parentNode.removeChild(this.element);
         }
     }]);
 
@@ -17356,6 +17388,18 @@ var Toolbar = function () {
             this.deactivateAll();
 
             this.toolbar.querySelector('[data-type="source"]').classList.add('active');
+        }
+    }, {
+        key: 'delete',
+        value: function _delete() {
+            this.toolbar.querySelector('[data-type="text"]').classList.remove('disabled');
+            this.toolbar.querySelector('[data-type="html"]').classList.remove('disabled');
+            this.toolbar.querySelector('[data-type="noimages"]').classList.remove('disabled');
+
+            this.deactivateAll();
+
+            this.toolbar.dataset.id = '';
+            this.toolbar.classList.remove('active');
         }
     }, {
         key: 'deactivateAll',
@@ -18089,6 +18133,43 @@ var Status = function () {
 }();
 
 exports.default = Status;
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Command2 = __webpack_require__(1);
+
+var _Command3 = _interopRequireDefault(_Command2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Delete = function (_Command) {
+    _inherits(Delete, _Command);
+
+    function Delete(id) {
+        _classCallCheck(this, Delete);
+
+        return _possibleConstructorReturn(this, (Delete.__proto__ || Object.getPrototypeOf(Delete)).call(this, 'delete', { id: id }));
+    }
+
+    return Delete;
+}(_Command3.default);
+
+exports.default = Delete;
 
 /***/ })
 /******/ ]);

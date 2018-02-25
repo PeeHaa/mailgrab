@@ -58,6 +58,17 @@ export default class Toolbar {
         this.toolbar.querySelector('[data-type="source"]').classList.add('active');
     }
 
+    delete() {
+        this.toolbar.querySelector('[data-type="text"]').classList.remove('disabled');
+        this.toolbar.querySelector('[data-type="html"]').classList.remove('disabled');
+        this.toolbar.querySelector('[data-type="noimages"]').classList.remove('disabled');
+
+        this.deactivateAll();
+
+        this.toolbar.dataset.id = '';
+        this.toolbar.classList.remove('active');
+    }
+
     deactivateAll() {
         [].forEach.call(this.toolbar.querySelectorAll('.active'), function(e) {
             e.classList.remove('active');

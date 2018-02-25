@@ -55,4 +55,8 @@ export default class Mail {
 
         this.element.querySelector('time').textContent = moment(timestamp).fromNow();
     }
+
+    delete() {
+        this.element.parentNode.removeChild(this.element);
+    }
 }

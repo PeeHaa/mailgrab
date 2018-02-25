@@ -52,7 +52,6 @@ export default class Interface {
     }
 
     openHtmlWithoutImages(source) {
-        console.log('INTERFACE');
         this.toolBar.openHtmlWithoutImages();
         this.content.openHtmlWithoutImages(source);
     }
@@ -60,6 +59,12 @@ export default class Interface {
     openSource(source) {
         this.toolBar.openSource();
         this.content.openSource(source);
+    }
+
+    delete(id) {
+        this.navBar.delete(id);
+        this.toolBar.delete();
+        this.content.clear();
     }
 
     updateTimestamp() {
