@@ -2,7 +2,6 @@
 
 namespace PeeHaa\MailGrab\Http\Entity;
 
-use PeeHaa\MailGrab\Smtp\Header\Header;
 use PeeHaa\MailGrab\Smtp\Message;
 use Ramsey\Uuid\Uuid;
 use ZBateson\MailMimeParser\MailMimeParser;
@@ -11,19 +10,11 @@ class Mail
 {
     private $id;
 
-    private $from;
-
-    private $to = [];
-
-    private $source;
-
-    private $message;
-
-    private $subject = '';
-
     private $timestamp;
 
-    private $parsed;
+    private $rawMessage;
+
+    private $parsedMessage;
 
     private $read = false;
 
@@ -31,25 +22,10 @@ class Mail
 
     public function __construct(Message $message)
     {
-        $this->id      = Uuid::uuid4()->toString();
-        $this->from    = $message->getFrom();
-        $this->source  = $message->getRawMessage();
-        $this->message = $message;
-
-        foreach ($message->getRecipients() as $email => $name) {
-            $this->to[] = new Recipient($email, $name);
-        }
-
-        /** @var Header[] $headers */
-        $headers = $message->getHeaders();
-
-        if (isset($headers['subject'])) {
-            $this->subject = $headers['subject']->getValue();
-        }
-
-        $this->timestamp = new \DateTimeImmutable();
-
-        $this->parsed = (new MailMimeParser())->parse($message->getRawMessage());
+        $this->id            = Uuid::uuid4()->toString();
+        $this->timestamp     = new \DateTimeImmutable();
+        $this->rawMessage    = $message->getRawMessage();
+        $this->parsedMessage = (new MailMimeParser())->parse($message->getRawMessage());
     }
 
     public function getId(): string
@@ -59,21 +35,17 @@ class Mail
 
     public function getFrom(): string
     {
-        return $this->from;
+        return $this->parsedMessage->getHeader('from')->getRawValue();
     }
 
     public function getTo(): string
     {
-        return implode(', ', array_reduce($this->to, function(array $carry, Recipient $recipient) {
-            $carry[] = sprintf('%s <%s>', $recipient->getName(), $recipient->getEmail());
-
-            return $carry;
-        }, []));
+        return $this->parsedMessage->getHeader('to')->getRawValue();
     }
 
     public function getSubject(): string
     {
-        return $this->subject;
+        return $this->parsedMessage->getHeaderValue('subject');
     }
 
     public function getTimestamp(): \DateTimeImmutable
@@ -81,29 +53,19 @@ class Mail
         return $this->timestamp;
     }
 
-    public function getMessage(): Message
-    {
-        return $this->message;
-    }
-
-    public function isMultiPart(): bool
-    {
-        return true;
-    }
-
     public function getText(): ?string
     {
-        return $this->parsed->getTextContent();
+        return $this->parsedMessage->getTextContent();
     }
 
     public function getHtml(): ?string
     {
-        return $this->parsed->getHtmlContent();
+        return $this->parsedMessage->getHtmlContent();
     }
 
     public function getSource(): string
     {
-        return $this->source;
+        return $this->rawMessage;
     }
 
     public function setRead(): void
