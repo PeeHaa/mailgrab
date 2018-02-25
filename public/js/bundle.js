@@ -16641,6 +16641,10 @@ var _Status = __webpack_require__(148);
 
 var _Status2 = _interopRequireDefault(_Status);
 
+var _Notification = __webpack_require__(150);
+
+var _Notification2 = _interopRequireDefault(_Notification);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16722,7 +16726,7 @@ var Interface = function () {
         value: function _delete(id) {
             this.navBar.delete(id);
             this.toolBar.delete();
-            this.content.clear();
+            this.content.clearAll();
 
             this.activeItem = null;
         }
@@ -16730,9 +16734,10 @@ var Interface = function () {
         key: 'deleteNotification',
         value: function deleteNotification(id) {
             this.navBar.delete(id);
+            this.projects.deleteMail();
 
             if (this.activeItem === id) {
-                // todo: notify user if deleted item is currently active
+                new _Notification2.default('danger', 'Delete message', ['A different user deleted your currently active e-mail.']);
 
                 this.toolBar.delete();
                 this.content.clearAll();
@@ -17253,6 +17258,11 @@ var Projects = function () {
         key: 'openMail',
         value: function openMail(info) {
             this.projects[info.project].updateUnread();
+        }
+    }, {
+        key: 'deleteMail',
+        value: function deleteMail() {
+            this.projects['0'].updateUnread();
         }
     }]);
 
@@ -18194,6 +18204,78 @@ var Delete = function (_Command) {
 }(_Command3.default);
 
 exports.default = Delete;
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Notification = function () {
+    function Notification(type, title, messages) {
+        var _this = this;
+
+        _classCallCheck(this, Notification);
+
+        this.addToDom();
+
+        this.element = document.querySelector('body > .notification');
+
+        this.setType(type);
+        this.setTitle(title);
+        this.addMessages(messages);
+
+        this.element.querySelector('.heading i').addEventListener('click', function () {
+            _this.element.parentNode.removeChild(_this.element);
+        });
+    }
+
+    _createClass(Notification, [{
+        key: 'addToDom',
+        value: function addToDom() {
+            var template = document.getElementById('notification');
+            var item = document.importNode(template.content, true);
+
+            document.querySelector('body').appendChild(item);
+        }
+    }, {
+        key: 'setType',
+        value: function setType(type) {
+            this.element.classList.add(type);
+        }
+    }, {
+        key: 'setTitle',
+        value: function setTitle(title) {
+            this.element.querySelector('h2').textContent = title;
+        }
+    }, {
+        key: 'addMessages',
+        value: function addMessages(messages) {
+            var body = this.element.querySelector('.body');
+
+            messages.forEach(function (message) {
+                var paragraph = document.createElement('p');
+
+                paragraph.textContent = message;
+
+                body.appendChild(paragraph);
+            });
+        }
+    }]);
+
+    return Notification;
+}();
+
+exports.default = Notification;
 
 /***/ })
 /******/ ]);

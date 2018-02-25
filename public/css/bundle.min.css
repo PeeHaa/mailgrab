@@ -4790,6 +4790,41 @@ section.info {
     padding-right: 10px;
     text-align: left; }
 
+.notification {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8); }
+  .notification.danger .card .heading {
+    background: #ea3939;
+    color: white; }
+  .notification .card {
+    width: 650px;
+    background: white;
+    position: absolute;
+    left: 50%;
+    margin-left: -325px;
+    top: 50%;
+    transform: translateY(-50%); }
+    .notification .card .heading {
+      font-size: 14px;
+      position: relative; }
+      .notification .card .heading h2 {
+        margin: 0;
+        padding: 10px; }
+      .notification .card .heading i {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 25px;
+        cursor: pointer; }
+    .notification .card .body p {
+      font-size: 14px;
+      padding: 10px;
+      margin: 0; }
+
 body {
   font-family: "Roboto", sans-serif; }
 

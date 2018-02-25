@@ -28,4 +28,8 @@ export default class Projects {
     openMail(info) {
         this.projects[info.project].updateUnread();
     }
+
+    deleteMail() {
+        this.projects['0'].updateUnread();
+    }
 }

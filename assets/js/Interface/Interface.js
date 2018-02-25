@@ -3,6 +3,7 @@ import Projects from './Projects';
 import Toolbar from './Toolbar';
 import Content from './Content';
 import Status from "./Status";
+import Notification from "./Notification";
 
 const moment = require('moment');
 
@@ -68,16 +69,17 @@ export default class Interface {
     delete(id) {
         this.navBar.delete(id);
         this.toolBar.delete();
-        this.content.clear();
+        this.content.clearAll();
 
         this.activeItem = null;
     }
 
     deleteNotification(id) {
         this.navBar.delete(id);
+        this.projects.deleteMail();
 
         if (this.activeItem === id) {
-            // todo: notify user if deleted item is currently active
+            new Notification('danger', 'Delete message', ['A different user deleted your currently active e-mail.']);
 
             this.toolBar.delete();
             this.content.clearAll();

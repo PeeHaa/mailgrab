@@ -1,0 +1,54 @@
+@import "./../colors";
+@import "./../sizes";
+
+.notification {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+
+    &.danger {
+        .card {
+            .heading {
+                background: $color-notification-danger;
+                color: white;
+            }
+        }
+    }
+
+    .card {
+        width: 650px;
+        background: white;
+        position: absolute;
+        left: 50%;
+        margin-left: -325px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        .heading {
+            font-size: 14px;
+            position: relative;
+
+            h2 {
+                margin: 0;
+                padding: $size-spacing;
+            }
+
+            i {
+                position: absolute;
+                right: $size-spacing;
+                top: $size-spacing;
+                font-size: 25px;
+                cursor: pointer;
+            }
+        }
+
+        .body p {
+            font-size: 14px;
+            padding: $size-spacing;
+            margin: 0;
+        }
+    }
+}
