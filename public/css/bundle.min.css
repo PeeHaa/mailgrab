@@ -4717,6 +4717,25 @@ header {
         background: #e05050;
         color: white; }
 
+.intro {
+  padding: 10px; }
+  .intro h1 {
+    margin: 0 0 10px;
+    font-weight: normal;
+    font-size: 20px; }
+  .intro h2 {
+    margin: 10px 0;
+    font-weight: normal;
+    font-size: 16px;
+    padding-top: 10px; }
+  .intro p {
+    font-size: 14px;
+    margin: 0 0 10px; }
+  .intro th {
+    font-weight: bold;
+    text-align: left;
+    padding-right: 10px; }
+
 nav#projects {
   height: calc(100% - 40px);
   max-height: calc(100% - 40px);

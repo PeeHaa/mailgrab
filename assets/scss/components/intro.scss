@@ -1,0 +1,29 @@
+@import "./../sizes";
+
+.intro {
+    padding: $size-spacing;
+
+    h1 {
+        margin: 0 0 $size-spacing;
+        font-weight: normal;
+        font-size: 20px;
+    }
+
+    h2 {
+        margin: $size-spacing 0;
+        font-weight: normal;
+        font-size: 16px;
+        padding-top: $size-spacing;
+    }
+
+    p {
+        font-size: 14px;
+        margin: 0 0 $size-spacing;
+    }
+
+    th {
+        font-weight: bold;
+        text-align: left;
+        padding-right: $size-spacing;
+    }
+}
