@@ -4,6 +4,7 @@ import Toolbar from './Toolbar';
 import Content from './Content';
 import Status from "./Status";
 import Notification from "./Notification";
+import Notifier from './Notifier';
 
 const moment = require('moment');
 
@@ -14,6 +15,7 @@ export default class Interface {
         this.navBar   = new NavBar();
         this.toolBar  = new Toolbar();
         this.content  = new Content();
+        this.notifier = new Notifier();
 
         this.activeItem = null;
 
@@ -35,6 +37,8 @@ export default class Interface {
     addMails(mails) {
         this.projects.addMails(mails);
         this.navBar.addMails(mails);
+
+        this.notifier.send(mails[0]);
     }
 
     openMail(info) {

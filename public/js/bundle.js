@@ -16678,6 +16678,10 @@ var _Notification = __webpack_require__(150);
 
 var _Notification2 = _interopRequireDefault(_Notification);
 
+var _Notifier = __webpack_require__(153);
+
+var _Notifier2 = _interopRequireDefault(_Notifier);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16693,6 +16697,7 @@ var Interface = function () {
         this.navBar = new _NavBar2.default();
         this.toolBar = new _Toolbar2.default();
         this.content = new _Content2.default();
+        this.notifier = new _Notifier2.default();
 
         this.activeItem = null;
 
@@ -16719,6 +16724,8 @@ var Interface = function () {
         value: function addMails(mails) {
             this.projects.addMails(mails);
             this.navBar.addMails(mails);
+
+            this.notifier.send(mails[0]);
         }
     }, {
         key: 'openMail',
@@ -18462,6 +18469,65 @@ var RefreshMail = function (_Command) {
 }(_Command3.default);
 
 exports.default = RefreshMail;
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Notifier = function () {
+    function Notifier() {
+        _classCallCheck(this, Notifier);
+
+        this.lastNotification = new Date();
+    }
+
+    _createClass(Notifier, [{
+        key: 'send',
+        value: function send(info) {
+            if (!this.isNotificationAllowed()) {
+                return;
+            }
+
+            this.lastNotification = new Date();
+
+            Notification.requestPermission().then(function (result) {
+                if (result === 'denied') {
+                    return;
+                }
+
+                var notification = new Notification('New mail', {
+                    body: info.subject,
+                    tag: 'newMail',
+                    data: { id: info.id }
+                });
+
+                notification.addEventListener('click', function (e) {
+                    window.focus();
+                });
+            });
+        }
+    }, {
+        key: 'isNotificationAllowed',
+        value: function isNotificationAllowed() {
+            return Math.abs(new Date().getTime() - this.lastNotification.getTime()) > 15000;
+        }
+    }]);
+
+    return Notifier;
+}();
+
+exports.default = Notifier;
 
 /***/ })
 /******/ ]);
