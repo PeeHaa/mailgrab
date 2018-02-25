@@ -20,6 +20,7 @@ export default class Toolbar {
     reset(info) {
         this.toolbar.querySelector('[data-type="text"]').classList.remove('disabled');
         this.toolbar.querySelector('[data-type="html"]').classList.remove('disabled');
+        this.toolbar.querySelector('[data-type="noimages"]').classList.remove('disabled');
 
         if (!info.hasText) {
             this.toolbar.querySelector('[data-type="text"]').classList.add('disabled');
@@ -27,6 +28,7 @@ export default class Toolbar {
 
         if (!info.hasHtml) {
             this.toolbar.querySelector('[data-type="html"]').classList.add('disabled');
+            this.toolbar.querySelector('[data-type="noimages"]').classList.add('disabled');
         }
 
         this.deactivateAll();
@@ -42,6 +44,12 @@ export default class Toolbar {
         this.deactivateAll();
 
         this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+    }
+
+    openHtmlWithoutImages() {
+        this.deactivateAll();
+
+        this.toolbar.querySelector('[data-type="noimages"]').classList.add('active');
     }
 
     openSource() {

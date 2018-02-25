@@ -37,6 +37,12 @@ export default class Interface {
         this.content.openHtml(source);
     }
 
+    openHtmlWithoutImages(source) {
+        console.log('INTERFACE');
+        this.toolBar.openHtmlWithoutImages();
+        this.content.openHtmlWithoutImages(source);
+    }
+
     openSource(source) {
         this.toolBar.openSource();
         this.content.openSource(source);

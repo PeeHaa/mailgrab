@@ -16326,6 +16326,10 @@ var _GetHtml = __webpack_require__(145);
 
 var _GetHtml2 = _interopRequireDefault(_GetHtml);
 
+var _GetHtmlWithoutImages = __webpack_require__(147);
+
+var _GetHtmlWithoutImages2 = _interopRequireDefault(_GetHtmlWithoutImages);
+
 var _GetSource = __webpack_require__(143);
 
 var _GetSource2 = _interopRequireDefault(_GetSource);
@@ -16344,6 +16348,7 @@ var Application = function () {
             mailInfo: this.onMailInfo.bind(this),
             text: this.onText.bind(this),
             html: this.onHtml.bind(this),
+            htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
             source: this.onSource.bind(this)
         });
         this.gui = new _Interface2.default();
@@ -16381,6 +16386,11 @@ var Application = function () {
             this.gui.openHtml(data.html);
         }
     }, {
+        key: 'onHtmlWithoutImages',
+        value: function onHtmlWithoutImages(data) {
+            this.gui.openHtmlWithoutImages(data.html);
+        }
+    }, {
         key: 'onSource',
         value: function onSource(data) {
             this.gui.openSource(data.source);
@@ -16398,12 +16408,24 @@ var Application = function () {
                 _this2.connection.send(new _SelectMail2.default(element.dataset.id));
             });
 
-            document.querySelector('header [data-type="text"]').addEventListener('click', function (e) {
+            document.querySelector('header [data-type="text"]:not(.disabled)').addEventListener('click', function (e) {
                 _this2.connection.send(new _GetText2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
             });
 
             document.querySelector('header [data-type="html"]').addEventListener('click', function (e) {
+                if ((0, _util.parentByTagName)(e.target, 'li').classList.contains('disabled')) {
+                    return;
+                }
+
                 _this2.connection.send(new _GetHtml2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
+            });
+
+            document.querySelector('header [data-type="noimages"]').addEventListener('click', function (e) {
+                if ((0, _util.parentByTagName)(e.target, 'li').classList.contains('disabled')) {
+                    return;
+                }
+
+                _this2.connection.send(new _GetHtmlWithoutImages2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
             });
 
             document.querySelector('header [data-type="source"]').addEventListener('click', function (e) {
@@ -16581,6 +16603,13 @@ var Interface = function () {
         value: function openHtml(source) {
             this.toolBar.openHtml();
             this.content.openHtml(source);
+        }
+    }, {
+        key: 'openHtmlWithoutImages',
+        value: function openHtmlWithoutImages(source) {
+            console.log('INTERFACE');
+            this.toolBar.openHtmlWithoutImages();
+            this.content.openHtmlWithoutImages(source);
         }
     }, {
         key: 'openSource',
@@ -17210,6 +17239,7 @@ var Toolbar = function () {
         value: function reset(info) {
             this.toolbar.querySelector('[data-type="text"]').classList.remove('disabled');
             this.toolbar.querySelector('[data-type="html"]').classList.remove('disabled');
+            this.toolbar.querySelector('[data-type="noimages"]').classList.remove('disabled');
 
             if (!info.hasText) {
                 this.toolbar.querySelector('[data-type="text"]').classList.add('disabled');
@@ -17217,6 +17247,7 @@ var Toolbar = function () {
 
             if (!info.hasHtml) {
                 this.toolbar.querySelector('[data-type="html"]').classList.add('disabled');
+                this.toolbar.querySelector('[data-type="noimages"]').classList.add('disabled');
             }
 
             this.deactivateAll();
@@ -17234,6 +17265,13 @@ var Toolbar = function () {
             this.deactivateAll();
 
             this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+        }
+    }, {
+        key: 'openHtmlWithoutImages',
+        value: function openHtmlWithoutImages() {
+            this.deactivateAll();
+
+            this.toolbar.querySelector('[data-type="noimages"]').classList.add('active');
         }
     }, {
         key: 'openSource',
@@ -17420,6 +17458,10 @@ var _Html = __webpack_require__(141);
 
 var _Html2 = _interopRequireDefault(_Html);
 
+var _HtmlWithoutImages = __webpack_require__(146);
+
+var _HtmlWithoutImages2 = _interopRequireDefault(_HtmlWithoutImages);
+
 var _Source = __webpack_require__(142);
 
 var _Source2 = _interopRequireDefault(_Source);
@@ -17461,6 +17503,13 @@ var Content = function () {
             this.clear();
 
             new _Html2.default(source);
+        }
+    }, {
+        key: 'openHtmlWithoutImages',
+        value: function openHtmlWithoutImages(source) {
+            this.clear();
+
+            new _HtmlWithoutImages2.default(source);
         }
     }, {
         key: 'openSource',
@@ -17844,6 +17893,107 @@ var GetHtml = function (_Command) {
 }(_Command3.default);
 
 exports.default = GetHtml;
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HtmlWithoutImages = function () {
+    function HtmlWithoutImages(content) {
+        var _this = this;
+
+        _classCallCheck(this, HtmlWithoutImages);
+
+        this.addToDom(function () {
+            _this.element = document.querySelector('iframe').contentWindow.document;
+
+            var body = new DOMParser().parseFromString(content, 'text/html');
+
+            _this.element.replaceChild(body.querySelector('html'), _this.element.querySelector('html'));
+
+            _this.breakImages();
+            _this.fixLinkTargets();
+        });
+    }
+
+    _createClass(HtmlWithoutImages, [{
+        key: 'addToDom',
+        value: function addToDom(callback) {
+            var container = document.querySelector('main');
+            var iframe = document.createElement('iframe');
+
+            container.appendChild(iframe);
+
+            iframe.addEventListener('load', callback);
+        }
+    }, {
+        key: 'fixLinkTargets',
+        value: function fixLinkTargets() {
+            [].forEach.call(this.element.querySelectorAll('a:not([target="_blank"])'), function (link) {
+                link.setAttribute('target', '_blank');
+            });
+        }
+    }, {
+        key: 'breakImages',
+        value: function breakImages() {
+            [].forEach.call(this.element.querySelectorAll('img'), function (image) {
+                image.src = '';
+            });
+        }
+    }]);
+
+    return HtmlWithoutImages;
+}();
+
+exports.default = HtmlWithoutImages;
+
+/***/ }),
+/* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Command2 = __webpack_require__(133);
+
+var _Command3 = _interopRequireDefault(_Command2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GetHtmlWithoutImages = function (_Command) {
+    _inherits(GetHtmlWithoutImages, _Command);
+
+    function GetHtmlWithoutImages(id) {
+        _classCallCheck(this, GetHtmlWithoutImages);
+
+        return _possibleConstructorReturn(this, (GetHtmlWithoutImages.__proto__ || Object.getPrototypeOf(GetHtmlWithoutImages)).call(this, 'getHtmlWithoutImages', { id: id }));
+    }
+
+    return GetHtmlWithoutImages;
+}(_Command3.default);
+
+exports.default = GetHtmlWithoutImages;
 
 /***/ })
 /******/ ]);

@@ -8,6 +8,7 @@ import Init from './Command/Out/Init';
 import SelectMail from './Command/Out/SelectMail';
 import GetText from "./Command/Out/GetText";
 import GetHtml from "./Command/Out/GetHtml";
+import GetHtmlWithoutImages from "./Command/Out/GetHtmlWithoutImages";
 import GetSource from './Command/Out/GetSource';
 
 export default class Application {
@@ -18,6 +19,7 @@ export default class Application {
             mailInfo: this.onMailInfo.bind(this),
             text: this.onText.bind(this),
             html: this.onHtml.bind(this),
+            htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
             source: this.onSource.bind(this)
         });
         this.gui              = new Interface();
@@ -47,6 +49,10 @@ export default class Application {
         this.gui.openHtml(data.html);
     }
 
+    onHtmlWithoutImages(data) {
+        this.gui.openHtmlWithoutImages(data.html);
+    }
+
     onSource(data) {
         this.gui.openSource(data.source);
     }
@@ -60,12 +66,24 @@ export default class Application {
             this.connection.send(new SelectMail(element.dataset.id));
         });
 
-        document.querySelector('header [data-type="text"]').addEventListener('click', (e) => {
+        document.querySelector('header [data-type="text"]:not(.disabled)').addEventListener('click', (e) => {
             this.connection.send(new GetText(parentByTagName(e.target, 'ul').dataset.id));
         });
 
         document.querySelector('header [data-type="html"]').addEventListener('click', (e) => {
+            if (parentByTagName(e.target, 'li').classList.contains('disabled')) {
+                return;
+            }
+
             this.connection.send(new GetHtml(parentByTagName(e.target, 'ul').dataset.id));
+        });
+
+        document.querySelector('header [data-type="noimages"]').addEventListener('click', (e) => {
+            if (parentByTagName(e.target, 'li').classList.contains('disabled')) {
+                return;
+            }
+
+            this.connection.send(new GetHtmlWithoutImages(parentByTagName(e.target, 'ul').dataset.id));
         });
 
         document.querySelector('header [data-type="source"]').addEventListener('click', (e) => {

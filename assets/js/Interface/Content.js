@@ -1,6 +1,7 @@
 import Info from './Content/Info';
 import Text from './Content/Text';
 import Html from './Content/Html';
+import HtmlWithoutImages from "./Content/HtmlWithoutImages";
 import Source from './Content/Source';
 
 export default class Content {
@@ -30,6 +31,12 @@ export default class Content {
         this.clear();
 
         new Html(source);
+    }
+
+    openHtmlWithoutImages(source) {
+        this.clear();
+
+        new HtmlWithoutImages(source);
     }
 
     openSource(source) {
