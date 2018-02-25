@@ -15,6 +15,7 @@ use PeeHaa\MailGrab\Http\Command\GetSource;
 use PeeHaa\MailGrab\Http\Command\GetText;
 use PeeHaa\MailGrab\Http\Command\Init;
 use PeeHaa\MailGrab\Http\Command\NewMail;
+use PeeHaa\MailGrab\Http\Command\ReadNotification;
 use PeeHaa\MailGrab\Http\Command\SelectMail;
 use PeeHaa\MailGrab\Http\Storage\Memory;
 use PeeHaa\MailGrab\Http\Storage\Storage;
@@ -42,6 +43,7 @@ $auryn->delegate(Executor::class, function() use ($auryn) {
     $executor->register(new CommandTuple('getSource', GetSource::class));
     $executor->register(new CommandTuple('delete', Delete::class));
     $executor->register(new CommandTuple('deleteNotification', DeleteNotification::class));
+    $executor->register(new CommandTuple('readNotification', ReadNotification::class));
 
     return $executor;
 });

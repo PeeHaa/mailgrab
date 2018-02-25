@@ -32,4 +32,8 @@ export default class Projects {
     deleteMail() {
         this.projects['0'].updateUnread();
     }
+
+    markAsRead() {
+        this.projects['0'].updateUnread();
+    }
 }

@@ -16390,7 +16390,8 @@ var Application = function () {
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
             source: this.onSource.bind(this),
             delete: this.onDelete.bind(this),
-            deleteNotification: this.onDeleteNotification.bind(this)
+            deleteNotification: this.onDeleteNotification.bind(this),
+            readNotification: this.onReadNotification.bind(this)
         });
         this.gui = new _Interface2.default();
 
@@ -16446,6 +16447,11 @@ var Application = function () {
         key: 'onDeleteNotification',
         value: function onDeleteNotification(data) {
             this.gui.deleteNotification(data.id);
+        }
+    }, {
+        key: 'onReadNotification',
+        value: function onReadNotification(data) {
+            this.gui.readNotification(data.id);
         }
     }, {
         key: 'addEventListeners',
@@ -16744,6 +16750,12 @@ var Interface = function () {
             }
         }
     }, {
+        key: 'readNotification',
+        value: function readNotification(id) {
+            this.navBar.markAsRead(id);
+            this.projects.markAsRead();
+        }
+    }, {
         key: 'updateTimestamp',
         value: function updateTimestamp() {
             document.querySelectorAll('time').forEach(function (time) {
@@ -16812,6 +16824,11 @@ var NavBar = function () {
             this.mails[id].delete();
 
             delete this.mails[id];
+        }
+    }, {
+        key: 'markAsRead',
+        value: function markAsRead(id) {
+            this.mails[id].markAsRead();
         }
     }]);
 
@@ -16907,6 +16924,11 @@ var Mail = function () {
         key: 'delete',
         value: function _delete() {
             this.element.parentNode.removeChild(this.element);
+        }
+    }, {
+        key: 'markAsRead',
+        value: function markAsRead() {
+            this.element.classList.remove('new');
         }
     }]);
 
@@ -17262,6 +17284,11 @@ var Projects = function () {
     }, {
         key: 'deleteMail',
         value: function deleteMail() {
+            this.projects['0'].updateUnread();
+        }
+    }, {
+        key: 'markAsRead',
+        value: function markAsRead() {
             this.projects['0'].updateUnread();
         }
     }]);

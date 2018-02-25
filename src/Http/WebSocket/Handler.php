@@ -92,6 +92,15 @@ class Handler implements Websocket
 
             $this->endpoint->broadcast((string) $result, [$clientId]);
         }
+
+        if ($command['command'] === 'selectMail') {
+            $result = yield $this->executor->execute(json_encode([
+                'command' => 'readNotification',
+                'id'      => $command['id'],
+            ]));
+
+            $this->endpoint->broadcast((string) $result, [$clientId]);
+        }
     }
 
     public function onClose(int $clientId, int $code, string $reason)

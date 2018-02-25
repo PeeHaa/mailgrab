@@ -86,6 +86,11 @@ export default class Interface {
         }
     }
 
+    readNotification(id) {
+        this.navBar.markAsRead(id);
+        this.projects.markAsRead();
+    }
+
     updateTimestamp() {
         document.querySelectorAll('time').forEach((time) => {
             time.textContent = moment(time.dataset.timestamp).fromNow();

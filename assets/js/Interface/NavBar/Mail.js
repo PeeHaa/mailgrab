@@ -59,4 +59,8 @@ export default class Mail {
     delete() {
         this.element.parentNode.removeChild(this.element);
     }
+
+    markAsRead() {
+        this.element.classList.remove('new');
+    }
 }

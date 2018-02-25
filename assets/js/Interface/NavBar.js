@@ -25,4 +25,8 @@ export default class NavBar {
 
         delete this.mails[id];
     }
+
+    markAsRead(id) {
+        this.mails[id].markAsRead();
+    }
 }
