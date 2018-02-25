@@ -114,5 +114,13 @@ export default class Application {
         document.querySelector('header [data-type="delete"]').addEventListener('click', (e) => {
             this.connection.send(new Delete(parentByTagName(e.target, 'ul').dataset.id));
         });
+
+        window.addEventListener('popstate', (e) => {
+            if (e.state === null) {
+                return;
+            }
+
+            this.connection.send(new SelectMail(e.state.id));
+        });
     }
 }

@@ -16500,6 +16500,14 @@ var Application = function () {
             document.querySelector('header [data-type="delete"]').addEventListener('click', function (e) {
                 _this2.connection.send(new _Delete2.default((0, _util.parentByTagName)(e.target, 'ul').dataset.id));
             });
+
+            window.addEventListener('popstate', function (e) {
+                if (e.state === null) {
+                    return;
+                }
+
+                _this2.connection.send(new _SelectMail2.default(e.state.id));
+            });
         }
     }]);
 
@@ -16533,6 +16541,8 @@ var Connection = function () {
     _createClass(Connection, [{
         key: 'connect',
         value: function connect(onConnecting, onOpen, onClose, onMessage) {
+            var _this = this;
+
             onConnecting();
 
             this.socket = new WebSocket(this.getWebSocketUrl());
@@ -16541,7 +16551,7 @@ var Connection = function () {
             this.socket.addEventListener('close', function () {
                 onClose();
 
-                //setTimeout(this.connect.bind(this, onConnecting, onOpen, onClose, onMessage), 5000);
+                setTimeout(_this.connect.bind(_this, onConnecting, onOpen, onClose, onMessage), 5000);
             });
             this.socket.addEventListener('message', function (e) {
                 var message = JSON.parse(e.data);
@@ -18333,19 +18343,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Navigation = function () {
     function Navigation() {
         _classCallCheck(this, Navigation);
+
+        this.title = document.querySelector('head title').textContent;
     }
 
     _createClass(Navigation, [{
         key: 'start',
         value: function start(connection) {
             if (location.pathname === '/') {
+                this.push({}, this.title, '/');
+
                 return;
             }
 
             var pattern = /^\/(\d+)\/([^\/]+)\/([^\/]+)\/(.*)$/;
 
             if (!pattern.test(location.pathname)) {
-                console.log('NO MATCH!?');
                 return;
             }
 
@@ -18356,9 +18369,7 @@ var Navigation = function () {
     }, {
         key: 'openMail',
         value: function openMail(info) {
-            this.push(info, info.subject + ' | MailGrab', '/0/uncategorized/' + info.id + '/' + this.slugify(info.subject));
-
-            console.warn(location.pathname);
+            this.push(info, info.subject + ' | ' + this.title, '/0/uncategorized/' + info.id + '/' + this.slugify(info.subject));
         }
     }, {
         key: 'push',

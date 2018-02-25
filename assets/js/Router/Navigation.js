@@ -1,15 +1,20 @@
 import SelectMail from "../Command/Out/SelectMail";
 
 export default class Navigation {
+    constructor() {
+        this.title = document.querySelector('head title').textContent;
+    }
+
     start(connection) {
         if (location.pathname === '/') {
+            this.push({}, this.title, '/');
+
             return;
         }
 
         const pattern = /^\/(\d+)\/([^\/]+)\/([^\/]+)\/(.*)$/;
 
         if (!pattern.test(location.pathname)) {
-            console.log('NO MATCH!?');
             return;
         }
 
@@ -19,9 +24,7 @@ export default class Navigation {
     }
 
     openMail(info) {
-        this.push(info, info.subject + ' | MailGrab', '/0/uncategorized/' + info.id + '/' + this.slugify(info.subject));
-
-        console.warn(location.pathname);
+        this.push(info, info.subject + ' | ' + this.title, '/0/uncategorized/' + info.id + '/' + this.slugify(info.subject));
     }
 
     push(data, title, url) {
