@@ -8,6 +8,7 @@ use Auryn\Injector;
 use PeeHaa\AmpWebsocketCommand\CommandTuple;
 use PeeHaa\AmpWebsocketCommand\Executor;
 use PeeHaa\MailGrab\Http\Command\Delete;
+use PeeHaa\MailGrab\Http\Command\DeleteNotification;
 use PeeHaa\MailGrab\Http\Command\GetHtml;
 use PeeHaa\MailGrab\Http\Command\GetHtmlWithoutImages;
 use PeeHaa\MailGrab\Http\Command\GetSource;
@@ -40,6 +41,7 @@ $auryn->delegate(Executor::class, function() use ($auryn) {
     $executor->register(new CommandTuple('getHtmlWithoutImages', GetHtmlWithoutImages::class));
     $executor->register(new CommandTuple('getSource', GetSource::class));
     $executor->register(new CommandTuple('delete', Delete::class));
+    $executor->register(new CommandTuple('deleteNotification', DeleteNotification::class));
 
     return $executor;
 });

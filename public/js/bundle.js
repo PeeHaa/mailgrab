@@ -16389,7 +16389,8 @@ var Application = function () {
             html: this.onHtml.bind(this),
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
             source: this.onSource.bind(this),
-            delete: this.onDelete.bind(this)
+            delete: this.onDelete.bind(this),
+            deleteNotification: this.onDeleteNotification.bind(this)
         });
         this.gui = new _Interface2.default();
 
@@ -16440,6 +16441,11 @@ var Application = function () {
         key: 'onDelete',
         value: function onDelete(data) {
             this.gui.delete(data.id);
+        }
+    }, {
+        key: 'onDeleteNotification',
+        value: function onDeleteNotification(data) {
+            this.gui.deleteNotification(data.id);
         }
     }, {
         key: 'addEventListeners',
@@ -16651,6 +16657,8 @@ var Interface = function () {
         this.toolBar = new _Toolbar2.default();
         this.content = new _Content2.default();
 
+        this.activeItem = null;
+
         setInterval(this.updateTimestamp.bind(this), 500);
     }
 
@@ -16682,6 +16690,8 @@ var Interface = function () {
             this.toolBar.openMail(info);
             this.projects.openMail(info);
             this.content.openMail(info);
+
+            this.activeItem = info.id;
         }
     }, {
         key: 'openText',
@@ -16713,6 +16723,20 @@ var Interface = function () {
             this.navBar.delete(id);
             this.toolBar.delete();
             this.content.clear();
+
+            this.activeItem = null;
+        }
+    }, {
+        key: 'deleteNotification',
+        value: function deleteNotification(id) {
+            this.navBar.delete(id);
+
+            if (this.activeItem === id) {
+                // todo: notify user if deleted item is currently active
+
+                this.toolBar.delete();
+                this.content.clearAll();
+            }
         }
     }, {
         key: 'updateTimestamp',

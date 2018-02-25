@@ -78,7 +78,20 @@ class Handler implements Websocket
 
     public function onData(int $clientId, Websocket\Message $msg)
     {
-        $this->endpoint->send((string) yield $this->executor->execute(yield $msg), $clientId);
+        $rawCommand = yield $msg;
+
+        $command = json_decode($rawCommand, true);
+
+        $this->endpoint->send((string) yield $this->executor->execute($rawCommand), $clientId);
+
+        if ($command['command'] === 'delete') {
+            $result = yield $this->executor->execute(json_encode([
+                'command' => 'deleteNotification',
+                'id'      => $command['id'],
+            ]));
+
+            $this->endpoint->broadcast((string) $result, [$clientId]);
+        }
     }
 
     public function onClose(int $clientId, int $code, string $reason)

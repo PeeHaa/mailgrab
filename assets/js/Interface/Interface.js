@@ -14,6 +14,8 @@ export default class Interface {
         this.toolBar  = new Toolbar();
         this.content  = new Content();
 
+        this.activeItem = null;
+
         setInterval(this.updateTimestamp.bind(this), 500);
     }
 
@@ -39,6 +41,8 @@ export default class Interface {
         this.toolBar.openMail(info);
         this.projects.openMail(info);
         this.content.openMail(info);
+
+        this.activeItem = info.id;
     }
 
     openText(source) {
@@ -65,6 +69,19 @@ export default class Interface {
         this.navBar.delete(id);
         this.toolBar.delete();
         this.content.clear();
+
+        this.activeItem = null;
+    }
+
+    deleteNotification(id) {
+        this.navBar.delete(id);
+
+        if (this.activeItem === id) {
+            // todo: notify user if deleted item is currently active
+
+            this.toolBar.delete();
+            this.content.clearAll();
+        }
     }
 
     updateTimestamp() {

@@ -22,7 +22,8 @@ export default class Application {
             html: this.onHtml.bind(this),
             htmlWithoutImages: this.onHtmlWithoutImages.bind(this),
             source: this.onSource.bind(this),
-            delete: this.onDelete.bind(this)
+            delete: this.onDelete.bind(this),
+            deleteNotification: this.onDeleteNotification.bind(this)
         });
         this.gui = new Interface();
 
@@ -62,6 +63,10 @@ export default class Application {
 
     onDelete(data) {
         this.gui.delete(data.id);
+    }
+
+    onDeleteNotification(data) {
+        this.gui.deleteNotification(data.id);
     }
 
     addEventListeners() {
