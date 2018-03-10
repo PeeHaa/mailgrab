@@ -12,6 +12,8 @@ class Mail
 
     private $timestamp;
 
+    private $bccAddresses = [];
+
     private $rawMessage;
 
     private $parsedMessage;
@@ -26,6 +28,20 @@ class Mail
         $this->timestamp     = new \DateTimeImmutable();
         $this->rawMessage    = $message->getRawMessage();
         $this->parsedMessage = (new MailMimeParser())->parse($message->getRawMessage());
+        $this->bccAddresses  = $this->buildBccRecipients($message->getRecipients());
+    }
+
+    private function buildBccRecipients(array $recipients): array
+    {
+        foreach ($this->parsedMessage->getHeader('to')->getParts() as $address) {
+            unset($recipients[$address->getValue()]);
+        }
+
+        foreach ($this->parsedMessage->getHeader('cc')->getParts() as $address) {
+            unset($recipients[$address->getValue()]);
+        }
+
+        return array_keys($recipients);
     }
 
     public function getId(): string
@@ -54,7 +70,7 @@ class Mail
 
     public function getBcc(): string
     {
-        return 'todo: implement me';
+        return implode(', ', $this->bccAddresses);
     }
 
     public function getSubject(): string
