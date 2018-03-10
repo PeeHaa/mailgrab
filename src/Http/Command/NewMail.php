@@ -31,7 +31,10 @@ class NewMail implements Command
     private function buildList(string $id): array
     {
         if (!$this->storage->has($id)) {
-            return [];
+            return [
+                'id'      => $id,
+                'deleted' => true,
+            ];
         }
 
         $mail = $this->storage->get($id);
@@ -42,6 +45,7 @@ class NewMail implements Command
                 'subject'   => $mail->getSubject(),
                 'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
                 'read'      => $mail->isRead(),
+                'deleted'   => false,
                 'project'   => $mail->getProject(),
             ]
         ];

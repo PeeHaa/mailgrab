@@ -4,6 +4,7 @@ namespace PeeHaa\MailGrab\Http\Command;
 
 use Amp\Promise;
 use PeeHaa\AmpWebsocketCommand\Command;
+use PeeHaa\AmpWebsocketCommand\Failure;
 use PeeHaa\AmpWebsocketCommand\Input;
 use PeeHaa\AmpWebsocketCommand\Success;
 use PeeHaa\MailGrab\Http\Storage\Storage;
@@ -21,7 +22,11 @@ class Delete implements Command
     public function execute(Input $input): Promise
     {
         return call(function() use ($input) {
-            $this->deleteMail($input->getParameter('id'));
+            try {
+                $this->deleteMail($input->getParameter('id'));
+            } catch (\Throwable $e) {
+                return new Failure('foobar');
+            }
 
             return new Success([
                 'command' => 'delete',

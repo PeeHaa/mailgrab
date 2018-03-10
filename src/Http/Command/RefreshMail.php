@@ -31,7 +31,10 @@ class RefreshMail implements Command
     private function getInfo(string $id): array
     {
         if (!$this->storage->has($id)) {
-            throw new \Exception('Message not found');
+            return [
+                'id'      => $id,
+                'deleted' => true,
+            ];
         }
 
         $mail = $this->storage->get($id);
@@ -46,6 +49,7 @@ class RefreshMail implements Command
             'bcc'       => $mail->getBcc(),
             'subject'   => $mail->getSubject(),
             'read'      => $mail->isRead(),
+            'deleted'   => false,
             'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
             'project'   => $mail->getProject(),
             'content'   => $mail->getText() !== null ? $mail->getText() : $mail->getHtml(),

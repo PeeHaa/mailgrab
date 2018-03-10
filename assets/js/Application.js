@@ -48,11 +48,27 @@ export default class Application {
     }
 
     onMailInfo(data) {
+        if (data.info.deleted) {
+            this.navigation.resetTitle();
+            this.navigation.delete();
+            this.gui.reset();
+
+            return;
+        }
+
         this.gui.openMail(data.info);
         this.navigation.openMail(data.info);
     }
 
     onRefreshMailInfo(data) {
+        if (data.info.deleted) {
+            this.navigation.resetTitle();
+            this.navigation.delete();
+            this.gui.reset();
+
+            return;
+        }
+
         this.gui.openMail(data.info);
         this.navigation.setTitle(data.info.subject);
     }
@@ -123,14 +139,22 @@ export default class Application {
         });
 
         window.addEventListener('popstate', (e) => {
-            if (e.state === null) {
+            if (e.state === null || e.state.type === 'home') {
                 this.navigation.resetTitle();
                 this.gui.reset();
 
                 return;
             }
 
-            this.connection.send(new RefreshMail(e.state.id));
+            if (this.navigation.isDeleted(e.state.data.id)) {
+                this.navigation.resetTitle();
+                this.navigation.delete();
+                this.gui.reset();
+
+                return;
+            }
+
+            this.connection.send(new RefreshMail(e.state.data.id));
         });
     }
 }

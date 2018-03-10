@@ -15,6 +15,7 @@ export default class Connection {
             setTimeout(this.connect.bind(this, onConnecting, onOpen, onClose, onMessage), 5000);
         });
         this.socket.addEventListener('message', (e) => {
+console.log(e.data);
             const message = JSON.parse(e.data);
 
             const command = message.payload.command;

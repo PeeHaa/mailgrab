@@ -3,10 +3,13 @@ import SelectMail from "../Command/Out/SelectMail";
 export default class Navigation {
     constructor() {
         this.title = document.querySelector('head title').textContent;
+
+        this.items = {};
     }
 
     start(connection) {
         if (location.pathname === '/') {
+            this.push({type: 'home'}, this.title, '/');
             return;
         }
 
@@ -21,8 +24,20 @@ export default class Navigation {
         connection.send(new SelectMail(matches[3]));
     }
 
+    isDeleted(id) {
+        return this.items.hasOwnProperty(id) && this.items[id] === false;
+    }
+
+    delete(id) {
+        this.items[id] = false;
+
+        history.replaceState({type: 'home'}, this.title, '/');
+    }
+
     openMail(info) {
-        this.push(info, info.subject + ' | ' + this.title, '/0/uncategorized/' + info.id + '/' + this.slugify(info.subject));
+        this.items[info.id] = !info.deleted;
+
+        this.push({type: 'mail', data: info}, info.subject + ' | ' + this.title, '/0/uncategorized/' + info.id + '/' + this.slugify(info.subject));
     }
 
     push(data, title, url) {

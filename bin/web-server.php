@@ -55,7 +55,7 @@ $auryn->delegate(Executor::class, function() use ($auryn) {
 });
 
 $auryn->define(Handler::class, [
-    ':origin' => 'http://localhost:8000',
+    ':origin' => 'http://localhost:9000',
 ]);
 
 $router = (new Router())
@@ -64,7 +64,7 @@ $router = (new Router())
 
 return (new Host())
     ->name('localhost')
-    ->expose('127.0.0.1', 8000)
+    ->expose('127.0.0.1', 9000)
     ->use($router)
     ->use(root(__DIR__ . '/../public'))
     ->use(function(Request $request, Response $response) {
