@@ -1,0 +1,28 @@
+@import "./../colors";
+
+header {
+    span {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        padding: .25em .4em;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        border-radius: .25rem;
+        color: #ffffff;
+        display: none;
+
+        &.disconnected {
+            background-color: $color-danger;
+            display: inline-block;
+        }
+
+        &.connecting {
+            background-color: $color-warning;
+            display: inline-block;
+        }
+    }
+}

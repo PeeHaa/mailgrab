@@ -18042,29 +18042,41 @@ var Status = function () {
     _createClass(Status, [{
         key: 'disconnect',
         value: function disconnect() {
-            return;
-            this.element.classList.remove('connecting');
+            this.clear();
+
             this.element.classList.add('disconnected');
 
-            this.element.setAttribute('title', 'Disconnected');
+            this.addLabel('Disconnected');
         }
     }, {
         key: 'reconnect',
         value: function reconnect() {
-            return;
-            this.element.classList.remove('disconnected');
+            this.clear();
+
             this.element.classList.add('connecting');
 
-            this.element.setAttribute('title', 'Connecting');
+            this.addLabel('Connecting');
         }
     }, {
         key: 'connect',
         value: function connect() {
-            return;
-            this.element.classList.remove('disconnected');
-            this.element.classList.remove('connecting');
+            this.clear();
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            this.element.classList.remove('connecting', 'disconnected', 'connecting');
 
-            this.element.removeAttribute('title');
+            while (this.element.firstChild) {
+                this.element.removeChild(this.element.firstChild);
+            }
+        }
+    }, {
+        key: 'addLabel',
+        value: function addLabel(text) {
+            var label = document.createTextNode(text);
+
+            this.element.appendChild(label);
         }
     }]);
 

@@ -4,11 +4,11 @@
 @import "./sizes";
 
 @import "./components/header";
+@import "./components/status";
 @import "./components/intro";
 @import "./components/projects";
 @import "./components/messages";
 @import "./components/info";
-//@import "./components/notification";
 
 body {
     font-family: $font-main;

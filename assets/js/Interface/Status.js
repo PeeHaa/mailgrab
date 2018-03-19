@@ -4,26 +4,36 @@ export default class Status {
     }
 
     disconnect() {
-        return;
-        this.element.classList.remove('connecting');
+        this.clear();
+
         this.element.classList.add('disconnected');
 
-        this.element.setAttribute('title', 'Disconnected');
+        this.addLabel('Disconnected');
     }
 
     reconnect() {
-        return;
-        this.element.classList.remove('disconnected');
+        this.clear();
+
         this.element.classList.add('connecting');
 
-        this.element.setAttribute('title', 'Connecting');
+        this.addLabel('Connecting');
     }
 
     connect() {
-        return;
-        this.element.classList.remove('disconnected');
-        this.element.classList.remove('connecting');
+        this.clear();
+    }
 
-        this.element.removeAttribute('title');
+    clear() {
+        this.element.classList.remove('connecting', 'disconnected', 'connecting');
+
+        while (this.element.firstChild) {
+            this.element.removeChild(this.element.firstChild)
+        }
+    }
+
+    addLabel(text) {
+        const label = document.createTextNode(text);
+
+        this.element.appendChild(label);
     }
 }
