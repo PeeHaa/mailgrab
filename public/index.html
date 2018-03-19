@@ -3,32 +3,35 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="/css/bundle.min.css">
         <title>MailGrab</title>
     </head>
     <body>
         <header>
-            <span class="disconnected" title="Disconnected"></span>
             <h1>MailGrab</h1>
             <ul>
-                <li data-type="text" class="active"><i class="fa fa-file-text-o"></i>Text view</li>
-                <li data-type="html"><i class="fa fa-file-image-o"></i>Html view</li>
-                <li data-type="noimages"><i class="fa fa-file"></i>Html view (no images)</li>
-                <li data-type="source"><i class="fa fa-file-code-o"></i>Source</li>
-                <li data-type="delete" class="delete"><i class="fa fa-trash"></i>Delete</li>
+                <li data-type="html"><i class="fas fa-file-image"></i></li>
+                <li data-type="noimages"><i class="fas fa-file"></i></li>
+                <li data-type="text" class="active"><i class="fas fa-file-alt"></i></li>
+                <li data-type="source"><i class="fas fa-file-code"></i></li>
+                <li data-type="delete" class="delete"><i class="fas fa-trash"></i></li>
             </ul>
         </header>
         <nav id="projects">
-            <h2>Projects</h2>
             <ul></ul>
         </nav>
         <nav id="messages">
+            <div class="search">
+                <input name="table_search" class="form-control input-sm pull-right" placeholder="Search" type="text"><button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+            </div>
             <ul></ul>
         </nav>
         <main>
             <div class="intro">
                 <h1>MailGrab</h1>
-                <p>Simply point you email client to the following SMTP server and all email will automatically and instantly be available in this interface.</p>
+                <p>Simply point your email client to the following SMTP server and all email will automatically and instantly be available in this interface.</p>
                 <h2>SMTP server</h2>
                 <table>
                     <tr>
@@ -48,6 +51,7 @@
         <template id="new-mail">
             <li>
                 <time></time>
+                <h4></h4>
             </li>
         </template>
         <template id="mail-info">

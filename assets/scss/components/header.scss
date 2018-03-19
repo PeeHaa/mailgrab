@@ -5,35 +5,19 @@
 header {
     background: $color-header-bg;
     height: $size-header-height;
-    color: white;
-
-    span {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: $size-spacing;
-        height: $size-spacing;
-        display: none;
-
-        &.disconnected {
-            display: block;
-            background: $color-connection-status-disconnected;
-        }
-
-        &.connecting {
-            display: block;
-            background: $color-connection-status-connecting;
-        }
-    }
+    color: $color-header-title;
 
     h1 {
-        font-family: $font-main;
         font-size: $size-header-font-title;
         line-height: $size-header-height;
-        margin: 0 $size-spacing;
-        float: left;
-        font-weight: normal;
-        position: relative;
+        font-weight: bold;
+        margin: 0;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        width: $size-nav-projects-width;
+        padding-left: 15px;
+        border-right: 1px solid $color-theme-1;
+        display: inline-block;
     }
 
     ul {
@@ -45,33 +29,20 @@ header {
         }
 
         li {
-            display: block;
             float: left;
-            line-height: $size-header-height;
-            padding: 0 $size-spacing;
+            display: block;
+            line-height: 70px;
+            padding: 0 25px;
+            color: #cccccc;
+            text-decoration: none;
+            box-sizing: border-box;
+            font-size: 15px;
+            border-left: 1px solid $color-theme-1;
             cursor: pointer;
-            font-size: $size-header-font-menu;
 
-            i {
-                margin-right: $size-spacing;
-            }
-
-            &.disabled {
-                color: gray;
-                cursor: auto;
-
-                &:hover {
-                    background: transparent;
-                }
-            }
-
-            &:hover, &.active {
-                background: $color-header-menu-active;
-            }
-
-            &.delete:hover {
-                background: $color-header-menu-delete;
-                color: white;
+            &.active, &:hover {
+                background: $color-theme-1;
+                color: #ffffff;
             }
         }
     }

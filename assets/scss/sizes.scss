@@ -1,20 +1,10 @@
-$size-spacing: 10px;
-$size-font-default: 13px;
-$size-border: 2px;
+$size-header-height: 70px;
+$size-header-font-title: 24px;
+$size-header-line-height: 60px;
 
-$size-header-height: 40px;
-$size-header-font-title: 20px;
-$size-header-font-menu: $size-font-default;
+$size-nav-projects-width: 200px;
 
-$size-projects-width: 200px;
-$size-projects-font: $size-font-default;
+$size-nav-messages-width: 300px;
 
-$size-messages-width: 325px;
-$size-messages-font-subject: $size-font-default;
-$size-messages-font-timestamp: 9px;
-$size-messages-border-active: 3px;
+$size-content-offset: 500px;
 
-$size-content-height: calc(100% - 40px);
-$size-content-left-margin: 529px;
-
-$size-content-data-height: calc(100% - 200px);

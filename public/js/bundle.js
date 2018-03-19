@@ -16998,7 +16998,7 @@ var Mail = function () {
     }, {
         key: 'addSubject',
         value: function addSubject(subject) {
-            this.element.appendChild(document.createTextNode(subject));
+            this.element.querySelector('h4').appendChild(document.createTextNode(subject));
         }
     }, {
         key: 'addTimestamp',
@@ -17793,7 +17793,7 @@ exports.default = Info;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+            value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -17801,35 +17801,42 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Text = function () {
-    function Text(content) {
-        var _this = this;
+            function Text(content) {
+                        var _this = this;
 
-        _classCallCheck(this, Text);
+                        _classCallCheck(this, Text);
 
-        this.addToDom(function () {
-            _this.element = document.querySelector('iframe').contentWindow.document;
+                        this.addToDom(function () {
+                                    _this.element = document.querySelector('iframe').contentWindow.document;
 
-            var pre = _this.element.createElement('pre');
+                                    var pre = _this.element.createElement('pre');
 
-            pre.textContent = content;
+                                    pre.textContent = content;
 
-            _this.element.querySelector('body').appendChild(pre);
-        });
-    }
+                                    _this.element.querySelector('body').appendChild(pre);
 
-    _createClass(Text, [{
-        key: 'addToDom',
-        value: function addToDom(callback) {
-            var container = document.querySelector('main');
-            var iframe = document.createElement('iframe');
+                                    var style = _this.element.createElement('style');
 
-            container.appendChild(iframe);
+                                    style.type = 'text/css';
+                                    style.innerHTML = 'pre {color: #a3a3a3;background: #292929;padding: 15px;}';
 
-            iframe.addEventListener('load', callback);
-        }
-    }]);
+                                    _this.element.querySelector('head').appendChild(style);
+                        });
+            }
 
-    return Text;
+            _createClass(Text, [{
+                        key: 'addToDom',
+                        value: function addToDom(callback) {
+                                    var container = document.querySelector('main');
+                                    var iframe = document.createElement('iframe');
+
+                                    container.appendChild(iframe);
+
+                                    iframe.addEventListener('load', callback);
+                        }
+            }]);
+
+            return Text;
 }();
 
 exports.default = Text;
@@ -17962,7 +17969,7 @@ exports.default = HtmlWithoutImages;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+            value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -17970,35 +17977,42 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Source = function () {
-    function Source(source) {
-        var _this = this;
+            function Source(source) {
+                        var _this = this;
 
-        _classCallCheck(this, Source);
+                        _classCallCheck(this, Source);
 
-        this.addToDom(function () {
-            _this.element = document.querySelector('iframe').contentWindow.document;
+                        this.addToDom(function () {
+                                    _this.element = document.querySelector('iframe').contentWindow.document;
 
-            var pre = _this.element.createElement('pre');
+                                    var pre = _this.element.createElement('pre');
 
-            pre.textContent = source;
+                                    pre.textContent = source;
 
-            _this.element.querySelector('body').appendChild(pre);
-        });
-    }
+                                    _this.element.querySelector('body').appendChild(pre);
 
-    _createClass(Source, [{
-        key: 'addToDom',
-        value: function addToDom(callback) {
-            var container = document.querySelector('main');
-            var iframe = document.createElement('iframe');
+                                    var style = _this.element.createElement('style');
 
-            container.appendChild(iframe);
+                                    style.type = 'text/css';
+                                    style.innerHTML = 'pre {color: #a3a3a3;background: #292929;padding: 15px;}';
 
-            iframe.addEventListener('load', callback);
-        }
-    }]);
+                                    _this.element.querySelector('head').appendChild(style);
+                        });
+            }
 
-    return Source;
+            _createClass(Source, [{
+                        key: 'addToDom',
+                        value: function addToDom(callback) {
+                                    var container = document.querySelector('main');
+                                    var iframe = document.createElement('iframe');
+
+                                    container.appendChild(iframe);
+
+                                    iframe.addEventListener('load', callback);
+                        }
+            }]);
+
+            return Source;
 }();
 
 exports.default = Source;
@@ -18028,6 +18042,7 @@ var Status = function () {
     _createClass(Status, [{
         key: 'disconnect',
         value: function disconnect() {
+            return;
             this.element.classList.remove('connecting');
             this.element.classList.add('disconnected');
 
@@ -18036,6 +18051,7 @@ var Status = function () {
     }, {
         key: 'reconnect',
         value: function reconnect() {
+            return;
             this.element.classList.remove('disconnected');
             this.element.classList.add('connecting');
 
@@ -18044,6 +18060,7 @@ var Status = function () {
     }, {
         key: 'connect',
         value: function connect() {
+            return;
             this.element.classList.remove('disconnected');
             this.element.classList.remove('connecting');
 

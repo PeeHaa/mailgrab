@@ -3,14 +3,10 @@
 
 section.info {
     font-size: 14px;
-    border-bottom: $size-border solid $color-border;
-
-    table {
-        padding: $size-spacing;
-    }
+    padding-bottom: 15px;
 
     th {
-        padding-right: $size-spacing;
         text-align: left;
+        padding-right: 15px;
     }
 }
