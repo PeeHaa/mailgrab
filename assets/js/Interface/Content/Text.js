@@ -8,6 +8,13 @@ export default class Text {
             pre.textContent = content;
 
             this.element.querySelector('body').appendChild(pre);
+
+            const style = this.element.createElement('style');
+
+            style.type = 'text/css';
+            style.innerHTML = 'pre {color: #a3a3a3;background: #292929;padding: 15px;}';
+
+            this.element.querySelector('head').appendChild(style);
         });
     }
 

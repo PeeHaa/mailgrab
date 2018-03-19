@@ -2,42 +2,64 @@
 @import "./../sizes";
 
 nav#messages {
-    height: $size-content-height;
-    max-height: $size-content-height;
-    overflow-y: scroll;
-    width: $size-messages-width;
-    border-right: $size-border solid $color-border;
+    height: calc(100% - #{$size-header-height});
+    overflow-y: auto;
+    width: $size-nav-messages-width;
+    border-right: 1px solid $color-theme-2;
     float: left;
+    background: $color-theme-4;
+
+    .search {
+        input, button {
+            background: $color-theme-6;
+            border: 1px $color-theme-6 solid;
+            color: $color-theme-3;
+            padding: 5px 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            outline: none;
+            box-shadow: none;
+        }
+
+        input {
+            width: calc(100% - 36px);
+        }
+
+        button {
+            cursor: pointer;
+            color: #ffffff;
+        }
+    }
 
     li {
-        border-top: 1px solid white;
-        border-bottom: 1px solid $color-border;
-        font-size: $size-messages-font-subject;
+        box-shadow: inset 0 -1px $color-theme-2, inset 6px 0 transparent;
+        color: $color-theme-3;
         cursor: pointer;
-        padding: $size-spacing;
-        border-left: $size-messages-border-active solid transparent;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &.new {
-            font-weight: bold;
-        }
-
-        &.active {
-            background: $color-messages-background-new;
-        }
 
         &.active, &:hover {
-            background: $color-messages-background-new;
-            border-left: $size-messages-border-active solid #abd5eb;
+            box-shadow: inset 0 -1px $color-theme-2, inset 6px 0 $color-theme-7;
+            color: #ffffff;
         }
 
         time {
+            font-size: 11px;
+            padding: 10px 10px 10px 15px;
+        }
+
+        h4 {
+            font-size: 14px;
+            padding: 10px 10px 10px 15px;
+            margin: 0;
             font-weight: normal;
-            font-size: $size-messages-font-timestamp;
-            display: block;
-            margin-bottom: $size-spacing;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        &.new {
+            time {
+                font-weight: bold;
+            }
         }
     }
 }

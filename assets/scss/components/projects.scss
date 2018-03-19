@@ -2,46 +2,40 @@
 @import "./../sizes";
 
 nav#projects {
-    height: $size-content-height;
-    max-height: $size-content-height;
+    background: $color-theme-2;
+    height: calc(100% - #{$size-header-height});
     overflow-y: auto;
-    width: $size-projects-width;
-    border-right: $size-border solid $color-border;
     float: left;
-
-    h2 {
-        margin: 0;
-        padding: $size-spacing;
-        font-weight: normal;
-    }
+    width: $size-nav-projects-width;
+    border-right: 1px solid $color-theme-1;
 
     li {
-        font-size: $size-projects-font;
-        cursor: pointer;
-        color: $color-theme-1;
-        padding: $size-spacing $size-spacing $size-spacing 20px;
+        font-size: 13px;
+        line-height: 46px;
+        color: $color-theme-3;
         display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
+        padding-left: 18px;
+        padding-right: 18px;
+        cursor: pointer;
 
         &.active, &:hover {
-            background: $color-theme-2;
             font-weight: bold;
-            color: $color-theme-1;
-
-            span {
-                background: white;
-            }
+            color: #ffffff;
         }
 
         span {
-            position: absolute;
-            right: $size-spacing;
-            background: $color-theme-2;
-            border-radius: 15px;
-            padding: 0 6px;
+            display: inline-block;
+            padding: .25em .4em;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            border-radius: .25rem;
+            float: right;
+            margin-top: 16px;
+            color: #ffffff;
+            background-color: $color-theme-7;
         }
     }
 }

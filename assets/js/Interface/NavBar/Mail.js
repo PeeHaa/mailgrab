@@ -25,7 +25,7 @@ export default class Mail {
     }
 
     addSubject(subject) {
-        this.element.appendChild(document.createTextNode(subject));
+        this.element.querySelector('h4').appendChild(document.createTextNode(subject));
     }
 
     addTimestamp(timestamp) {

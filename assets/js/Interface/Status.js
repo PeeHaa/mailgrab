@@ -4,6 +4,7 @@ export default class Status {
     }
 
     disconnect() {
+        return;
         this.element.classList.remove('connecting');
         this.element.classList.add('disconnected');
 
@@ -11,6 +12,7 @@ export default class Status {
     }
 
     reconnect() {
+        return;
         this.element.classList.remove('disconnected');
         this.element.classList.add('connecting');
 
@@ -18,6 +20,7 @@ export default class Status {
     }
 
     connect() {
+        return;
         this.element.classList.remove('disconnected');
         this.element.classList.remove('connecting');
 
