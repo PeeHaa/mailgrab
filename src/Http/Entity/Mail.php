@@ -37,8 +37,10 @@ class Mail
             unset($recipients[$address->getValue()]);
         }
 
-        foreach ($this->parsedMessage->getHeader('cc')->getParts() as $address) {
-            unset($recipients[$address->getValue()]);
+        if ($this->parsedMessage->getHeader('cc')) {
+            foreach ($this->parsedMessage->getHeader('cc')->getParts() as $address) {
+                unset($recipients[$address->getValue()]);
+            }
         }
 
         return array_keys($recipients);
