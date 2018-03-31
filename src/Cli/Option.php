@@ -12,6 +12,8 @@ class Option
 
     private $required = false;
 
+    private $default;
+
     private $input;
 
     public function __construct(string $description)
@@ -40,6 +42,23 @@ class Option
         return $this;
     }
 
+    public function setDefault(string $default): self
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
+    public function hasDefault(): bool
+    {
+        return $this->default !== null;
+    }
+
+    public function getDefault(): ?string
+    {
+        return $this->default;
+    }
+
     public function input(string $name): self
     {
         $this->input = $name;
@@ -57,7 +76,7 @@ class Option
         return $this->short !== null;
     }
 
-    public function getShort(): string
+    public function getShort(): ?string
     {
         return $this->short;
     }
@@ -67,7 +86,7 @@ class Option
         return $this->long !== null;
     }
 
-    public function getLong(): string
+    public function getLong(): ?string
     {
         return $this->long;
     }
@@ -80,5 +99,10 @@ class Option
     public function getInput(): string
     {
         return $this->input;
+    }
+
+    public function isRequired(): bool
+    {
+        return $this->required;
     }
 }

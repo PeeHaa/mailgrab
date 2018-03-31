@@ -63,13 +63,23 @@ class Command
         return false;
     }
 
-    public function getHttpPort(): int
+    public function getConfiguration(Argument ...$arguments): array
     {
-        return 9000;
-    }
+        $configuration = [
+            'port'     => 9000,
+            'smtpport' => 9025,
+        ];
 
-    public function getSmtpPort(): int
-    {
-        return 9025;
+        foreach ($arguments as $argument) {
+            if ($argument->isLong() && $argument->getKey() === 'post') {
+                $configuration['port'] = $argument->getValue();
+            }
+
+            if ($argument->isLong() && $argument->getKey() === 'smtpport') {
+                $configuration['smtpport'] = $argument->getValue();
+            }
+        }
+
+        return $configuration;
     }
 }

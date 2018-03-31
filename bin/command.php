@@ -6,13 +6,14 @@ use PeeHaa\MailGrab\Cli\Command;
 use PeeHaa\MailGrab\Cli\Input\Parser;
 use PeeHaa\MailGrab\Cli\Input\Validator;
 use PeeHaa\MailGrab\Cli\Option;
+use PeeHaa\MailGrab\Cli\Output\Help;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $command = new Command('Starts the MailGrab SMTP catch-all SMTP server', ...[
     (new Option('Displays this help information'))->setShort('h')->setLong('help'),
-    (new Option('Sets the port for the web interface'))->setLong('port')->input('PORT'),
-    (new Option('Sets the port for the SMTP server'))->setLong('smtpport')->input('PORT'),
+    (new Option('Sets the port for the web interface'))->setLong('port')->setDefault('9000')->input('PORT'),
+    (new Option('Sets the port for the SMTP server'))->setLong('smtpport')->setDefault('9025')->input('PORT'),
 ]);
 
 $arguments = (new Parser())->parse($argv);
@@ -27,32 +28,9 @@ if (!$validator->isValid()) {
 }
 
 if ($command->isHelp(...$arguments)) {
-    echo $command->getDescription() . PHP_EOL . PHP_EOL;
+    echo (new Help())->render($argv[0], $command);
 
-    echo 'Usage:' . PHP_EOL;
-
-    /** @var Option $option */
-    foreach ($command->getOptions() as $option) {
-        $title = '  ';
-
-        if ($option->hasShort()) {
-            $title .= '-' . $option->getShort();
-
-            if ($option->hasInput()) {
-                $title .= '=' . $option->getInput();
-            }
-        }
-
-        if ($option->hasLong()) {
-            if (trim($title)) $title .= ', ';
-
-            $title .= '--' . $option->getLong();
-
-            if ($option->hasInput()) {
-                $title .= '=' . $option->getInput();
-            }
-        }
-
-        echo str_pad($title, 20) . $option->getDescription() . PHP_EOL;
-    }
+    exit;
 }
+
+var_dump($command->getConfiguration(...$arguments));
