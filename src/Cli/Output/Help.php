@@ -13,7 +13,10 @@ class Help
 
         $output .= $command->getDescription() . PHP_EOL . PHP_EOL;
         $output .= basename($binary) . $this->renderUsage($command) . PHP_EOL . PHP_EOL;
-        $output .= 'Usage:' . PHP_EOL;
+
+        if ($command->getOptions()) {
+            $output .= 'Usage:' . PHP_EOL;
+        }
 
         /** @var Option $option */
         foreach ($command->getOptions() as $option) {
@@ -100,7 +103,7 @@ class Help
     {
         $optionDefinition = '-' . $option->getShort();
 
-        if ($option->hasInput()) {
+        if ($option->hasInput() && !$option->hasLong()) {
             $optionDefinition .= '=' . $option->getInput();
         }
 

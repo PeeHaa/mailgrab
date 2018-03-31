@@ -96,7 +96,7 @@ class Option
         return $this->input !== null;
     }
 
-    public function getInput(): string
+    public function getInput(): ?string
     {
         return $this->input;
     }

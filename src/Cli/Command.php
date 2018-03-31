@@ -71,12 +71,12 @@ class Command
         ];
 
         foreach ($arguments as $argument) {
-            if ($argument->isLong() && $argument->getKey() === 'post') {
-                $configuration['port'] = $argument->getValue();
+            if ($argument->isLong() && $argument->getKey() === 'port') {
+                $configuration['port'] = (int) $argument->getValue();
             }
 
             if ($argument->isLong() && $argument->getKey() === 'smtpport') {
-                $configuration['smtpport'] = $argument->getValue();
+                $configuration['smtpport'] = (int) $argument->getValue();
             }
         }
 
