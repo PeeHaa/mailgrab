@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+namespace PeeHaa\MailGrab\Bin;
+
+use Amp\Http\Server\RequestHandler\CallableRequestHandler;
+use Amp\Http\Server\Response;
+use Amp\Http\Server\Router;
+use Amp\Http\Server\Server;
+use Amp\Http\Server\StaticContent\DocumentRoot;
+use Amp\Http\Status;
+use Amp\Loop;
+use Amp\Socket;
+use Psr\Log\NullLogger;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+Loop::run(function () {
+    $servers = [
+        Socket\listen("0.0.0.0:1337"),
+        Socket\listen("[::]:1337"),
+    ];
+
+    $router = new Router();
+
+    $router->addRoute('GET', '/ws', new CallableRequestHandler(function () {
+        return new Response(Status::OK, ['content-type' => 'text/plain'], 'Hello, world!');
+    }));
+
+    $router->setFallback(new DocumentRoot(__DIR__ . '/../public'));
+
+    $server = new Server($servers, $router, new NullLogger());
+
+    yield $server->start();
+
+    if (strpos(PHP_OS, 'WIN') !== 0) {
+        Loop::onSignal(SIGINT, function (string $watcherId) use ($server) {
+            Loop::cancel($watcherId);
+
+            yield $server->stop();
+        });
+    }
+});

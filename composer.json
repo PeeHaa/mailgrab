@@ -12,7 +12,9 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "amphp/aerys": "^0.7.4",
+        "amphp/http-server": "^0.8.1",
+        "amphp/http-server-router": "^1.0",
+        "amphp/http-server-static-content": "dev-master",
         "amphp/socket": "^0.10.5",
         "myclabs/php-enum": "^1.5",
         "peehaa/amp-websocket-command": "dev-master",
@@ -30,6 +32,9 @@
             "PeeHaa\\MailGrab\\": "src/"
         },
         "files": ["src/functions.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {"PeeHaa\\MailGrabTest\\": "tests/"}
     },
     "config": {
         "sort-packages": true
