@@ -3,33 +3,13 @@
 
 namespace PeeHaa\MailGrab\Bin;
 
-use Amp\Http\Server\RequestHandler\CallableRequestHandler;
-use Amp\Http\Server\Response;
-use Amp\Http\Server\Router;
-use Amp\Http\Server\Server;
-use Amp\Http\Server\StaticContent\DocumentRoot;
-use Amp\Http\Status;
 use Amp\Loop;
-use Amp\Socket;
-use Psr\Log\NullLogger;
+use PeeHaa\MailGrab\Http\Server;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 Loop::run(function () {
-    $servers = [
-        Socket\listen("0.0.0.0:1337"),
-        Socket\listen("[::]:1337"),
-    ];
-
-    $router = new Router();
-
-    $router->addRoute('GET', '/ws', new CallableRequestHandler(function () {
-        return new Response(Status::OK, ['content-type' => 'text/plain'], 'Hello, world!');
-    }));
-
-    $router->setFallback(new DocumentRoot(__DIR__ . '/../public'));
-
-    $server = new Server($servers, $router, new NullLogger());
+    $server = new Server(__DIR__ . '/../public', ['0.0.0.0', '[::]'], 1337);
 
     yield $server->start();
 
