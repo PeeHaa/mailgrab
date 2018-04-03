@@ -4,16 +4,61 @@
 namespace PeeHaa\MailGrab\Bin;
 
 use Amp\Loop;
+use Auryn\Injector;
+use PeeHaa\AmpWebsocketCommand\CommandTuple;
+use PeeHaa\AmpWebsocketCommand\Executor;
+use PeeHaa\MailGrab\Http\Command\Delete;
+use PeeHaa\MailGrab\Http\Command\DeleteNotification;
+use PeeHaa\MailGrab\Http\Command\GetHtml;
+use PeeHaa\MailGrab\Http\Command\GetHtmlWithoutImages;
+use PeeHaa\MailGrab\Http\Command\GetSource;
+use PeeHaa\MailGrab\Http\Command\GetText;
+use PeeHaa\MailGrab\Http\Command\Init;
+use PeeHaa\MailGrab\Http\Command\NewMail;
+use PeeHaa\MailGrab\Http\Command\ReadNotification;
+use PeeHaa\MailGrab\Http\Command\RefreshMail;
+use PeeHaa\MailGrab\Http\Command\SelectMail;
 use PeeHaa\MailGrab\Http\Server;
+use PeeHaa\MailGrab\Http\Storage\Memory;
+use PeeHaa\MailGrab\Http\Storage\Storage;
+use PeeHaa\MailGrab\Http\WebSocket\Handler;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-Loop::run(function () {
-    $server = new Server(__DIR__ . '/../public', ['0.0.0.0', '[::]'], 1337);
+$auryn = new Injector();
+$auryn->share($auryn); // yolo
+
+$auryn->alias(Storage::class, Memory::class);
+$auryn->share(Storage::class);
+
+$auryn->delegate(Executor::class, function() use ($auryn) {
+    $executor = new Executor($auryn);
+
+    $executor->register(new CommandTuple('init', Init::class));
+    $executor->register(new CommandTuple('newMail', NewMail::class));
+    $executor->register(new CommandTuple('selectMail', SelectMail::class));
+    $executor->register(new CommandTuple('refreshMail', RefreshMail::class));
+    $executor->register(new CommandTuple('getText', GetText::class));
+    $executor->register(new CommandTuple('getHtml', GetHtml::class));
+    $executor->register(new CommandTuple('getHtmlWithoutImages', GetHtmlWithoutImages::class));
+    $executor->register(new CommandTuple('getSource', GetSource::class));
+    $executor->register(new CommandTuple('delete', Delete::class));
+    $executor->register(new CommandTuple('deleteNotification', DeleteNotification::class));
+    $executor->register(new CommandTuple('readNotification', ReadNotification::class));
+
+    return $executor;
+});
+
+$auryn->define(Handler::class, [
+    ':origin' => 'http://localhost:1337',
+]);
+
+Loop::run(function () use ($auryn) {
+    $server = new Server($auryn->make(Handler::class), __DIR__ . '/../public', ['0.0.0.0', '[::]'], 1337);
 
     yield $server->start();
 
-    if (strpos(PHP_OS, 'WIN') !== 0) {
+    if (stripos(PHP_OS, 'win') !== 0) {
         Loop::onSignal(SIGINT, function (string $watcherId) use ($server) {
             Loop::cancel($watcherId);
 

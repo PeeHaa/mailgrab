@@ -2,10 +2,11 @@
 
 namespace PeeHaa\MailGrab\Http\WebSocket;
 
-use Aerys\Request;
-use Aerys\Response;
-use Aerys\Websocket;
-use Aerys\Websocket\Endpoint;
+use Amp\Http\Server\Request;
+use Amp\Http\Server\Response;
+use Amp\Http\Server\Websocket\Application;
+use Amp\Http\Server\Websocket\Endpoint;
+use Amp\Http\Server\Websocket\Message as WebSocketMessage;
 use PeeHaa\AmpWebsocketCommand\Executor;
 use PeeHaa\MailGrab\Http\Entity\Mail;
 use PeeHaa\MailGrab\Http\Storage\Storage;
@@ -16,7 +17,7 @@ use PeeHaa\MailGrab\Smtp\Message;
 use PeeHaa\MailGrab\Smtp\Server;
 use function Amp\asyncCall;
 
-class Handler implements Websocket
+class Handler implements Application
 {
     /** @var Endpoint */
     private $endpoint;
@@ -45,19 +46,18 @@ class Handler implements Websocket
 
     public function onHandshake(Request $request, Response $response)
     {
+        echo 'DOING HANDSHAKE' . PHP_EOL;
         if ($request->getHeader('origin') !== $this->origin) {
+            echo 'HANDSHAKE INVALID' . PHP_EOL;
             $response->setStatus(403);
-            $response->end('<h1>origin not allowed</h1>');
-
-            return null;
         }
 
-        return $request->getConnectionInfo()['client_addr'];
+        return $response;
     }
 
-    public function onOpen(int $clientId, $handshakeData)
+    public function onOpen(int $clientId, Request $request)
     {
-
+        // empty on purpose
     }
 
     public function pushMessage(Message $message)
@@ -76,9 +76,9 @@ class Handler implements Websocket
         });
     }
 
-    public function onData(int $clientId, Websocket\Message $msg)
+    public function onData(int $clientId, WebSocketMessage $message)
     {
-        $rawCommand = yield $msg;
+        $rawCommand = yield $message->read();
 
         $command = json_decode($rawCommand, true);
 
