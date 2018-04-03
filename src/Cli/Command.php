@@ -66,11 +66,21 @@ class Command
     public function getConfiguration(Argument ...$arguments): array
     {
         $configuration = [
+            'hostname' => 'localhost',
+            'ips'      => ['0.0.0.0', '[::]'],
             'port'     => 9000,
             'smtpport' => 9025,
         ];
 
         foreach ($arguments as $argument) {
+            if ($argument->isLong() && $argument->getKey() === 'host') {
+                $configuration['hostname'] = $argument->getValue();
+            }
+
+            if ($argument->isLong() && $argument->getKey() === 'ips') {
+                $configuration['ips'] = array_map('trim', explode(',', $argument->getValue()));
+            }
+
             if ($argument->isLong() && $argument->getKey() === 'port') {
                 $configuration['port'] = (int) $argument->getValue();
             }
