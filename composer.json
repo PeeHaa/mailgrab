@@ -26,7 +26,7 @@
         "zbateson/mail-mime-parser": "^0.4.8"
     },
     "require-dev": {
-        "clue/phar-composer": "^1.0",
+        "macfja/phar-builder": "^0.2.6",
         "phpmailer/phpmailer": "^6.0",
         "phpunit/phpunit": "^7.0",
         "swiftmailer/swiftmailer": "^6.0"
@@ -39,6 +39,16 @@
     },
     "autoload-dev": {
         "psr-4": {"PeeHaa\\MailGrabTest\\": "tests/"}
+    },
+    "extra": {
+        "phar-builder": {
+            "compression": "None",
+            "name": "mailgrab.phar",
+            "include": ["public"],
+            "output-dir": "./build",
+            "entry-point": "bin/mailgrab",
+            "skip-shebang": false
+        }
     },
     "config": {
         "sort-packages": true
