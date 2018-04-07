@@ -16428,6 +16428,8 @@ var Application = function () {
 
         this.connection = new _Connection2.default();
         this.commandProcessor = new _Processor2.default({
+            init: this.onInit.bind(this),
+
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
             refreshInfo: this.onRefreshMailInfo.bind(this),
@@ -16450,11 +16452,19 @@ var Application = function () {
         value: function run() {
             var _this = this;
 
-            this.connection.connect(this.gui.reconnect.bind(this.gui), function () {
-                _this.gui.connect();
-                _this.connection.send(new _Init2.default());
-                _this.navigation.start(_this.connection);
-            }, this.gui.disconnect.bind(this.gui), this.commandProcessor.process.bind(this.commandProcessor));
+            setTimeout(function () {
+                _this.connection.connect(_this.gui.reconnect.bind(_this.gui), function () {
+                    _this.gui.connect();
+                    _this.connection.send(new _Init2.default());
+                    _this.navigation.start(_this.connection);
+                }, _this.gui.disconnect.bind(_this.gui), _this.commandProcessor.process.bind(_this.commandProcessor));
+            });
+        }
+    }, {
+        key: 'onInit',
+        value: function onInit(data) {
+            this.gui.setConfig(data.config);
+            this.onNewMail(data);
         }
     }, {
         key: 'onNewMail',
@@ -16781,6 +16791,11 @@ var Interface = function () {
         key: 'connect',
         value: function connect() {
             this.status.connect();
+        }
+    }, {
+        key: 'setConfig',
+        value: function setConfig(config) {
+            this.content.setConfig(config);
         }
     }, {
         key: 'addMails',
@@ -17634,6 +17649,17 @@ var Content = function () {
     }
 
     _createClass(Content, [{
+        key: 'setConfig',
+        value: function setConfig(config) {
+            if (!document.querySelector('[data-field="hostname"]')) {
+                return;
+            }
+
+            document.querySelector('.intro').style.display = 'block';
+            document.querySelector('[data-field="hostname"]').textContent = config.hostname;
+            document.querySelector('[data-field="smtpport"]').textContent = config.smtpport;
+        }
+    }, {
         key: 'openMail',
         value: function openMail(info) {
             this.clearAll();

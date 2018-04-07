@@ -18,6 +18,10 @@ export default class Application {
     constructor() {
         this.connection       = new Connection();
         this.commandProcessor = new CommandProcessor({
+            init: this.onInit.bind(this),
+
+
+
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
             refreshInfo: this.onRefreshMailInfo.bind(this),
@@ -36,11 +40,18 @@ export default class Application {
     }
 
     run() {
-        this.connection.connect(this.gui.reconnect.bind(this.gui), () => {
-            this.gui.connect();
-            this.connection.send(new Init());
-            this.navigation.start(this.connection);
-        }, this.gui.disconnect.bind(this.gui), this.commandProcessor.process.bind(this.commandProcessor));
+        setTimeout(() => {
+            this.connection.connect(this.gui.reconnect.bind(this.gui), () => {
+                this.gui.connect();
+                this.connection.send(new Init());
+                this.navigation.start(this.connection);
+            }, this.gui.disconnect.bind(this.gui), this.commandProcessor.process.bind(this.commandProcessor));
+        });
+    }
+
+    onInit(data) {
+        this.gui.setConfig(data.config);
+        this.onNewMail(data);
     }
 
     onNewMail(data) {

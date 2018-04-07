@@ -34,6 +34,10 @@ export default class Interface {
         this.status.connect();
     }
 
+    setConfig(config) {
+        this.content.setConfig(config);
+    }
+
     addMails(mails) {
         this.projects.addMails(mails);
         this.navBar.addMails(mails);

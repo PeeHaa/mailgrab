@@ -69,11 +69,12 @@ header span {
     background-color: #FF8818;
     display: inline-block; }
 
-.intro h1, .intro h2 {
-  margin: 0; }
-
-.intro th {
-  text-align: left; }
+.intro {
+  display: none; }
+  .intro h1, .intro h2 {
+    margin: 0; }
+  .intro th {
+    text-align: left; }
 
 nav#projects {
   background: #242424;
