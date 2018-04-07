@@ -12,6 +12,7 @@ use PeeHaa\MailGrab\Cli\Input\Parser;
 use PeeHaa\MailGrab\Cli\Input\Validator;
 use PeeHaa\MailGrab\Cli\Option;
 use PeeHaa\MailGrab\Cli\Output\Help;
+use PeeHaa\MailGrab\Configuration;
 use PeeHaa\MailGrab\Http\Command\Delete;
 use PeeHaa\MailGrab\Http\Command\DeleteNotification;
 use PeeHaa\MailGrab\Http\Command\GetHtml;
@@ -62,6 +63,11 @@ $auryn->share($auryn); // yolo
 
 $auryn->alias(Storage::class, Memory::class);
 $auryn->share(Storage::class);
+
+$auryn->define(Configuration::class, [
+    'configuration' => $configuration,
+]);
+$auryn->share(Configuration::class);
 
 $auryn->delegate(Executor::class, function() use ($auryn) {
     $executor = new Executor($auryn);
