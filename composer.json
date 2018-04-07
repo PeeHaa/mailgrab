@@ -10,12 +10,6 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/amphp/websocket-server"
-        }
-    ],
     "require": {
         "php": "^7.1",
         "amphp/http-server": "^0.8.1",
