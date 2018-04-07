@@ -19,9 +19,6 @@ export default class Application {
         this.connection       = new Connection();
         this.commandProcessor = new CommandProcessor({
             init: this.onInit.bind(this),
-
-
-
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
             refreshInfo: this.onRefreshMailInfo.bind(this),
@@ -151,14 +148,14 @@ export default class Application {
 
         window.addEventListener('popstate', (e) => {
             if (e.state === null || e.state.type === 'home') {
-                this.navigation.resetTitle();
+                this.navigation.resetState();
                 this.gui.reset();
 
                 return;
             }
 
             if (this.navigation.isDeleted(e.state.data.id)) {
-                this.navigation.resetTitle();
+                this.navigation.resetState();
                 this.navigation.delete();
                 this.gui.reset();
 

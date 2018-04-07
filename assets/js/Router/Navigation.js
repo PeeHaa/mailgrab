@@ -50,6 +50,11 @@ export default class Navigation {
         document.querySelector('head title').textContent = title + ' | ' + this.title;
     }
 
+    resetState() {
+        history.replaceState({type: 'home'}, this.title, '/');
+        this.resetTitle();
+    }
+
     resetTitle() {
         document.querySelector('head title').textContent = this.title;
     }

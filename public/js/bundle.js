@@ -16429,7 +16429,6 @@ var Application = function () {
         this.connection = new _Connection2.default();
         this.commandProcessor = new _Processor2.default({
             init: this.onInit.bind(this),
-
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
             refreshInfo: this.onRefreshMailInfo.bind(this),
@@ -16577,14 +16576,14 @@ var Application = function () {
 
             window.addEventListener('popstate', function (e) {
                 if (e.state === null || e.state.type === 'home') {
-                    _this2.navigation.resetTitle();
+                    _this2.navigation.resetState();
                     _this2.gui.reset();
 
                     return;
                 }
 
                 if (_this2.navigation.isDeleted(e.state.data.id)) {
-                    _this2.navigation.resetTitle();
+                    _this2.navigation.resetState();
                     _this2.navigation.delete();
                     _this2.gui.reset();
 
@@ -18320,6 +18319,12 @@ var Navigation = function () {
         key: 'setTitle',
         value: function setTitle(title) {
             document.querySelector('head title').textContent = title + ' | ' + this.title;
+        }
+    }, {
+        key: 'resetState',
+        value: function resetState() {
+            history.replaceState({ type: 'home' }, this.title, '/');
+            this.resetTitle();
         }
     }, {
         key: 'resetTitle',
