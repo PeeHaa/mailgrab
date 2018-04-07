@@ -65,7 +65,7 @@ $auryn->alias(Storage::class, Memory::class);
 $auryn->share(Storage::class);
 
 $auryn->define(Configuration::class, [
-    'configuration' => $configuration,
+    ':configuration' => $configuration,
 ]);
 $auryn->share(Configuration::class);
 
