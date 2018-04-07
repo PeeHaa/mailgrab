@@ -26,6 +26,7 @@
         "zbateson/mail-mime-parser": "^0.4.8"
     },
     "require-dev": {
+        "clue/phar-composer": "^1.0",
         "phpmailer/phpmailer": "^6.0",
         "phpunit/phpunit": "^7.0",
         "swiftmailer/swiftmailer": "^6.0"
