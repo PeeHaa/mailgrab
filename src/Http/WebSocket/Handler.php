@@ -46,9 +46,7 @@ class Handler implements Application
 
     public function onHandshake(Request $request, Response $response)
     {
-        echo 'DOING HANDSHAKE' . PHP_EOL;
         if ($request->getHeader('origin') !== $this->origin) {
-            echo 'HANDSHAKE INVALID' . PHP_EOL;
             $response->setStatus(403);
         }
 
