@@ -4,6 +4,7 @@ namespace PeeHaa\MailGrab\Http\Command;
 
 use Amp\Promise;
 use PeeHaa\AmpWebsocketCommand\Command;
+use PeeHaa\AmpWebsocketCommand\Failure;
 use PeeHaa\AmpWebsocketCommand\Input;
 use PeeHaa\AmpWebsocketCommand\Success;
 use PeeHaa\MailGrab\Http\Storage\Storage;
@@ -21,10 +22,14 @@ class GetHtml implements Command
     public function execute(Input $input): Promise
     {
         return call(function() use ($input) {
-            return new Success([
-                'command' => 'html',
-                'html'    => $this->get($input->getParameter('id')),
-            ]);
+            try {
+                return new Success([
+                    'command' => 'html',
+                    'html'    => $this->get($input->getParameter('id')),
+                ]);
+            } catch (\Throwable $e) {
+                return new Failure('foobar');
+            }
         });
     }
 

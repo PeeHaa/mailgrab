@@ -4,7 +4,7 @@ namespace PeeHaa\MailGrab\Http\Storage;
 
 use PeeHaa\MailGrab\Http\Entity\Mail;
 
-class Memory implements Storage, \Iterator
+class Memory implements Storage
 {
     private $mails = [];
 
