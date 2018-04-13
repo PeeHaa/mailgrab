@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a0481deb6a08d4f46a3ab2d8dab18fc",
+    "content-hash": "d7e98f30d7c795fd799202577db82773",
     "packages": [
         {
             "name": "amphp/amp",
@@ -425,16 +425,16 @@
         },
         {
             "name": "amphp/http-server",
-            "version": "v0.8.1",
+            "version": "v0.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/http-server.git",
-                "reference": "2cd81a8a143f1ccd4a5853dcaf21519b308d238d"
+                "reference": "76c516cc2ebe37f277c89eecedbf445afa862d6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/http-server/zipball/2cd81a8a143f1ccd4a5853dcaf21519b308d238d",
-                "reference": "2cd81a8a143f1ccd4a5853dcaf21519b308d238d",
+                "url": "https://api.github.com/repos/amphp/http-server/zipball/76c516cc2ebe37f277c89eecedbf445afa862d6c",
+                "reference": "76c516cc2ebe37f277c89eecedbf445afa862d6c",
                 "shasum": ""
             },
             "require": {
@@ -499,7 +499,7 @@
                 "non-blocking",
                 "server"
             ],
-            "time": "2018-03-25T15:56:20+00:00"
+            "time": "2018-04-07T20:38:56+00:00"
         },
         {
             "name": "amphp/http-server-router",
@@ -570,12 +570,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/http-server-static-content.git",
-                "reference": "8d7ef9f482c98f2eb913b29f489d5a5a84c3913e"
+                "reference": "47a2015205394f7daa11ec1a59c00385f4263f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/http-server-static-content/zipball/8d7ef9f482c98f2eb913b29f489d5a5a84c3913e",
-                "reference": "8d7ef9f482c98f2eb913b29f489d5a5a84c3913e",
+                "url": "https://api.github.com/repos/amphp/http-server-static-content/zipball/47a2015205394f7daa11ec1a59c00385f4263f11",
+                "reference": "47a2015205394f7daa11ec1a59c00385f4263f11",
                 "shasum": ""
             },
             "require": {
@@ -631,7 +631,7 @@
                 "server",
                 "static"
             ],
-            "time": "2018-03-23T18:40:01+00:00"
+            "time": "2018-04-09T04:49:26+00:00"
         },
         {
             "name": "amphp/log",
@@ -810,16 +810,16 @@
         },
         {
             "name": "amphp/process",
-            "version": "v0.3.2",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/process.git",
-                "reference": "239605b2e8a9a7958563119e9b03fdabeb0ad4cc"
+                "reference": "b795d20a7f6d5a0637128a02be613f520f1705fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/process/zipball/239605b2e8a9a7958563119e9b03fdabeb0ad4cc",
-                "reference": "239605b2e8a9a7958563119e9b03fdabeb0ad4cc",
+                "url": "https://api.github.com/repos/amphp/process/zipball/b795d20a7f6d5a0637128a02be613f520f1705fc",
+                "reference": "b795d20a7f6d5a0637128a02be613f520f1705fc",
                 "shasum": ""
             },
             "require": {
@@ -861,7 +861,7 @@
             ],
             "description": "Asynchronous process manager.",
             "homepage": "https://github.com/amphp/process",
-            "time": "2018-03-08T15:09:10+00:00"
+            "time": "2018-04-08T18:55:42+00:00"
         },
         {
             "name": "amphp/socket",
@@ -2154,16 +2154,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "1bec00a10039b823cc94eef4eddd47dcd3b2ca04"
+                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/1bec00a10039b823cc94eef4eddd47dcd3b2ca04",
-                "reference": "1bec00a10039b823cc94eef4eddd47dcd3b2ca04",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/8790f594151ca6a2010c6218e09d96df67173ad3",
+                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3",
                 "shasum": ""
             },
             "require": {
@@ -2172,7 +2172,7 @@
             },
             "require-dev": {
                 "dominicsayers/isemail": "dev-master",
-                "phpunit/phpunit": "^4.8.35",
+                "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
                 "satooshi/php-coveralls": "^1.0.1"
             },
             "suggest": {
@@ -2207,7 +2207,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2017-11-15T23:40:40+00:00"
+            "time": "2018-04-10T10:11:19+00:00"
         },
         {
             "name": "league/event",
@@ -3091,16 +3091,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.1.1",
+            "version": "7.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f7fe5127889519e421600fe0feeb113a5e210f20"
+                "reference": "a7834993ddbf4b0ed2c3b2dc1f3b1d093ef910a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f7fe5127889519e421600fe0feeb113a5e210f20",
-                "reference": "f7fe5127889519e421600fe0feeb113a5e210f20",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a7834993ddbf4b0ed2c3b2dc1f3b1d093ef910a9",
+                "reference": "a7834993ddbf4b0ed2c3b2dc1f3b1d093ef910a9",
                 "shasum": ""
             },
             "require": {
@@ -3118,7 +3118,7 @@
                 "phpunit/php-file-iterator": "^1.4.3",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^2.0",
-                "phpunit/phpunit-mock-objects": "^6.1",
+                "phpunit/phpunit-mock-objects": "^6.1.1",
                 "sebastian/comparator": "^2.1",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^3.1",
@@ -3167,20 +3167,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-04-06T12:39:30+00:00"
+            "time": "2018-04-13T02:28:50+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "6.1.0",
+            "version": "6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "3f5ca97eee66a07951d018f6726017629c85c86d"
+                "reference": "70c740bde8fd9ea9ea295be1cd875dd7b267e157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3f5ca97eee66a07951d018f6726017629c85c86d",
-                "reference": "3f5ca97eee66a07951d018f6726017629c85c86d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/70c740bde8fd9ea9ea295be1cd875dd7b267e157",
+                "reference": "70c740bde8fd9ea9ea295be1cd875dd7b267e157",
                 "shasum": ""
             },
             "require": {
@@ -3223,7 +3223,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2018-04-06T08:14:40+00:00"
+            "time": "2018-04-11T04:50:36+00:00"
         },
         {
             "name": "rych/bytesize",
