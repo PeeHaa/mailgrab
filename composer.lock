@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7e98f30d7c795fd799202577db82773",
+    "content-hash": "d464818ae70aa24cbdb765838a99925c",
     "packages": [
         {
             "name": "amphp/amp",
@@ -2261,16 +2261,16 @@
         },
         {
             "name": "macfja/phar-builder",
-            "version": "0.2.6",
+            "version": "dev-handle-dot-notation-relative-paths",
             "source": {
                 "type": "git",
-                "url": "https://github.com/MacFJA/PharBuilder.git",
-                "reference": "ab3d6f2089e1dc908b545627ab857861bdf2891c"
+                "url": "https://github.com/PeeHaa/PharBuilder.git",
+                "reference": "f04691108a253a37cde7b16c736df6441d5cb180"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MacFJA/PharBuilder/zipball/ab3d6f2089e1dc908b545627ab857861bdf2891c",
-                "reference": "ab3d6f2089e1dc908b545627ab857861bdf2891c",
+                "url": "https://api.github.com/repos/PeeHaa/PharBuilder/zipball/f04691108a253a37cde7b16c736df6441d5cb180",
+                "reference": "f04691108a253a37cde7b16c736df6441d5cb180",
                 "shasum": ""
             },
             "require": {
@@ -2311,7 +2311,14 @@
                     "MacFJA\\PharBuilder\\": "app/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "test": [
+                    "php -l app/",
+                    "phpmd app/ text phpmd.xml.dist",
+                    "phpcpd app/",
+                    "phpcs"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -2321,7 +2328,10 @@
                 }
             ],
             "description": "CLI tool for create phar of your composer based project",
-            "time": "2017-09-30T12:15:07+00:00"
+            "support": {
+                "source": "https://github.com/PeeHaa/PharBuilder/tree/handle-dot-notation-relative-paths"
+            },
+            "time": "2018-04-13T16:47:29+00:00"
         },
         {
             "name": "macfja/symfony-console-filechooser",
@@ -4309,7 +4319,8 @@
     "stability-flags": {
         "amphp/http-server-static-content": 20,
         "amphp/websocket-server": 20,
-        "peehaa/amp-websocket-command": 20
+        "peehaa/amp-websocket-command": 20,
+        "macfja/phar-builder": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
