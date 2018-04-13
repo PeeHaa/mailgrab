@@ -11,7 +11,8 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/PeeHaa/PharBuilder"
+            "url": "https://github.com/PeeHaa/PharBuilder",
+            "no-api": true
         }
     ],
     "minimum-stability": "dev",
