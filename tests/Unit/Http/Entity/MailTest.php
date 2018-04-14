@@ -147,7 +147,7 @@ class MailTest extends TestCase
     {
         $mail = new Mail($this->messageMock);
 
-        $this->assertSame(11228, strlen($mail->getHtml()));
+        $this->assertGreaterThan(10000, strlen($mail->getHtml()));
     }
 
     public function testGetHtmlReturnsNullWhenNotAvailable()
