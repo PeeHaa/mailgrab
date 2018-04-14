@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<ruleset name="MailGrab_Coding_Standards">
+    <description>MailGrab coding standard</description>
+    <arg name="tab-width" value="4"/>
+
+    <file>bin</file>
+    <file>src</file>
+    <file>tests</file>
+
+    <arg name="basepath" value="."/>
+    <arg name="parallel" value="75" />
+    <arg value="np"/>
+
+    <!-- Don't hide tokenizer exceptions -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <type>error</type>
+    </rule>
+
+    <rule ref="PSR2">
+        <!-- Need to find a way to turn this off for text, before re-enabling -->
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
+
+        <!-- Bug is CSS - see https://github.com/squizlabs/PHP_CodeSniffer/issues/604 -->
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent"/>
+
+        <!-- I just don't agree with these. -->
+        <exclude name="PSR2.ControlStructures.ElseIfDeclaration"/>
+        <exclude name="Squiz.ControlStructures.ElseIfDeclaration"/>
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace"/>
+
+        <!-- TODO make this be newline -->
+        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
+
+        <!-- This makes co-ordinate pairs hard to read -->
+        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
+
+        <!-- These sniffs break 'valid' code -->
+        <exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakIndent"/>
+        <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase"/>
+        <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenerdefault"/>
+    </rule>
+
+    <!-- We are doing tricksy stuff with namespaces -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent.Incorrect">
+        <exclude-pattern>*bootstrap.php</exclude-pattern>
+        <exclude-pattern>*Tutorial/functions.php</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR2.Classes.ClassDeclaration.SpaceBeforeBrace">
+        <exclude-pattern>*bootstrap.php</exclude-pattern>
+        <exclude-pattern>*Tutorial/functions.php</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact">
+        <exclude-pattern>*bootstrap.php</exclude-pattern>
+        <exclude-pattern>*Tutorial/functions.php</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
+        <exclude-pattern>*bootstrap.php</exclude-pattern>
+        <exclude-pattern>*/functions.php</exclude-pattern>
+    </rule>
+
+    <!-- This is not a good practice for graphics functions -->
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.OneParamPerLine">
+        <exclude-pattern>*/functions.php</exclude-pattern>
+    </rule>
+
+    <!-- We use lowercase names to avoid having to have huge data blocks -->
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <exclude-pattern>Imagick/*</exclude-pattern>
+        <exclude-pattern>ImagickDraw/*</exclude-pattern>
+        <exclude-pattern>ImagickKernel/*</exclude-pattern>
+        <exclude-pattern>ImagickPixel/*</exclude-pattern>
+        <exclude-pattern>ImagickPixelIterator/*</exclude-pattern>
+        <exclude-pattern>Tutorial/*</exclude-pattern>
+    </rule>
+
+    <!-- These are there own end point and so are okay to mix declaration and calling -->
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>Tutorial/smoothSpiderGraph.php</exclude-pattern>
+        <exclude-pattern>src/appFunctions.php</exclude-pattern>
+        <exclude-pattern>src/process.php</exclude-pattern>
+        <exclude-pattern>ImagickDemo/Config.php</exclude-pattern>
+        <exclude-pattern>tool/*</exclude-pattern>
+        <exclude-pattern>bin/*</exclude-pattern>
+        <exclude-pattern>imagick-demos/src/index.php</exclude-pattern>
+    </rule>
+
+</ruleset>
