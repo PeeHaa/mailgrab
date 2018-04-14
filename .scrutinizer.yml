@@ -6,10 +6,7 @@ build:
                     - 'true'
             tests:
                 override:
-                    - php-scrutinizer-run
-                    -
-                        command: phpcs-run
-                        use_website_config: true
+                    - phpcs-run
             environment:
                 node:
                     version: 6.0.0
