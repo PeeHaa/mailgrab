@@ -36,59 +36,36 @@
         <!-- This sniff is unusable as it doesn't check whether it's the last condition in a method -->
         <exclude name="SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed"/>
 
-        <!-- Not sure how to set up spacing around equal-signs -->
-        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
-
-        <!-- The sniffer doesn't understand some things are used in annotations. -->
-        <!-- E.g. Type PHPUnit\Framework\MockObject\MockObject is not used in this file. (SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse) -->
-        <exclude name="SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse"/>
-
-        <!-- Not sure how to set up to not allow newlines -->
-        <exclude name="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineAfterOpeningBrace"/>
-        <exclude name="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineBeforeClosingBrace"/>
-
-        <!-- This should exclude global classes, constants and exceptions, but it does not -->
-        <exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName"/>
-
-        <!-- It doesn't understand some function are non and some not -->
+        <!-- It doesn't understand some function are anon and some not -->
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction"/>
+    </rule>
 
-        <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
-            <properties>
-                <property name="newlinesCountBetweenOpenTagAndDeclare" value="0"/>
-                <property name="newlinesCountAfterDeclare" value="1"/>
-                <property name="spacesCountAroundEqualsSign" value="0"/>
-            </properties>
-        </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="spacesCountAroundEqualsSign" value="0"/>
+        </properties>
+    </rule>
 
-        <rule ref="CodingStandard.Namespaces.UseSpacing">
-            <properties>
-                <property name="linesCountBeforeFirstUse" value="1"/>
-                <property name="linesCountBetweenUseTypes" value="0"/>
-                <property name="linesCountAfterLastUse" value="1"/>
-            </properties>
-        </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+        </properties>
+    </rule>
 
-        <rule ref="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineAfterOpeningBrace">
-            <properties>
-                <property name="linesCountAfterOpeningBrace" value="0"/>
-                <property name="linesCountBeforeClosingBrace" value="0"/>
-            </properties>
-        </rule>
+    <rule ref="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces">
+        <properties>
+            <property name="linesCountAfterOpeningBrace" value="0"/>
+            <property name="linesCountBeforeClosingBrace" value="0"/>
+        </properties>
+    </rule>
 
-        <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse">
-            <properties>
-                <property name="searchAnnotations" value="true"/>
-            </properties>
-        </rule>
-
-        <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
-            <properties>
-                <property name="allowFullyQualifiedGlobalClasses" value="true"/>
-                <property name="allowFallbackGlobalFunctions" value="true"/>
-                <property name="allowFallbackGlobalConstants" value="true"/>
-            </properties>
-        </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+            <property name="allowFullyQualifiedGlobalClasses" value="true"/>
+            <property name="allowFallbackGlobalFunctions" value="true"/>
+            <property name="allowFallbackGlobalConstants" value="true"/>
+        </properties>
     </rule>
 
     <rule ref="PSR2">

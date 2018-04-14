@@ -25,7 +25,7 @@ class Server
 
     public function __construct(Application $webSocketApplication, string $documentRoot, array $addresses, int $port)
     {
-        $logHandler = new StreamHandler(new ResourceOutputStream(\STDOUT));
+        $logHandler = new StreamHandler(new ResourceOutputStream(STDOUT));
         $logHandler->setFormatter(new ConsoleFormatter(ConsoleFormatter::DEFAULT_FORMAT, ConsoleFormatter::SIMPLE_DATE, true));
         $logger = new Logger('server');
         $logger->pushHandler($logHandler);
