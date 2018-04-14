@@ -12,6 +12,8 @@ This SMTP server catches all e-mail being sent through it and provides an interf
 
 *Note: this SMTP server is meant to be run locally. As such several security considerations (e.g. SMTP transaction delays) has been omitted by design. Never run this project as a public service.*
 
+![Screenshot MailGrab](https://i.imgur.com/E9qA1sK.png "Screenshot")
+
 ## Project status
 
 This branch (v0.1.0) is in a functioning state. Working on stabilizing the codebase.
