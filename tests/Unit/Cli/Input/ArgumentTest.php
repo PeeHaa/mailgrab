@@ -9,7 +9,7 @@ class ArgumentTest extends TestCase
 {
     public function testConstructorThrowsOnMalformedArgument()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('Malformed argument');
 
         new Argument('---malformed');

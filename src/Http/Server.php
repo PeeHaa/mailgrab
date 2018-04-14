@@ -16,6 +16,7 @@ use Amp\Log\ConsoleFormatter;
 use Amp\Log\StreamHandler;
 use Amp\Promise;
 use Monolog\Logger;
+use function Amp\File\get;
 use function Amp\Socket\listen;
 
 class Server
@@ -65,7 +66,7 @@ class Server
             static $response = null;
 
             if (!$response) {
-                $response = yield \Amp\File\get($documentRootPath . '/index.html');
+                $response = yield get($documentRootPath . '/index.html');
             }
 
             return new Response(Status::OK, ['content-type' => 'text/html'], $response);

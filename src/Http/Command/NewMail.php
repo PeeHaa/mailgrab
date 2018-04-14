@@ -47,7 +47,7 @@ class NewMail implements Command
                 'read'      => $mail->isRead(),
                 'deleted'   => false,
                 'project'   => $mail->getProject(),
-            ]
+            ],
         ];
     }
 }

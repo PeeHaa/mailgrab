@@ -72,7 +72,7 @@ class Transaction
 
         try {
             $command = $this->commandFactory->build($this->status, $line);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // @todo: return list of available commands based on status here
 
             $this->socket->write((string) new SyntaxError($e->getMessage()));
@@ -250,7 +250,7 @@ class Transaction
 
     private function addHeaderWhenNeeded(): void
     {
-        if ($this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
+        if (!$this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
             $this->message->addHeader(new Header($this->headerBuffer));
         }
     }
