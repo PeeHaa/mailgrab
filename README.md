@@ -60,6 +60,14 @@ There are example mail scripts available under `./examples` (e.g. `php examples/
 
 ## Build and development
 
+### NPM
+
+To get started run `npm install`.
+
+An NPM build script is provided and can be used by running `npm run build` in the project root.
+
+### Building phars
+
 Currently all active development has to be based off the v0.1.0 branch.
 
 If you want to build a phar you can run the build script located at `./bin/build` which will created a new build in the `./build` directory.
