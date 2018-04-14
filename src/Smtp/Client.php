@@ -32,8 +32,7 @@ class Client
         CommandFactory $commandFactory,
         callable $callback,
         Output $logger
-    )
-    {
+    ) {
         $this->socket         = $socket;
         $this->commandFactory = $commandFactory;
         $this->callback       = $callback;
@@ -60,7 +59,7 @@ class Client
 
                 $buffer .= $chunk;
 
-                while(false !== $pos = strpos($buffer, self::LINE_DELIMITER)) {
+                while (false !== $pos = strpos($buffer, self::LINE_DELIMITER)) {
                     $line   = substr($buffer, 0, $pos);
                     $buffer = substr($buffer, $pos + strlen(self::LINE_DELIMITER));
 

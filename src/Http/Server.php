@@ -16,7 +16,6 @@ use Amp\Log\ConsoleFormatter;
 use Amp\Log\StreamHandler;
 use Amp\Promise;
 use Monolog\Logger;
-use Psr\Log\NullLogger;
 use function Amp\Socket\listen;
 
 class Server
@@ -65,7 +64,7 @@ class Server
         return new CallableRequestHandler(function () use ($documentRootPath) {
             static $response = null;
 
-            if(!$response) {
+            if (!$response) {
                 $response = yield \Amp\File\get($documentRootPath . '/index.html');
             }
 

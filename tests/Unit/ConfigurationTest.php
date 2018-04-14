@@ -15,13 +15,16 @@ class ConfigurationTest extends TestCase
 
     public function setUp()
     {
-        $this->configuration = new Configuration(new ArrayPath(), [
-            'level1-1' => 'value1-1',
-            'level1-2' => [
-                'level2-1' => 'value2-1',
-                'level2-2' => 'value2-2',
-            ],
-        ]);
+        $this->configuration = new Configuration(
+            new ArrayPath(),
+            [
+                'level1-1' => 'value1-1',
+                'level1-2' => [
+                    'level2-1' => 'value2-1',
+                    'level2-2' => 'value2-2',
+                ],
+            ]
+        );
     }
 
     public function testExistsReturnsTrueWhenItemExists()

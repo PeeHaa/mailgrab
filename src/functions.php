@@ -9,7 +9,8 @@ use Amp\Socket\SocketException;
 use PeeHaa\MailGrab\Smtp\Log\Output;
 use PeeHaa\MailGrab\Smtp\Socket\Server as SocketServer;
 
-function listen(Output $logger, string $uri, ServerListenContext $socketContext = null, ServerTlsContext $tlsContext = null): AmpServer {
+function listen(Output $logger, string $uri, ServerListenContext $socketContext = null, ServerTlsContext $tlsContext = null): AmpServer
+{
     $socketContext = $socketContext ?? new ServerListenContext;
     $tlsContext = $tlsContext ?? new ServerTlsContext;
 
