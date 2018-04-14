@@ -15,8 +15,6 @@ class Message
     /** @var Header[] */
     private $headers = [];
 
-    private $body = '';
-
     public function appendToRawMessage(string $chunk): void
     {
         $this->rawMessage .= $chunk . "\r\n";

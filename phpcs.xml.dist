@@ -16,6 +16,81 @@
         <type>error</type>
     </rule>
 
+    <config name="installed_paths" value="../../slevomat/coding-standard"/><!-- relative path from PHPCS source location -->
+
+    <rule ref="SlevomatCodingStandard">
+        <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.AssignmentInCondition"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.RequireYodaComparison"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
+        <exclude name="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment"/>
+        <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation.NonFullyQualifiedClassName"/>
+
+        <!-- This sniff is unusable as it doesn't check whether it's the last condition in a method -->
+        <exclude name="SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed"/>
+
+        <!-- Not sure how to set up spacing around equal-signs -->
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
+
+        <!-- The sniffer doesn't understand some things are used in annotations. -->
+        <!-- E.g. Type PHPUnit\Framework\MockObject\MockObject is not used in this file. (SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse) -->
+        <exclude name="SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse"/>
+
+        <!-- Not sure how to set up to not allow newlines -->
+        <exclude name="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineAfterOpeningBrace"/>
+        <exclude name="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineBeforeClosingBrace"/>
+
+        <!-- This should exclude global classes, constants and exceptions, but it does not -->
+        <exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName"/>
+
+        <!-- It doesn't understand some function are non and some not -->
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction"/>
+
+        <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+            <properties>
+                <property name="newlinesCountBetweenOpenTagAndDeclare" value="0"/>
+                <property name="newlinesCountAfterDeclare" value="1"/>
+                <property name="spacesCountAroundEqualsSign" value="0"/>
+            </properties>
+        </rule>
+
+        <rule ref="CodingStandard.Namespaces.UseSpacing">
+            <properties>
+                <property name="linesCountBeforeFirstUse" value="1"/>
+                <property name="linesCountBetweenUseTypes" value="0"/>
+                <property name="linesCountAfterLastUse" value="1"/>
+            </properties>
+        </rule>
+
+        <rule ref="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineAfterOpeningBrace">
+            <properties>
+                <property name="linesCountAfterOpeningBrace" value="0"/>
+                <property name="linesCountBeforeClosingBrace" value="0"/>
+            </properties>
+        </rule>
+
+        <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse">
+            <properties>
+                <property name="searchAnnotations" value="true"/>
+            </properties>
+        </rule>
+
+        <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+            <properties>
+                <property name="allowFullyQualifiedGlobalClasses" value="true"/>
+                <property name="allowFallbackGlobalFunctions" value="true"/>
+                <property name="allowFallbackGlobalConstants" value="true"/>
+            </properties>
+        </rule>
+    </rule>
+
     <rule ref="PSR2">
         <!-- Need to find a way to turn this off for text, before re-enabling -->
         <exclude name="Generic.Files.LineLength.TooLong"/>
@@ -40,53 +115,6 @@
         <exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakIndent"/>
         <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase"/>
         <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenerdefault"/>
-    </rule>
-
-    <!-- We are doing tricksy stuff with namespaces -->
-    <rule ref="Generic.WhiteSpace.ScopeIndent.Incorrect">
-        <exclude-pattern>*bootstrap.php</exclude-pattern>
-        <exclude-pattern>*Tutorial/functions.php</exclude-pattern>
-    </rule>
-
-    <rule ref="PSR2.Classes.ClassDeclaration.SpaceBeforeBrace">
-        <exclude-pattern>*bootstrap.php</exclude-pattern>
-        <exclude-pattern>*Tutorial/functions.php</exclude-pattern>
-    </rule>
-
-    <rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact">
-        <exclude-pattern>*bootstrap.php</exclude-pattern>
-        <exclude-pattern>*Tutorial/functions.php</exclude-pattern>
-    </rule>
-
-    <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
-        <exclude-pattern>*bootstrap.php</exclude-pattern>
-        <exclude-pattern>*/functions.php</exclude-pattern>
-    </rule>
-
-    <!-- This is not a good practice for graphics functions -->
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.OneParamPerLine">
-        <exclude-pattern>*/functions.php</exclude-pattern>
-    </rule>
-
-    <!-- We use lowercase names to avoid having to have huge data blocks -->
-    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
-        <exclude-pattern>Imagick/*</exclude-pattern>
-        <exclude-pattern>ImagickDraw/*</exclude-pattern>
-        <exclude-pattern>ImagickKernel/*</exclude-pattern>
-        <exclude-pattern>ImagickPixel/*</exclude-pattern>
-        <exclude-pattern>ImagickPixelIterator/*</exclude-pattern>
-        <exclude-pattern>Tutorial/*</exclude-pattern>
-    </rule>
-
-    <!-- These are there own end point and so are okay to mix declaration and calling -->
-    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
-        <exclude-pattern>Tutorial/smoothSpiderGraph.php</exclude-pattern>
-        <exclude-pattern>src/appFunctions.php</exclude-pattern>
-        <exclude-pattern>src/process.php</exclude-pattern>
-        <exclude-pattern>ImagickDemo/Config.php</exclude-pattern>
-        <exclude-pattern>tool/*</exclude-pattern>
-        <exclude-pattern>bin/*</exclude-pattern>
-        <exclude-pattern>imagick-demos/src/index.php</exclude-pattern>
     </rule>
 
 </ruleset>
