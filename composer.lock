@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46b8bf28da6eea696ea5ca31755d4857",
+    "content-hash": "a6b8f06bc597aeaef1dccd7333eea338",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3842,6 +3842,46 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
+        },
+        {
+            "name": "slevomat/coding-standard",
+            "version": "4.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slevomat/coding-standard.git",
+                "reference": "1e609159241fa90d5a429f185b2ea9b881340a7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/1e609159241fa90d5a429f185b2ea9b881340a7c",
+                "reference": "1e609159241fa90d5a429f185b2ea9b881340a7c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "squizlabs/php_codesniffer": "^3.2.3"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "1.0.0",
+                "phing/phing": "2.16",
+                "phpstan/phpstan": "0.9.2",
+                "phpstan/phpstan-phpunit": "0.9.4",
+                "phpstan/phpstan-strict-rules": "0.9",
+                "phpunit/php-code-coverage": "6.0.1",
+                "phpunit/phpunit": "7.0.2"
+            },
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "SlevomatCodingStandard\\": "SlevomatCodingStandard"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
+            "time": "2018-03-08T08:14:33+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

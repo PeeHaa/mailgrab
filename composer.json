@@ -37,6 +37,7 @@
         "macfja/phar-builder": "dev-handle-dot-notation-relative-paths",
         "phpmailer/phpmailer": "^6.0",
         "phpunit/phpunit": "^7.0",
+        "slevomat/coding-standard": "^4.5",
         "squizlabs/php_codesniffer": "^3.2",
         "swiftmailer/swiftmailer": "^6.0"
     },
