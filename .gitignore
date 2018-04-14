@@ -1,5 +1,5 @@
 vendor
 .idea
 node_modules
-data
+/data
 /build

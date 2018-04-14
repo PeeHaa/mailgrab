@@ -4,7 +4,7 @@ namespace PeeHaa\MailGrab\Http\Storage;
 
 use PeeHaa\MailGrab\Http\Entity\Mail;
 
-interface Storage
+interface Storage extends \Iterator
 {
     public function add(Mail $mail): void;
 
