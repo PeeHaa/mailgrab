@@ -92,29 +92,7 @@
     </rule>
 
     <rule ref="PSR2">
-        <!-- Need to find a way to turn this off for text, before re-enabling -->
-        <exclude name="Generic.Files.LineLength.TooLong"/>
-
         <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
-
-        <!-- Bug is CSS - see https://github.com/squizlabs/PHP_CodeSniffer/issues/604 -->
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent"/>
-
-        <!-- I just don't agree with these. -->
-        <exclude name="PSR2.ControlStructures.ElseIfDeclaration"/>
-        <exclude name="Squiz.ControlStructures.ElseIfDeclaration"/>
-        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace"/>
-
-        <!-- TODO make this be newline -->
-        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
-
-        <!-- This makes co-ordinate pairs hard to read -->
-        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
-
-        <!-- These sniffs break 'valid' code -->
-        <exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakIndent"/>
-        <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase"/>
-        <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenerdefault"/>
     </rule>
 
 </ruleset>
