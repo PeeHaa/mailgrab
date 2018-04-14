@@ -1,0 +1,31 @@
+build:
+    nodes:
+        analysis:
+            project_setup:
+                override:
+                    - 'true'
+            tests:
+                override:
+                    - phpcs-run
+            environment:
+                node:
+                    version: 6.0.0
+        tests: true
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=some-file'
+                coverage:
+                    file: 'some-file'
+                    format: 'clover'
+filter:
+    excluded_paths:
+        - 'bin/*'
+        - '*.min.js'
+checks:
+    php: true
+coding_style:
+    php:
+        spaces:
+            around_operators:
+                concatenation: true

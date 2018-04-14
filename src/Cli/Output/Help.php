@@ -91,7 +91,9 @@ class Help
         }
 
         if ($option->hasLong()) {
-            if (trim($title)) $title .= ', ';
+            if (trim($title)) {
+                $title .= ', ';
+            }
 
             $title .= $this->renderLongOption($option);
         }

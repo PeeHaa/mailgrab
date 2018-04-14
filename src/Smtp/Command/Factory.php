@@ -60,7 +60,9 @@ class Factory
 
         /** @var Command $command */
         foreach ($this->availableCommands[$clientStatus->getValue()] as $command) {
-            if (!$command::isValid($line)) continue;
+            if (!$command::isValid($line)) {
+                continue;
+            }
 
             return new $command($line);
         }

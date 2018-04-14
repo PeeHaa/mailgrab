@@ -32,8 +32,7 @@ class Client
         CommandFactory $commandFactory,
         callable $callback,
         Output $logger
-    )
-    {
+    ) {
         $this->socket         = $socket;
         $this->commandFactory = $commandFactory;
         $this->callback       = $callback;
@@ -49,7 +48,9 @@ class Client
 
             $buffer = '';
 
+            // phpcs:disable SlevomatCodingStandard.ControlStructures.DisallowYodaComparison.DisallowedYodaComparison
             while (null !== $chunk = yield $this->socket->read()) {
+                // phpcs:enable
                 $this->logger->messageIn($chunk);
 
                 $limit = 512;
@@ -60,7 +61,9 @@ class Client
 
                 $buffer .= $chunk;
 
-                while(false !== $pos = strpos($buffer, self::LINE_DELIMITER)) {
+                // phpcs:disable SlevomatCodingStandard.ControlStructures.DisallowYodaComparison.DisallowedYodaComparison
+                while (false !== $pos = strpos($buffer, self::LINE_DELIMITER)) {
+                    // phpcs:enable
                     $line   = substr($buffer, 0, $pos);
                     $buffer = substr($buffer, $pos + strlen(self::LINE_DELIMITER));
 

@@ -6,21 +6,15 @@ use PeeHaa\MailGrab\Cli\Command;
 use PeeHaa\MailGrab\Cli\Input\Argument;
 use PeeHaa\MailGrab\Cli\Input\Validator;
 use PeeHaa\MailGrab\Cli\Option;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
 {
-    /** @var Command|MockObject */
-    private $commandMock;
-
     /** @var Argument[] */
     private $arguments;
 
     public function setUp()
     {
-        $this->commandMock = $this->createMock(Command::class);
-
         $this->arguments = [
             new Argument('--long'),
             new Argument('-short'),
