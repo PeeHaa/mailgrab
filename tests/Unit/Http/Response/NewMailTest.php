@@ -2,13 +2,13 @@
 
 namespace PeeHaa\MailGrabTest\Unit\Http\Response;
 
-use PeeHaa\MailGrab\Http\Response\MailInfo;
+use PeeHaa\MailGrab\Http\Response\NewMail;
 use PeeHaa\MailGrab\Smtp\HeaderBuffer;
 use PeeHaa\MailGrab\Smtp\Message;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class MailInfoTest extends TestCase
+class NewMailTest extends TestCase
 {
     /** @var MockObject|Message */
     private $messageMock;
@@ -27,29 +27,47 @@ class MailInfoTest extends TestCase
         ;
     }
 
+    public function testGetId()
+    {
+        $this->setUpMessageWithEmptyHeaders();
+
+        $newMail = new NewMail($this->messageMock);
+
+        $this->assertRegExp('~[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}~', $newMail->getId());
+    }
+
+    public function testGetMessage()
+    {
+        $this->setUpMessageWithEmptyHeaders();
+
+        $newMail = new NewMail($this->messageMock);
+
+        $this->assertSame($this->messageMock, $newMail->getMessage());
+    }
+
     public function testToStringHasCorrectType()
     {
         $this->setUpMessageWithEmptyHeaders();
 
-        $result = json_decode((string) new MailInfo(13, $this->messageMock), true);
+        $result = json_decode((string) new NewMail($this->messageMock), true);
 
-        $this->assertSame('mail-info', $result['type']);
+        $this->assertSame('new-mail', $result['type']);
     }
 
     public function testToStringHasCorrectId()
     {
         $this->setUpMessageWithEmptyHeaders();
 
-        $result = json_decode((string) new MailInfo(13, $this->messageMock), true);
+        $result = json_decode((string) new NewMail($this->messageMock), true);
 
-        $this->assertSame(13, $result['data']['id']);
+        $this->assertRegExp('~[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}~', $result['data']['id']);
     }
 
     public function testToStringWithoutSubject()
     {
         $this->setUpMessageWithEmptyHeaders();
 
-        $result = json_decode((string) new MailInfo(13, $this->messageMock), true);
+        $result = json_decode((string) new NewMail($this->messageMock), true);
 
         $this->assertSame('', $result['data']['subject']);
     }
@@ -64,7 +82,7 @@ class MailInfoTest extends TestCase
             ->willReturn(['subject' => new HeaderBuffer('subject', 'SUBJECT')])
         ;
 
-        $result = json_decode((string) new MailInfo(13, $messageMock), true);
+        $result = json_decode((string) new NewMail($messageMock), true);
 
         $this->assertSame('SUBJECT', $result['data']['subject']);
     }
@@ -73,34 +91,8 @@ class MailInfoTest extends TestCase
     {
         $this->setUpMessageWithEmptyHeaders();
 
-        $result = json_decode((string) new MailInfo(13, $this->messageMock), true);
+        $result = json_decode((string) new NewMail($this->messageMock), true);
 
         $this->assertRegExp('~^[\d]{4}-[\d]{2}-[\d]{2}T[\d]{2}:[\d]{2}~', $result['data']['timestamp']);
-    }
-
-    public function testToStringHasFrom()
-    {
-        $this->messageMock
-            ->expects($this->once())
-            ->method('getFrom')
-            ->willReturn('from@example.com')
-        ;
-
-        $result = json_decode((string) new MailInfo(13, $this->messageMock), true);
-
-        $this->assertSame('from@example.com', $result['data']['from']);
-    }
-
-    public function testToStringHasRecipients()
-    {
-        $this->messageMock
-            ->expects($this->once())
-            ->method('getRecipients')
-            ->willReturn(['to@example.com'])
-        ;
-
-        $result = json_decode((string) new MailInfo(13, $this->messageMock), true);
-
-        $this->assertSame(['to@example.com'], $result['data']['to']);
     }
 }

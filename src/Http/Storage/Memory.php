@@ -38,7 +38,7 @@ class Memory implements Storage
         next($this->mails);
     }
 
-    public function key(): string
+    public function key(): int
     {
         return key($this->mails);
     }
