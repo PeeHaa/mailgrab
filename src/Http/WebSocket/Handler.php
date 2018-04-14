@@ -103,7 +103,7 @@ class Handler implements Application
 
     public function onClose(int $clientId, int $code, string $reason)
     {
-
+        // intentionally left blank
     }
 
     public function onStop()

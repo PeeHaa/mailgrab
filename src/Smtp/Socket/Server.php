@@ -18,7 +18,8 @@ class Server extends AmpServer
         parent::__construct($socket, $chunkSize);
     }
 
-    public function accept(): Promise {
+    public function accept(): Promise
+    {
         return call(function() {
             $ampSocket = yield parent::accept();
 
