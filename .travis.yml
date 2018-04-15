@@ -34,4 +34,3 @@ before_script:
 script:
   - phpdbg -qrr vendor/bin/phpunit --coverage-text
   - vendor/bin/phpcs -s
-  - phpdbg -qrr ./infection.phar --min-covered-msi=90 --threads=4 --show-mutations
