@@ -50,11 +50,6 @@ class Message
         $this->headers[strtolower($header->getKey())] = $header;
     }
 
-    public function appendToBody(string $content): void
-    {
-        $this->body .= $content . "\r\n";
-    }
-
     public function getHeaders(): array
     {
         return $this->headers;
