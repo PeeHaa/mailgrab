@@ -14,7 +14,7 @@ build:
     tests:
         override:
             -
-                command: 'phpdbg-qrr vendor/bin/phpunit --coverage-clover=some-file'
+                command: 'phpdbg -qrr vendor/bin/phpunit --coverage-clover=some-file'
                 coverage:
                     file: 'some-file'
                     format: 'clover'
