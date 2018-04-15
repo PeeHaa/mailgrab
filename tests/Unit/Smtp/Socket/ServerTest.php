@@ -13,7 +13,7 @@ class ServerTest extends TestCase
     {
         $logger = $this->createMock(Output::class);
 
-        $server = listen($logger, 'tcp://127.0.0.1:9999');
+        $server = listen($logger, 'tcp://127.0.0.1:9995');
 
         $this->assertInstanceOf(Promise::class, $server->accept());
     }
@@ -22,7 +22,7 @@ class ServerTest extends TestCase
     {
         $logger = $this->createMock(Output::class);
 
-        $server = listen($logger, 'tcp://127.0.0.1:9999');
+        $server = listen($logger, 'tcp://127.0.0.1:9996');
 
         $this->assertInstanceOf(Promise::class, $server->accept());
     }
