@@ -17,4 +17,13 @@ class ServerTest extends TestCase
 
         $this->assertInstanceOf(Promise::class, $server->accept());
     }
+
+    public function testAcceptReturnsResolvesToServerSocket()
+    {
+        $logger = $this->createMock(Output::class);
+
+        $server = listen($logger, 'tcp://127.0.0.1:9999');
+
+        $this->assertInstanceOf(Promise::class, $server->accept());
+    }
 }
