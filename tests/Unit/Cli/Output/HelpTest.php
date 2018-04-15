@@ -130,6 +130,18 @@ class HelpTest extends TestCase
         $this->assertSame('binaryname [--long=def] [-short]', $lines[2]);
     }
 
+    public function testRenderRendersExampleAndSkipsHelp()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Long option'))->setLong('long'),
+            (new Option('Help'))->setShort('h'),
+        ]);
+
+        $lines = explode(PHP_EOL, (new Help())->render('cli/binaryname', $command));
+
+        $this->assertSame('binaryname [--long]', $lines[2]);
+    }
+
     public function testRenderOnlyRendersUsageWhenOptionsAreDefined()
     {
         $command = new Command('Test command', ...[]);
