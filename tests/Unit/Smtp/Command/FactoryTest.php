@@ -12,7 +12,7 @@ class FactoryTest extends TestCase
 {
     public function testBuildThrowsOnUnknownCommand()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('Syntax error, command unrecognised');
 
         $transactionStatus = new class(PHP_INT_MAX) extends TransactionStatus {
@@ -24,7 +24,7 @@ class FactoryTest extends TestCase
 
     public function testBuildThrowsOnUnknownCommandWhichIsNotAllowedInCurrentState()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('Syntax error, command unrecognised');
 
         $transactionStatus = new TransactionStatus(TransactionStatus::FROM);
