@@ -127,6 +127,36 @@ class CommandTest extends TestCase
         $this->assertSame(9025, $command->getConfiguration(...$arguments)['smtpport']);
     }
 
+    public function testGetConfigurationReturnsDefaultHostname()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Help option'))->setShort('h')->setLong('help'),
+            (new Option('Long option'))->setLong('long'),
+            (new Option('Short option'))->setShort('short'),
+        ]);
+
+        $arguments = [
+            new Argument('--long'),
+        ];
+
+        $this->assertSame('localhost', $command->getConfiguration(...$arguments)['hostname']);
+    }
+
+    public function testGetConfigurationReturnsDefaultIpAddresses()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Help option'))->setShort('h')->setLong('help'),
+            (new Option('Long option'))->setLong('long'),
+            (new Option('Short option'))->setShort('short'),
+        ]);
+
+        $arguments = [
+            new Argument('--long'),
+        ];
+
+        $this->assertSame(['0.0.0.0', '[::]'], $command->getConfiguration(...$arguments)['ips']);
+    }
+
     public function testGetConfigurationSetsWebPort()
     {
         $command = new Command('Test command', ...[
@@ -151,5 +181,31 @@ class CommandTest extends TestCase
         ];
 
         $this->assertSame(25, $command->getConfiguration(...$arguments)['smtpport']);
+    }
+
+    public function testGetConfigurationSetsHostname()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Hostname option'))->setLong('host')->input('HOST'),
+        ]);
+
+        $arguments = [
+            new Argument('--host=example.com'),
+        ];
+
+        $this->assertSame('example.com', $command->getConfiguration(...$arguments)['hostname']);
+    }
+
+    public function testGetConfigurationSetsIps()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('IP option'))->setLong('ips')->input('IPS'),
+        ]);
+
+        $arguments = [
+            new Argument('--ips=8.8.8.8,8.8.8.9'),
+        ];
+
+        $this->assertSame(['8.8.8.8', '8.8.8.9'], $command->getConfiguration(...$arguments)['ips']);
     }
 }
