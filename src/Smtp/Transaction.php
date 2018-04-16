@@ -250,7 +250,7 @@ class Transaction
 
     private function addHeaderWhenNeeded(): void
     {
-        if (!$this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
+        if ($this->status->equals(new TransactionStatus(TransactionStatus::UNFOLDING))) {
             $this->message->addHeader(new Header($this->headerBuffer));
         }
     }
