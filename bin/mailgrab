@@ -88,7 +88,9 @@ $auryn->delegate(Executor::class, function() use ($auryn) {
 });
 
 $auryn->define(Handler::class, [
-    ':origin' => sprintf('http://%s:%d', $configuration['hostname'], $configuration['port']),
+    ':origin'    => sprintf('http://%s:%d', $configuration['hostname'], $configuration['port']),
+    ':addresses' => $configuration['ips'],
+    ':smtpPort'  => $configuration['smtpport'],
 ]);
 
 Loop::run(function () use ($auryn, $configuration) {

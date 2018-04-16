@@ -24,15 +24,21 @@ class Handler implements Application
 
     private $origin;
 
+    private $addresses;
+
+    private $smtpPort;
+
     private $executor;
 
     private $storage;
 
-    public function __construct(string $origin, Executor $executor, Storage $storage)
+    public function __construct(string $origin, Executor $executor, Storage $storage, array $addresses, int $smtpPort)
     {
-        $this->origin   = $origin;
-        $this->executor = $executor;
-        $this->storage  = $storage;
+        $this->origin    = $origin;
+        $this->addresses = $addresses;
+        $this->smtpPort  = $smtpPort;
+        $this->executor  = $executor;
+        $this->storage   = $storage;
     }
 
     public function onStart(Endpoint $endpoint)
@@ -40,7 +46,13 @@ class Handler implements Application
         $this->endpoint = $endpoint;
 
         asyncCall(function() {
-            (new Server(new Factory(), [$this, 'pushMessage'], new Output(new Level(Level::INFO))))->run();
+            (new Server(
+                new Factory(),
+                [$this, 'pushMessage'],
+                new Output(new Level(Level::INFO)),
+                $this->addresses,
+                $this->smtpPort
+            ))->run();
         });
     }
 

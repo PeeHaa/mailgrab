@@ -10,7 +10,7 @@ use function PeeHaa\MailGrab\listen;
 
 class Server
 {
-    private const ADDRESS = 'tcp://127.0.0.1:8025';
+    private $addresses = [];
 
     private $commandFactory;
 
@@ -18,24 +18,30 @@ class Server
 
     private $logger;
 
-    public function __construct(CommandFactory $commandFactory, callable $callback, Output $logger)
+    public function __construct(CommandFactory $commandFactory, callable $callback, Output $logger, array $addresses, int $port)
     {
         $this->commandFactory = $commandFactory;
         $this->callback       = $callback;
         $this->logger         = $logger;
+
+        foreach ($addresses as $address) {
+            $this->addresses[] = sprintf('tcp://%s:%d', $address, $port);
+        }
     }
 
     public function run()
     {
-        asyncCall(function () {
-            $server = listen($this->logger, self::ADDRESS);
+        foreach ($this->addresses as $address) {
+            asyncCall(function () use ($address) {
+                $server = listen($this->logger, $address);
 
-            $this->logger->info('Server started and listening on ' . $server->getAddress());
+                $this->logger->info('Server started and listening on ' . $server->getAddress());
 
-            while ($socket = yield $server->accept()) {
-                $this->handleClient($socket);
-            }
-        });
+                while ($socket = yield $server->accept()) {
+                    $this->handleClient($socket);
+                }
+            });
+        }
     }
 
     private function handleClient(ServerSocket $socket)
