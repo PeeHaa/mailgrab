@@ -232,7 +232,8 @@ class Transaction
 
     private function addBodyLine(BodyLine $command): void
     {
-        $this->message->appendToBody($command->getLine());
+        // empty on purpose
+        // We are using the raw message for parsing purposes now
     }
 
     private function endBody(): void
