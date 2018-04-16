@@ -73,7 +73,7 @@ class Command
         ];
 
         foreach ($arguments as $argument) {
-            if ($argument->isLong() && $argument->getKey() === 'host') {
+            if ($argument->isLong() && $argument->getKey() === 'hostname') {
                 $configuration['hostname'] = $argument->getValue();
             }
 

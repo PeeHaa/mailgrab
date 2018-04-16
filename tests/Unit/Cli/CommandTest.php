@@ -186,11 +186,11 @@ class CommandTest extends TestCase
     public function testGetConfigurationSetsHostname()
     {
         $command = new Command('Test command', ...[
-            (new Option('Hostname option'))->setLong('host')->input('HOST'),
+            (new Option('Hostname option'))->setLong('hostname')->input('HOST'),
         ]);
 
         $arguments = [
-            new Argument('--host=example.com'),
+            new Argument('--hostname=example.com'),
         ];
 
         $this->assertSame('example.com', $command->getConfiguration(...$arguments)['hostname']);
