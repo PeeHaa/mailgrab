@@ -63,7 +63,7 @@ class SelectMailTest extends TestCase
         $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"53d8d320-f546-406e-b17f-2938098cbb74","deleted":true}}}', (string) $result);
     }
 
-    public function testExecuteReturnsResponseWhenMailIsAvailableAndHasText()
+    public function testExecuteReturnsResponseWhenMailIsAvailableAndHaveHtml()
     {
         $this->mailMock
             ->expects($this->once())
@@ -135,13 +135,13 @@ class SelectMailTest extends TestCase
         ;
 
         $this->mailMock
-            ->expects($this->exactly(3))
+            ->expects($this->once())
             ->method('getText')
             ->willReturn('TEXT')
         ;
 
         $this->mailMock
-            ->expects($this->once())
+            ->expects($this->exactly(3))
             ->method('GetHtml')
             ->willReturn('HTML')
         ;
@@ -172,10 +172,10 @@ class SelectMailTest extends TestCase
         $result = wait($selectMail->execute($this->inputMock));
 
         $this->assertInstanceOf(Success::class, $result);
-        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"TEXT","hasText":true,"hasHtml":true}}}', (string) $result);
+        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"HTML","hasText":true,"hasHtml":true}}}', (string) $result);
     }
 
-    public function testExecuteReturnsResponseWhenMailIsAvailableAndDoesNotHasText()
+    public function testExecuteReturnsResponseWhenMailIsAvailableAndDoesNotHaveHtml()
     {
         $this->mailMock
             ->expects($this->once())
@@ -249,13 +249,13 @@ class SelectMailTest extends TestCase
         $this->mailMock
             ->expects($this->exactly(2))
             ->method('getText')
-            ->willReturn(null)
+            ->willReturn('TEXT')
         ;
 
         $this->mailMock
             ->expects($this->exactly(2))
             ->method('GetHtml')
-            ->willReturn('HTML')
+            ->willReturn(null)
         ;
 
         $this->storageMock
@@ -284,6 +284,6 @@ class SelectMailTest extends TestCase
         $result = wait($selectMail->execute($this->inputMock));
 
         $this->assertInstanceOf(Success::class, $result);
-        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"HTML","hasText":false,"hasHtml":true}}}', (string) $result);
+        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"TEXT","hasText":true,"hasHtml":false}}}', (string) $result);
     }
 }
