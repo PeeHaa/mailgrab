@@ -24,10 +24,10 @@ export default class Content {
 
         new Info(info);
 
-        if (info.hasText) {
-            new Text(info.content);
-        } else {
+        if (info.hasHtml) {
             new Html(info.content);
+        } else {
+            new Text(info.content);
         }
     }
 

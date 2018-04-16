@@ -22,8 +22,8 @@ export default class Text {
         const container = document.querySelector('main');
         const iframe    = document.createElement('iframe');
 
-        container.appendChild(iframe);
-
         iframe.addEventListener('load', callback);
+
+        container.appendChild(iframe);
     }
 }

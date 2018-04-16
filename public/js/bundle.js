@@ -16638,7 +16638,6 @@ var Connection = function () {
                 setTimeout(_this.connect.bind(_this, onConnecting, onOpen, onClose, onMessage), 5000);
             });
             this.socket.addEventListener('message', function (e) {
-                console.log(e.data);
                 var message = JSON.parse(e.data);
 
                 var command = message.payload.command;
@@ -17523,10 +17522,10 @@ var Toolbar = function () {
 
             this.reset(info);
 
-            if (info.hasText) {
-                this.toolbar.querySelector('[data-type="text"]').classList.add('active');
-            } else {
+            if (info.hasHtml) {
                 this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+            } else {
+                this.toolbar.querySelector('[data-type="text"]').classList.add('active');
             }
 
             this.toolbar.classList.add('active');
@@ -17665,10 +17664,10 @@ var Content = function () {
 
             new _Info2.default(info);
 
-            if (info.hasText) {
-                new _Text2.default(info.content);
-            } else {
+            if (info.hasHtml) {
                 new _Html2.default(info.content);
+            } else {
+                new _Text2.default(info.content);
             }
         }
     }, {
@@ -17855,9 +17854,9 @@ var Text = function () {
                                     var container = document.querySelector('main');
                                     var iframe = document.createElement('iframe');
 
-                                    container.appendChild(iframe);
-
                                     iframe.addEventListener('load', callback);
+
+                                    container.appendChild(iframe);
                         }
             }]);
 
@@ -17888,6 +17887,7 @@ var Html = function () {
         _classCallCheck(this, Html);
 
         this.addToDom(function () {
+            console.warn('ADDING HTML TO DOM');
             _this.element = document.querySelector('iframe').contentWindow.document;
 
             var body = new DOMParser().parseFromString(content, 'text/html');
@@ -17901,12 +17901,13 @@ var Html = function () {
     _createClass(Html, [{
         key: 'addToDom',
         value: function addToDom(callback) {
+            console.warn('ADDING TO DOM');
             var container = document.querySelector('main');
             var iframe = document.createElement('iframe');
 
-            container.appendChild(iframe);
-
             iframe.addEventListener('load', callback);
+
+            container.appendChild(iframe);
         }
     }, {
         key: 'fixLinkTargets',
