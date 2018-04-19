@@ -16,11 +16,12 @@ This SMTP server catches all e-mail being sent through it and provides an interf
 
 ## Project status
 
-This branch (v0.1.0) is in a functioning state. Working on stabilizing the codebase.
+This project is currently working towards a first stable release version.  
+The master branch of this project will always be in a functioning state and will always point to the last release.
 
-Once missing tests are added and I've added functionality that I feel is mandatory I will officially tag a v0.1.0 release based on this branch.
+Active development of this branch (v0.1.0) is finished and all new development should be based off the last development branch
 
-Requirements
+## Requirements
 
 - PHP 7.1
 
@@ -32,7 +33,7 @@ Requirements
 
 ### Phar
 
-Download the latest phar file from the releases page (coming soon) and make the file executable.
+Download the latest phar file from the [releases](https://github.com/PeeHaa/mailgrab/releases) page and make the file executable.
 
 ## Usage
 
