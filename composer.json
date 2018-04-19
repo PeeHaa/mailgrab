@@ -1,6 +1,6 @@
 {
     "name": "peehaa/mailgrab",
-    "description": "Self contained mail catcher for debugging pusposes",
+    "description": "Self contained mail catcher for debugging purposes",
     "type": "project",
     "authors": [
         {
