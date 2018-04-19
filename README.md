@@ -1,9 +1,9 @@
 # MailGrab
 
 [![Latest Stable Version](https://poser.pugx.org/peehaa/mailgrab/v/stable)](https://packagist.org/packages/peehaa/mailgrab)
-[![Build Status](https://travis-ci.org/PeeHaa/mailgrab.svg?branch=v0.1.0)](https://travis-ci.org/PeeHaa/mailgrab)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/badges/quality-score.png?b=v0.1.0)](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/?branch=v0.1.0)
-[![Code Coverage](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/badges/coverage.png?b=v0.1.0)](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/?branch=v0.1.0)
+[![Build Status](https://travis-ci.org/PeeHaa/mailgrab.svg?branch=master)](https://travis-ci.org/PeeHaa/mailgrab)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/PeeHaa/mailgrab/?branch=master)
 [![License](https://poser.pugx.org/peehaa/mailgrab/license)](https://packagist.org/packages/peehaa/mailgrab)
 
 Catch-all SMTP server for local debugging purposes.
@@ -19,7 +19,14 @@ This SMTP server catches all e-mail being sent through it and provides an interf
 This project is currently working towards a first stable release version.  
 The master branch of this project will always be in a functioning state and will always point to the last release.
 
-Active development of this branch (v0.1.0) is finished and all new development should be based off the last development branch
+All active development should be based off the v0.2.0 branch.
+
+### Current limitations
+
+- Currently the project only supports unauthenticated smtp requests (without `AUTH` command).
+- Attachments are not supported as downloads
+- No persistent storage
+- Because we currently only support in-memory storage the project may run out of memory when handling a lot of mails or mails with a lot attachments
 
 ## Requirements
 
