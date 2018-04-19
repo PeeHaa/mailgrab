@@ -76,6 +76,6 @@ An NPM build script is provided and can be used by running `npm run build` in th
 
 ### Building phars
 
-Currently all active development has to be based off the v0.1.0 branch.
+Currently all active development has to be based off the v0.2.0 branch.
 
 If you want to build a phar you can run the build script located at `./bin/build` which will created a new build in the `./build` directory.
