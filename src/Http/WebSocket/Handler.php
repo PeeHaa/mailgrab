@@ -2,10 +2,11 @@
 
 namespace PeeHaa\MailGrab\Http\WebSocket;
 
-use Aerys\Request;
-use Aerys\Response;
-use Aerys\Websocket;
-use Aerys\Websocket\Endpoint;
+use Amp\Http\Server\Request;
+use Amp\Http\Server\Response;
+use Amp\Http\Server\Websocket\Application;
+use Amp\Http\Server\Websocket\Endpoint;
+use Amp\Http\Server\Websocket\Message as WebSocketMessage;
 use PeeHaa\AmpWebsocketCommand\Executor;
 use PeeHaa\MailGrab\Http\Entity\Mail;
 use PeeHaa\MailGrab\Http\Storage\Storage;
@@ -16,22 +17,28 @@ use PeeHaa\MailGrab\Smtp\Message;
 use PeeHaa\MailGrab\Smtp\Server;
 use function Amp\asyncCall;
 
-class Handler implements Websocket
+class Handler implements Application
 {
     /** @var Endpoint */
     private $endpoint;
 
     private $origin;
 
+    private $addresses;
+
+    private $smtpPort;
+
     private $executor;
 
     private $storage;
 
-    public function __construct(string $origin, Executor $executor, Storage $storage)
+    public function __construct(string $origin, Executor $executor, Storage $storage, array $addresses, int $smtpPort)
     {
-        $this->origin   = $origin;
-        $this->executor = $executor;
-        $this->storage  = $storage;
+        $this->origin    = $origin;
+        $this->addresses = $addresses;
+        $this->smtpPort  = $smtpPort;
+        $this->executor  = $executor;
+        $this->storage   = $storage;
     }
 
     public function onStart(Endpoint $endpoint)
@@ -39,7 +46,13 @@ class Handler implements Websocket
         $this->endpoint = $endpoint;
 
         asyncCall(function() {
-            (new Server(new Factory(), [$this, 'pushMessage'], new Output(new Level(Level::INFO))))->run();
+            (new Server(
+                new Factory(),
+                [$this, 'pushMessage'],
+                new Output(new Level(Level::INFO)),
+                $this->addresses,
+                $this->smtpPort
+            ))->run();
         });
     }
 
@@ -47,17 +60,14 @@ class Handler implements Websocket
     {
         if ($request->getHeader('origin') !== $this->origin) {
             $response->setStatus(403);
-            $response->end('<h1>origin not allowed</h1>');
-
-            return null;
         }
 
-        return $request->getConnectionInfo()['client_addr'];
+        return $response;
     }
 
-    public function onOpen(int $clientId, $handshakeData)
+    public function onOpen(int $clientId, Request $request)
     {
-
+        // empty on purpose
     }
 
     public function pushMessage(Message $message)
@@ -76,9 +86,9 @@ class Handler implements Websocket
         });
     }
 
-    public function onData(int $clientId, Websocket\Message $msg)
+    public function onData(int $clientId, WebSocketMessage $message)
     {
-        $rawCommand = yield $msg;
+        $rawCommand = yield $message->read();
 
         $command = json_decode($rawCommand, true);
 
@@ -105,7 +115,7 @@ class Handler implements Websocket
 
     public function onClose(int $clientId, int $code, string $reason)
     {
-
+        // intentionally left blank
     }
 
     public function onStop()

@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+namespace PeeHaa\MailGrab\Bin;
+
+$builder = realpath(__DIR__ . '/../vendor/macfja/phar-builder/bin/phar-builder');
+
+passthru('php -d phar.readonly=0 ' . $builder . ' package composer.json');

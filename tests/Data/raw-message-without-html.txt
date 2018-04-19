@@ -1,0 +1,20 @@
+Date: Sun, 8 Apr 2018 14:46:46 +0000
+To: Joe User <to.with.name@example.net>, to.without.name@example.com
+From: "M. Sender" <from@example.com>
+Cc: cc@example.com
+Reply-To: Reply Address <reply.to@example.com>
+Subject: PHPMailer
+Message-ID: <rzSAslGgjMD0wmkkp8RW09VobTFO2bwG4AJ7XDHaPs@MSIGL72M7RDX>
+X-Mailer: PHPMailer 6.0.5 (https://github.com/PHPMailer/PHPMailer)
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="b1_rzSAslGgjMD0wmkkp8RW09VobTFO2bwG4AJ7XDHaPs"
+Content-Transfer-Encoding: 8bit
+
+This is a multi-part message in MIME format.
+--b1_rzSAslGgjMD0wmkkp8RW09VobTFO2bwG4AJ7XDHaPs
+Content-Type: text/plain; charset=us-ascii
+
+This is the body in plain text for non-HTML mail clients
+--b1_rzSAslGgjMD0wmkkp8RW09VobTFO2bwG4AJ7XDHaPs--
+

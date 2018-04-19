@@ -8,10 +8,10 @@ export default class Toolbar {
 
         this.reset(info);
 
-        if (info.hasText) {
-            this.toolbar.querySelector('[data-type="text"]').classList.add('active');
-        } else {
+        if (info.hasHtml) {
             this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+        } else {
+            this.toolbar.querySelector('[data-type="text"]').classList.add('active');
         }
 
         this.toolbar.classList.add('active');

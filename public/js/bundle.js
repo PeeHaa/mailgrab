@@ -16428,6 +16428,7 @@ var Application = function () {
 
         this.connection = new _Connection2.default();
         this.commandProcessor = new _Processor2.default({
+            init: this.onInit.bind(this),
             newMail: this.onNewMail.bind(this),
             mailInfo: this.onMailInfo.bind(this),
             refreshInfo: this.onRefreshMailInfo.bind(this),
@@ -16450,11 +16451,19 @@ var Application = function () {
         value: function run() {
             var _this = this;
 
-            this.connection.connect(this.gui.reconnect.bind(this.gui), function () {
-                _this.gui.connect();
-                _this.connection.send(new _Init2.default());
-                _this.navigation.start(_this.connection);
-            }, this.gui.disconnect.bind(this.gui), this.commandProcessor.process.bind(this.commandProcessor));
+            setTimeout(function () {
+                _this.connection.connect(_this.gui.reconnect.bind(_this.gui), function () {
+                    _this.gui.connect();
+                    _this.connection.send(new _Init2.default());
+                    _this.navigation.start(_this.connection);
+                }, _this.gui.disconnect.bind(_this.gui), _this.commandProcessor.process.bind(_this.commandProcessor));
+            });
+        }
+    }, {
+        key: 'onInit',
+        value: function onInit(data) {
+            this.gui.setConfig(data.config);
+            this.onNewMail(data);
         }
     }, {
         key: 'onNewMail',
@@ -16567,14 +16576,14 @@ var Application = function () {
 
             window.addEventListener('popstate', function (e) {
                 if (e.state === null || e.state.type === 'home') {
-                    _this2.navigation.resetTitle();
+                    _this2.navigation.resetState();
                     _this2.gui.reset();
 
                     return;
                 }
 
                 if (_this2.navigation.isDeleted(e.state.data.id)) {
-                    _this2.navigation.resetTitle();
+                    _this2.navigation.resetState();
                     _this2.navigation.delete();
                     _this2.gui.reset();
 
@@ -16629,7 +16638,6 @@ var Connection = function () {
                 setTimeout(_this.connect.bind(_this, onConnecting, onOpen, onClose, onMessage), 5000);
             });
             this.socket.addEventListener('message', function (e) {
-                console.log(e.data);
                 var message = JSON.parse(e.data);
 
                 var command = message.payload.command;
@@ -16781,6 +16789,11 @@ var Interface = function () {
         key: 'connect',
         value: function connect() {
             this.status.connect();
+        }
+    }, {
+        key: 'setConfig',
+        value: function setConfig(config) {
+            this.content.setConfig(config);
         }
     }, {
         key: 'addMails',
@@ -17509,10 +17522,10 @@ var Toolbar = function () {
 
             this.reset(info);
 
-            if (info.hasText) {
-                this.toolbar.querySelector('[data-type="text"]').classList.add('active');
-            } else {
+            if (info.hasHtml) {
                 this.toolbar.querySelector('[data-type="html"]').classList.add('active');
+            } else {
+                this.toolbar.querySelector('[data-type="text"]').classList.add('active');
             }
 
             this.toolbar.classList.add('active');
@@ -17634,16 +17647,27 @@ var Content = function () {
     }
 
     _createClass(Content, [{
+        key: 'setConfig',
+        value: function setConfig(config) {
+            if (!document.querySelector('[data-field="hostname"]')) {
+                return;
+            }
+
+            document.querySelector('.intro').style.display = 'block';
+            document.querySelector('[data-field="hostname"]').textContent = config.hostname;
+            document.querySelector('[data-field="smtpport"]').textContent = config.smtpport;
+        }
+    }, {
         key: 'openMail',
         value: function openMail(info) {
             this.clearAll();
 
             new _Info2.default(info);
 
-            if (info.hasText) {
-                new _Text2.default(info.content);
-            } else {
+            if (info.hasHtml) {
                 new _Html2.default(info.content);
+            } else {
+                new _Text2.default(info.content);
             }
         }
     }, {
@@ -17830,9 +17854,9 @@ var Text = function () {
                                     var container = document.querySelector('main');
                                     var iframe = document.createElement('iframe');
 
-                                    container.appendChild(iframe);
-
                                     iframe.addEventListener('load', callback);
+
+                                    container.appendChild(iframe);
                         }
             }]);
 
@@ -17863,6 +17887,7 @@ var Html = function () {
         _classCallCheck(this, Html);
 
         this.addToDom(function () {
+            console.warn('ADDING HTML TO DOM');
             _this.element = document.querySelector('iframe').contentWindow.document;
 
             var body = new DOMParser().parseFromString(content, 'text/html');
@@ -17876,12 +17901,13 @@ var Html = function () {
     _createClass(Html, [{
         key: 'addToDom',
         value: function addToDom(callback) {
+            console.warn('ADDING TO DOM');
             var container = document.querySelector('main');
             var iframe = document.createElement('iframe');
 
-            container.appendChild(iframe);
-
             iframe.addEventListener('load', callback);
+
+            container.appendChild(iframe);
         }
     }, {
         key: 'fixLinkTargets',
@@ -18294,6 +18320,12 @@ var Navigation = function () {
         key: 'setTitle',
         value: function setTitle(title) {
             document.querySelector('head title').textContent = title + ' | ' + this.title;
+        }
+    }, {
+        key: 'resetState',
+        value: function resetState() {
+            history.replaceState({ type: 'home' }, this.title, '/');
+            this.resetTitle();
         }
     }, {
         key: 'resetTitle',

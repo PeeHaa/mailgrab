@@ -69,11 +69,12 @@ header span {
     background-color: #FF8818;
     display: inline-block; }
 
-.intro h1, .intro h2 {
-  margin: 0; }
-
-.intro th {
-  text-align: left; }
+.intro {
+  display: none; }
+  .intro h1, .intro h2 {
+    margin: 0; }
+  .intro th {
+    text-align: left; }
 
 nav#projects {
   background: #242424;
@@ -106,6 +107,22 @@ nav#projects {
       margin-top: 16px;
       color: #ffffff;
       background-color: #1ab394; }
+
+nav#messages .projects {
+  display: none; }
+
+@media screen and (max-width: 1024px) {
+  nav#projects {
+    display: none; }
+  nav#messages .projects {
+    display: block; }
+    nav#messages .projects select {
+      background: #222;
+      color: #a3a3a3;
+      padding: 5px 10px;
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #2f2f2f; } }
 
 nav#messages {
   height: calc(100% - 70px);
@@ -149,6 +166,10 @@ nav#messages {
     nav#messages li.new time {
       font-weight: bold; }
 
+@media screen and (max-width: 768px) {
+  nav#messages {
+    display: none; } }
+
 section.info {
   font-size: 14px;
   padding-bottom: 15px; }
@@ -169,5 +190,13 @@ main {
     width: 100%;
     height: calc(100% - 165px);
     border: none; }
+
+@media screen and (max-width: 1024px) {
+  main {
+    margin-left: 300px; } }
+
+@media screen and (max-width: 768px) {
+  main {
+    margin-left: 0; } }
 
 /*# sourceMappingURL=bundle.min.css.map*/

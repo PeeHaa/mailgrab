@@ -9,15 +9,25 @@ export default class Content {
         this.container = document.querySelector('main');
     }
 
+    setConfig(config) {
+        if (!document.querySelector('[data-field="hostname"]')) {
+            return;
+        }
+
+        document.querySelector('.intro').style.display = 'block';
+        document.querySelector('[data-field="hostname"]').textContent = config.hostname;
+        document.querySelector('[data-field="smtpport"]').textContent = config.smtpport;
+    }
+
     openMail(info) {
         this.clearAll();
 
         new Info(info);
 
-        if (info.hasText) {
-            new Text(info.content);
-        } else {
+        if (info.hasHtml) {
             new Html(info.content);
+        } else {
+            new Text(info.content);
         }
     }
 

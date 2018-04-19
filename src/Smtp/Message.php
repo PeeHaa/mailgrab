@@ -15,8 +15,6 @@ class Message
     /** @var Header[] */
     private $headers = [];
 
-    private $body = '';
-
     public function appendToRawMessage(string $chunk): void
     {
         $this->rawMessage .= $chunk . "\r\n";
@@ -50,11 +48,6 @@ class Message
     public function addHeader(Header $header): void
     {
         $this->headers[strtolower($header->getKey())] = $header;
-    }
-
-    public function appendToBody(string $content): void
-    {
-        $this->body .= $content . "\r\n";
     }
 
     public function getHeaders(): array

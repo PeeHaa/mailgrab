@@ -63,3 +63,9 @@ nav#messages {
         }
     }
 }
+
+@media screen  and (max-width: 768px) {
+    nav#messages {
+        display: none
+    }
+}

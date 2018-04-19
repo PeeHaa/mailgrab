@@ -1,0 +1,108 @@
+#!/usr/bin/env php
+<?php
+
+namespace PeeHaa\MailGrab\Bin;
+
+use Amp\Loop;
+use Auryn\Injector;
+use PeeHaa\AmpWebsocketCommand\CommandTuple;
+use PeeHaa\AmpWebsocketCommand\Executor;
+use PeeHaa\MailGrab\Cli\Command;
+use PeeHaa\MailGrab\Cli\Input\Parser;
+use PeeHaa\MailGrab\Cli\Input\Validator;
+use PeeHaa\MailGrab\Cli\Option;
+use PeeHaa\MailGrab\Cli\Output\Help;
+use PeeHaa\MailGrab\Configuration;
+use PeeHaa\MailGrab\Http\Command\Delete;
+use PeeHaa\MailGrab\Http\Command\DeleteNotification;
+use PeeHaa\MailGrab\Http\Command\GetHtml;
+use PeeHaa\MailGrab\Http\Command\GetHtmlWithoutImages;
+use PeeHaa\MailGrab\Http\Command\GetSource;
+use PeeHaa\MailGrab\Http\Command\GetText;
+use PeeHaa\MailGrab\Http\Command\Init;
+use PeeHaa\MailGrab\Http\Command\NewMail;
+use PeeHaa\MailGrab\Http\Command\ReadNotification;
+use PeeHaa\MailGrab\Http\Command\RefreshMail;
+use PeeHaa\MailGrab\Http\Command\SelectMail;
+use PeeHaa\MailGrab\Http\Server;
+use PeeHaa\MailGrab\Http\Storage\Memory;
+use PeeHaa\MailGrab\Http\Storage\Storage;
+use PeeHaa\MailGrab\Http\WebSocket\Handler;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$command = new Command('Starts the MailGrab SMTP catch-all SMTP server', ...[
+    (new Option('Displays this help information'))->setShort('h')->setLong('help'),
+    (new Option('Sets the hostname of the web interface'))->setLong('hostname')->setDefault('localhost')->input('HOST'),
+    (new Option('Sets the IPs on which to listen for connections. By default listens to all interfaces.'))->setLong('ips')->setDefault('0.0.0.0,[::]')->input('IPS'),
+    (new Option('Sets the port for the web interface'))->setLong('port')->setDefault('9000')->input('PORT'),
+    (new Option('Sets the port for the SMTP server'))->setLong('smtpport')->setDefault('9025')->input('PORT'),
+]);
+
+$arguments = (new Parser())->parse($argv);
+
+$validator = new Validator($command, ...$arguments);
+$validator->validate();
+
+if (!$validator->isValid()) {
+    echo implode(PHP_EOL, $validator->getErrors());
+
+    exit(1);
+}
+
+if ($command->isHelp(...$arguments)) {
+    echo (new Help())->render($argv[0], $command);
+
+    exit;
+}
+
+$configuration = $command->getConfiguration(...$arguments);
+
+$auryn = new Injector();
+$auryn->share($auryn); // yolo
+
+$auryn->alias(Storage::class, Memory::class);
+$auryn->share(Storage::class);
+
+$auryn->define(Configuration::class, [
+    ':configuration' => $configuration,
+]);
+$auryn->share(Configuration::class);
+
+$auryn->delegate(Executor::class, function() use ($auryn) {
+    $executor = new Executor($auryn);
+
+    $executor->register(new CommandTuple('init', Init::class));
+    $executor->register(new CommandTuple('newMail', NewMail::class));
+    $executor->register(new CommandTuple('selectMail', SelectMail::class));
+    $executor->register(new CommandTuple('refreshMail', RefreshMail::class));
+    $executor->register(new CommandTuple('getText', GetText::class));
+    $executor->register(new CommandTuple('getHtml', GetHtml::class));
+    $executor->register(new CommandTuple('getHtmlWithoutImages', GetHtmlWithoutImages::class));
+    $executor->register(new CommandTuple('getSource', GetSource::class));
+    $executor->register(new CommandTuple('delete', Delete::class));
+    $executor->register(new CommandTuple('deleteNotification', DeleteNotification::class));
+    $executor->register(new CommandTuple('readNotification', ReadNotification::class));
+
+    return $executor;
+});
+
+$auryn->define(Handler::class, [
+    ':origin'    => sprintf('http://%s:%d', $configuration['hostname'], $configuration['port']),
+    ':addresses' => $configuration['ips'],
+    ':smtpPort'  => $configuration['smtpport'],
+]);
+
+Loop::run(function () use ($auryn, $configuration) {
+    $server = new Server($auryn->make(Handler::class), __DIR__ . '/../public', $configuration['ips'], $configuration['port']);
+
+    yield $server->start();
+
+    if (stripos(PHP_OS, 'win') !== 0) {
+        Loop::onSignal(SIGINT, function (string $watcherId) use ($server) {
+            Loop::cancel($watcherId);
+
+            yield $server->stop();
+        });
+    }
+});

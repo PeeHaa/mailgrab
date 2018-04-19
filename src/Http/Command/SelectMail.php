@@ -52,7 +52,7 @@ class SelectMail implements Command
             'deleted'   => false,
             'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
             'project'   => $mail->getProject(),
-            'content'   => $mail->getText() !== null ? $mail->getText() : $mail->getHtml(),
+            'content'   => $mail->getHtml() !== null ? $mail->getHtml() : $mail->getText(),
             'hasText'   => $mail->getText() !== null,
             'hasHtml'   => $mail->getHtml() !== null,
         ];

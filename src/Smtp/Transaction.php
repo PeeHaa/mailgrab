@@ -72,7 +72,7 @@ class Transaction
 
         try {
             $command = $this->commandFactory->build($this->status, $line);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // @todo: return list of available commands based on status here
 
             $this->socket->write((string) new SyntaxError($e->getMessage()));
@@ -232,7 +232,8 @@ class Transaction
 
     private function addBodyLine(BodyLine $command): void
     {
-        $this->message->appendToBody($command->getLine());
+        // empty on purpose
+        // We are using the raw message for parsing purposes now
     }
 
     private function endBody(): void

@@ -57,9 +57,11 @@ class Output
             $this->replaceNonPrintableCharacters($message)
         ) . PHP_EOL;
 
-        if (!empty($context)) {
-            echo json_encode($context) . PHP_EOL;
+        if (empty($context)) {
+            return;
         }
+
+        echo json_encode($context) . PHP_EOL;
     }
 
     private function meetsLogLevel(Level $level): bool

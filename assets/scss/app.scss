@@ -27,3 +27,15 @@ main {
         border: none;
     }
 }
+
+@media screen  and (max-width: 1024px) {
+    main {
+        margin-left: $size-nav-messages-width;
+    }
+}
+
+@media screen  and (max-width: 768px) {
+    main {
+        margin-left: 0;
+    }
+}
