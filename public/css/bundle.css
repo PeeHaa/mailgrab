@@ -206,8 +206,10 @@ header .mobile-close {
       transform: rotate(180deg); }
     header .expander.menu-expanded {
       display: none; }
-  header h1.menu-expanded {
-    display: none; }
+  header h1 {
+    border-right: none; }
+    header h1.menu-expanded {
+      display: none; }
   header .hamburger {
     display: none;
     background: none;
@@ -234,7 +236,8 @@ header .mobile-close {
       display: block; }
     header > ul li {
       width: 16.6666666%;
-      text-align: center; }
+      text-align: center;
+      paddinh: 0; }
   header .mobile-close {
     display: inline-block; } }
 
