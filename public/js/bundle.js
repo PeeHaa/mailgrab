@@ -17001,6 +17001,7 @@ var Interface = function () {
             this.activeItem = info.id;
 
             this.mobileToolbar.openMail();
+            this.mobileExpander.collapse();
         }
     }, {
         key: 'openText',
@@ -17034,6 +17035,9 @@ var Interface = function () {
             this.content.clearAll();
 
             this.activeItem = null;
+
+            this.mobileToolbar.closeMail();
+            this.mobileExpander.expand();
         }
     }, {
         key: 'deleteNotification',
@@ -18971,6 +18975,12 @@ var Toolbar = function () {
         key: 'openMail',
         value: function openMail() {
             this.hamburger.classList.add('message-selected');
+        }
+    }, {
+        key: 'closeMail',
+        value: function closeMail() {
+            this.hideToolbar();
+            this.hamburger.classList.remove('message-selected');
         }
     }]);
 
