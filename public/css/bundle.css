@@ -199,6 +199,8 @@ header .hamburger {
     transition: all 0.1s ease-in-out; }
     header .expander.expanded {
       transform: rotate(180deg); }
+  header h1.menu-expanded {
+    display: none; }
   header .hamburger {
     display: inline-block;
     background: none;
@@ -211,7 +213,13 @@ header .hamburger {
     padding-left: 15px;
     float: right;
     cursor: pointer;
-    outline: 0; } }
+    outline: 0; }
+  header > ul {
+    display: block;
+    width: 100%; }
+    header > ul li {
+      width: 16.6666666%;
+      text-align: center; } }
 
 @media screen and (max-width: 768px) {
   nav#messages {
