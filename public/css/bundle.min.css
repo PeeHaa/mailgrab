@@ -177,11 +177,14 @@ section.info {
     text-align: left;
     padding-right: 15px; }
 
-header > button {
+header .expander {
+  display: none; }
+
+header .hamburger {
   display: none; }
 
 @media screen and (max-width: 768px) {
-  header > button {
+  header .expander {
     display: inline-block;
     background: none;
     border: none;
@@ -191,7 +194,24 @@ header > button {
     margin: 0;
     padding-right: 15px;
     padding-left: 15px;
-    float: right; } }
+    cursor: pointer;
+    outline: 0;
+    transition: all 0.3s linear; }
+    header .expander.expanded {
+      transform: rotate(180deg); }
+  header .hamburger {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 70px;
+    margin: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: right;
+    cursor: pointer;
+    outline: 0; } }
 
 body {
   font-family: "Montserrat", sans-serif;
