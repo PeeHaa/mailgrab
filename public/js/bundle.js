@@ -18219,7 +18219,7 @@ var Source = function () {
                                     var style = _this.element.createElement('style');
 
                                     style.type = 'text/css';
-                                    style.innerHTML = 'pre {color: #a3a3a3;background: #292929;padding: 15px;}';
+                                    style.innerHTML = 'pre {color: #a3a3a3;background: #292929;padding: 15px;white-space:pre-wrap;word-break: break-word;}';
 
                                     _this.element.querySelector('head').appendChild(style);
                         });
