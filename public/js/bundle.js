@@ -16908,6 +16908,10 @@ var _Notifier = __webpack_require__(146);
 
 var _Notifier2 = _interopRequireDefault(_Notifier);
 
+var _Expander = __webpack_require__(158);
+
+var _Expander2 = _interopRequireDefault(_Expander);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16924,6 +16928,8 @@ var Interface = function () {
         this.toolBar = new _Toolbar2.default();
         this.content = new _Content2.default();
         this.notifier = new _Notifier2.default();
+
+        new _Expander2.default();
 
         this.activeItem = null;
 
@@ -18799,6 +18805,59 @@ exports.default = Delete;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 157 */,
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Expander = function () {
+    function Expander() {
+        _classCallCheck(this, Expander);
+
+        this.expander = document.querySelector('header .expander');
+
+        this.expander.addEventListener('click', this.clickHandler.bind(this));
+    }
+
+    _createClass(Expander, [{
+        key: 'clickHandler',
+        value: function clickHandler(e) {
+            if (this.expander.classList.contains('expanded')) {
+                this.collapse();
+
+                return;
+            }
+
+            this.expand();
+        }
+    }, {
+        key: 'expand',
+        value: function expand() {
+            this.expander.classList.add('expanded');
+        }
+    }, {
+        key: 'collapse',
+        value: function collapse() {
+            this.expander.classList.remove('expanded');
+        }
+    }]);
+
+    return Expander;
+}();
+
+exports.default = Expander;
 
 /***/ })
 /******/ ]);
