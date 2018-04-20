@@ -183,6 +183,12 @@ header .expander {
 header .hamburger {
   display: none; }
 
+header > ul.active {
+  display: none; }
+
+header .mobile-close {
+  display: none; }
+
 @media screen and (max-width: 768px) {
   header .expander {
     display: inline-block;
@@ -225,7 +231,9 @@ header .hamburger {
       display: block; }
     header > ul li {
       width: 16.6666666%;
-      text-align: center; } }
+      text-align: center; }
+  header .mobile-close {
+    display: inline-block; } }
 
 @media screen and (max-width: 768px) {
   nav#messages {
