@@ -10,10 +10,6 @@ header {
         display: none;
     }
 
-    > ul.active {
-        display: none;
-    }
-
     .mobile-close {
         display: none;
     }
@@ -72,6 +68,10 @@ header {
         > ul {
             display: none;
             width: 100%;
+
+            &.active {
+                display: none;
+            }
 
             &.menu-expanded {
                 display: block;
