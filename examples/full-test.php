@@ -10,7 +10,7 @@ $mail = new PHPMailer();
 
 $mail->isSMTP();
 $mail->Host = 'localhost';
-$mail->Port = 8025;
+$mail->Port = 9025;
 $mail->SMTPDebug = true;
 
 $mail->setFrom('from@example.com', 'M. Sender');
