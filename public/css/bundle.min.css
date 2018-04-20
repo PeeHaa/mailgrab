@@ -183,9 +183,6 @@ header .expander {
 header .hamburger {
   display: none; }
 
-header > ul.active {
-  display: none; }
-
 header .mobile-close {
   display: none; }
 
@@ -227,6 +224,8 @@ header .mobile-close {
   header > ul {
     display: none;
     width: 100%; }
+    header > ul.active {
+      display: none; }
     header > ul.menu-expanded {
       display: block; }
     header > ul li {
