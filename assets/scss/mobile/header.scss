@@ -47,7 +47,7 @@ header {
         }
 
         .hamburger {
-            display: inline-block;
+            display: none;
             background: none;
             border: none;
             color: $color-header-title;
@@ -59,6 +59,10 @@ header {
             float: right;
             cursor: pointer;
             outline: 0;
+
+            &.message-selected {
+                display: inline-block;
+            }
 
             &.menu-expanded {
                 display: none;
