@@ -41,6 +41,8 @@ header {
         }
 
         h1 {
+            border-right: none;
+
             &.menu-expanded {
                 display: none;
             }
@@ -84,6 +86,7 @@ header {
             li {
                 width: 16.6666666%;
                 text-align: center;
+                paddinh: 0;
             }
         }
 
