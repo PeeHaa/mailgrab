@@ -1,0 +1,50 @@
+@import "./../colors";
+@import "./../sizes";
+
+header {
+    .expander {
+        display: none;
+    }
+
+    .hamburger {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        .expander {
+            display: inline-block;
+            background: none;
+            border: none;
+            color: $color-header-title;
+            font-size: $size-header-font-title;
+            line-height: $size-header-height;
+            margin: 0;
+            padding-right: 15px;
+            padding-left: 15px;
+            cursor: pointer;
+            outline: 0;
+            transition: all 0.3s linear;
+
+            &.expanded {
+                transform: rotate(180deg);
+            }
+        }
+
+        .hamburger {
+            display: inline-block;
+            background: none;
+            border: none;
+            color: $color-header-title;
+            font-size: $size-header-font-title;
+            line-height: $size-header-height;
+            margin: 0;
+            padding-right: 15px;
+            padding-left: 15px;
+            float: right;
+            cursor: pointer;
+            outline: 0;
+        }
+    }
+}
