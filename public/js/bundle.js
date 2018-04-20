@@ -18890,8 +18890,10 @@ var Toolbar = function () {
         this.title = document.querySelector('header h1');
         this.hamburger = document.querySelector('header .hamburger');
         this.toolbar = document.querySelector('header > ul');
+        this.closeButton = document.querySelector('header .mobile-close');
 
         this.hamburger.addEventListener('click', this.showToolbar.bind(this));
+        this.closeButton.addEventListener('click', this.hideToolbar.bind(this));
     }
 
     _createClass(Toolbar, [{
@@ -18901,6 +18903,14 @@ var Toolbar = function () {
             this.title.classList.add('menu-expanded');
             this.hamburger.classList.add('menu-expanded');
             this.toolbar.classList.add('menu-expanded');
+        }
+    }, {
+        key: 'hideToolbar',
+        value: function hideToolbar() {
+            this.expander.classList.remove('menu-expanded');
+            this.title.classList.remove('menu-expanded');
+            this.hamburger.classList.remove('menu-expanded');
+            this.toolbar.classList.remove('menu-expanded');
         }
     }]);
 
