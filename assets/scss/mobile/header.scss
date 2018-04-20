@@ -30,6 +30,10 @@ header {
             &.expanded {
                 transform: rotate(180deg);
             }
+
+            &.menu-expanded {
+                display: none;
+            }
         }
 
         h1 {
@@ -51,11 +55,19 @@ header {
             float: right;
             cursor: pointer;
             outline: 0;
+
+            &.menu-expanded {
+                display: none;
+            }
         }
 
         > ul {
-            display: block;
+            display: none;
             width: 100%;
+
+            &.menu-expanded {
+                display: block;
+            }
 
             li {
                 width: 16.6666666%;

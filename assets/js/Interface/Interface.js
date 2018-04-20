@@ -6,7 +6,8 @@ import Status from "./Status";
 import Notification from "./Notification";
 import Notifier from './Notifier';
 
-import Expander from './Mobile/Expander';
+import MobileExpander from './Mobile/Expander';
+import MobileToolbar from './Mobile/Toolbar';
 
 const moment = require('moment');
 
@@ -19,7 +20,8 @@ export default class Interface {
         this.content  = new Content();
         this.notifier = new Notifier();
 
-        new Expander();
+        new MobileExpander();
+        new MobileToolbar();
 
         this.activeItem = null;
 
