@@ -199,6 +199,8 @@ header .hamburger {
     transition: all 0.1s ease-in-out; }
     header .expander.expanded {
       transform: rotate(180deg); }
+    header .expander.menu-expanded {
+      display: none; }
   header h1.menu-expanded {
     display: none; }
   header .hamburger {
@@ -214,9 +216,13 @@ header .hamburger {
     float: right;
     cursor: pointer;
     outline: 0; }
+    header .hamburger.menu-expanded {
+      display: none; }
   header > ul {
-    display: block;
+    display: none;
     width: 100%; }
+    header > ul.menu-expanded {
+      display: block; }
     header > ul li {
       width: 16.6666666%;
       text-align: center; } }
