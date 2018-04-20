@@ -20,12 +20,30 @@ export default class Interface {
         this.content  = new Content();
         this.notifier = new Notifier();
 
-        new MobileExpander();
-        new MobileToolbar();
+        this.mobileExpander = new MobileExpander();
+        this.mobileToolbar   = new MobileToolbar();
+
+        this.updateMobileStatus(window.innerWidth);
+
+        window.addEventListener('resize', (e) => {
+            this.updateMobileStatus(window.innerWidth);
+        });
 
         this.activeItem = null;
 
         setInterval(this.updateTimestamp.bind(this), 500);
+    }
+
+    updateMobileStatus(width) {
+        if (width > 768) {
+            this.mobileExpander.disableMobile();
+            this.mobileToolbar.disableMobile();
+
+            return;
+        }
+
+        this.mobileExpander.enableMobile();
+        this.mobileToolbar.enableMobile();
     }
 
     disconnect() {
