@@ -1,9 +1,21 @@
 export default class Expander {
     constructor() {
+        this.isMobile = false;
+
         this.expander = document.querySelector('header .expander');
         this.messages = document.querySelector('#messages');
 
         this.expander.addEventListener('click', this.clickHandler.bind(this));
+    }
+
+    enableMobile() {
+        this.isMobile = true;
+    }
+
+    disableMobile() {
+        this.isMobile = false;
+
+        this.collapse();
     }
 
     clickHandler(e) {
