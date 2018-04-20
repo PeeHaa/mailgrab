@@ -16999,6 +16999,8 @@ var Interface = function () {
             this.content.openMail(info);
 
             this.activeItem = info.id;
+
+            this.mobileToolbar.openMail();
         }
     }, {
         key: 'openText',
@@ -18964,6 +18966,11 @@ var Toolbar = function () {
             this.title.classList.remove('menu-expanded');
             this.hamburger.classList.remove('menu-expanded');
             this.toolbar.classList.remove('menu-expanded');
+        }
+    }, {
+        key: 'openMail',
+        value: function openMail() {
+            this.hamburger.classList.add('message-selected');
         }
     }]);
 
