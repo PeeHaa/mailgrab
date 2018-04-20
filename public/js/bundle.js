@@ -16924,6 +16924,8 @@ var moment = __webpack_require__(0);
 
 var Interface = function () {
     function Interface() {
+        var _this = this;
+
         _classCallCheck(this, Interface);
 
         this.status = new _Status2.default();
@@ -16933,8 +16935,14 @@ var Interface = function () {
         this.content = new _Content2.default();
         this.notifier = new _Notifier2.default();
 
-        new _Expander2.default();
-        new _Toolbar4.default();
+        this.mobileExpander = new _Expander2.default();
+        this.mobileToolbar = new _Toolbar4.default();
+
+        this.updateMobileStatus(window.innerWidth);
+
+        window.addEventListener('resize', function (e) {
+            _this.updateMobileStatus(window.innerWidth);
+        });
 
         this.activeItem = null;
 
@@ -16942,6 +16950,19 @@ var Interface = function () {
     }
 
     _createClass(Interface, [{
+        key: 'updateMobileStatus',
+        value: function updateMobileStatus(width) {
+            if (width > 768) {
+                this.mobileExpander.disableMobile();
+                this.mobileToolbar.disableMobile();
+
+                return;
+            }
+
+            this.mobileExpander.enableMobile();
+            this.mobileToolbar.enableMobile();
+        }
+    }, {
         key: 'disconnect',
         value: function disconnect() {
             this.status.disconnect();
@@ -18831,6 +18852,8 @@ var Expander = function () {
     function Expander() {
         _classCallCheck(this, Expander);
 
+        this.isMobile = false;
+
         this.expander = document.querySelector('header .expander');
         this.messages = document.querySelector('#messages');
 
@@ -18838,6 +18861,18 @@ var Expander = function () {
     }
 
     _createClass(Expander, [{
+        key: 'enableMobile',
+        value: function enableMobile() {
+            this.isMobile = true;
+        }
+    }, {
+        key: 'disableMobile',
+        value: function disableMobile() {
+            this.isMobile = false;
+
+            this.collapse();
+        }
+    }, {
         key: 'clickHandler',
         value: function clickHandler(e) {
             if (this.expander.classList.contains('expanded')) {
@@ -18886,6 +18921,8 @@ var Toolbar = function () {
     function Toolbar() {
         _classCallCheck(this, Toolbar);
 
+        this.isMobile = false;
+
         this.expander = document.querySelector('header .expander');
         this.title = document.querySelector('header h1');
         this.hamburger = document.querySelector('header .hamburger');
@@ -18897,8 +18934,24 @@ var Toolbar = function () {
     }
 
     _createClass(Toolbar, [{
+        key: 'enableMobile',
+        value: function enableMobile() {
+            this.isMobile = true;
+        }
+    }, {
+        key: 'disableMobile',
+        value: function disableMobile() {
+            this.isMobile = false;
+
+            this.hideToolbar();
+        }
+    }, {
         key: 'showToolbar',
         value: function showToolbar() {
+            if (!this.isMobile) {
+                return;
+            }
+
             this.expander.classList.add('menu-expanded');
             this.title.classList.add('menu-expanded');
             this.hamburger.classList.add('menu-expanded');
