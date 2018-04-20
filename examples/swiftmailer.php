@@ -4,7 +4,7 @@ namespace PeeHaa\MailGrab\Examples;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$transport = (new \Swift_SmtpTransport('localhost', 8025));
+$transport = (new \Swift_SmtpTransport('localhost', 9025));
 
 $mailer = new \Swift_Mailer($transport);
 $logger = new \Swift_Plugins_Loggers_ArrayLogger();
