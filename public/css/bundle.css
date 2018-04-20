@@ -207,7 +207,7 @@ header .mobile-close {
   header h1.menu-expanded {
     display: none; }
   header .hamburger {
-    display: inline-block;
+    display: none;
     background: none;
     border: none;
     color: #ffffff;
@@ -219,6 +219,8 @@ header .mobile-close {
     float: right;
     cursor: pointer;
     outline: 0; }
+    header .hamburger.message-selected {
+      display: inline-block; }
     header .hamburger.menu-expanded {
       display: none; }
   header > ul {
