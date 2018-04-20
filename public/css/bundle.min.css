@@ -177,6 +177,22 @@ section.info {
     text-align: left;
     padding-right: 15px; }
 
+header > button {
+  display: none; }
+
+@media screen and (max-width: 768px) {
+  header > button {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 70px;
+    margin: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: right; } }
+
 body {
   font-family: "Montserrat", sans-serif;
   background: #333333; }
