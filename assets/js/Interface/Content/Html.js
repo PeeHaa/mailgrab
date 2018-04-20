@@ -1,7 +1,6 @@
 export default class Html {
     constructor(content) {
         this.addToDom(() => {
-            console.warn('ADDING HTML TO DOM');
             this.element = document.querySelector('iframe').contentWindow.document;
 
             const body = new DOMParser().parseFromString(content, 'text/html');
@@ -13,7 +12,6 @@ export default class Html {
     }
 
     addToDom(callback) {
-        console.warn('ADDING TO DOM');
         const container = document.querySelector('main');
         const iframe    = document.createElement('iframe');
 

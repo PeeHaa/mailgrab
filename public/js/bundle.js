@@ -18088,7 +18088,6 @@ var Html = function () {
         _classCallCheck(this, Html);
 
         this.addToDom(function () {
-            console.warn('ADDING HTML TO DOM');
             _this.element = document.querySelector('iframe').contentWindow.document;
 
             var body = new DOMParser().parseFromString(content, 'text/html');
@@ -18102,7 +18101,6 @@ var Html = function () {
     _createClass(Html, [{
         key: 'addToDom',
         value: function addToDom(callback) {
-            console.warn('ADDING TO DOM');
             var container = document.querySelector('main');
             var iframe = document.createElement('iframe');
 
