@@ -32,6 +32,12 @@ header {
             }
         }
 
+        h1 {
+            &.menu-expanded {
+                display: none;
+            }
+        }
+
         .hamburger {
             display: inline-block;
             background: none;
@@ -45,6 +51,16 @@ header {
             float: right;
             cursor: pointer;
             outline: 0;
+        }
+
+        > ul {
+            display: block;
+            width: 100%;
+
+            li {
+                width: 16.6666666%;
+                text-align: center;
+            }
         }
     }
 }
