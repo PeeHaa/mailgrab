@@ -18827,6 +18827,7 @@ var Expander = function () {
         _classCallCheck(this, Expander);
 
         this.expander = document.querySelector('header .expander');
+        this.messages = document.querySelector('#messages');
 
         this.expander.addEventListener('click', this.clickHandler.bind(this));
     }
@@ -18846,11 +18847,13 @@ var Expander = function () {
         key: 'expand',
         value: function expand() {
             this.expander.classList.add('expanded');
+            this.messages.classList.add('expanded');
         }
     }, {
         key: 'collapse',
         value: function collapse() {
             this.expander.classList.remove('expanded');
+            this.messages.classList.remove('expanded');
         }
     }]);
 

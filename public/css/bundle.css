@@ -196,7 +196,7 @@ header .hamburger {
     padding-left: 15px;
     cursor: pointer;
     outline: 0;
-    transition: all 0.3s linear; }
+    transition: all 0.1s ease-in-out; }
     header .expander.expanded {
       transform: rotate(180deg); }
   header .hamburger {
@@ -212,6 +212,15 @@ header .hamburger {
     float: right;
     cursor: pointer;
     outline: 0; } }
+
+@media screen and (max-width: 768px) {
+  nav#messages {
+    display: block;
+    width: 100%;
+    margin-left: -100%;
+    transition: all 0.1s ease-in-out; }
+    nav#messages.expanded {
+      margin-left: 0; } }
 
 body {
   font-family: "Montserrat", sans-serif;
