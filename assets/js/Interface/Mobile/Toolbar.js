@@ -43,4 +43,9 @@ export default class Toolbar {
     openMail() {
         this.hamburger.classList.add('message-selected');
     }
+
+    closeMail() {
+        this.hideToolbar();
+        this.hamburger.classList.remove('message-selected');
+    }
 }

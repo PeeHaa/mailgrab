@@ -78,6 +78,7 @@ export default class Interface {
         this.activeItem = info.id;
 
         this.mobileToolbar.openMail();
+        this.mobileExpander.collapse();
     }
 
     openText(source) {
@@ -106,6 +107,9 @@ export default class Interface {
         this.content.clearAll();
 
         this.activeItem = null;
+
+        this.mobileToolbar.closeMail();
+        this.mobileExpander.expand();
     }
 
     deleteNotification(id) {
