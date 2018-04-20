@@ -63,6 +63,21 @@ class Command
         return false;
     }
 
+    public function isVersion(Argument ...$arguments): bool
+    {
+        foreach ($arguments as $argument) {
+            if ($argument->isLong() && $argument->getKey() === 'version') {
+                return true;
+            }
+
+            if (!$argument->isLong() && $argument->getKey() === 'v') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getConfiguration(Argument ...$arguments): array
     {
         $configuration = [

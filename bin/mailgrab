@@ -12,6 +12,7 @@ use PeeHaa\MailGrab\Cli\Input\Parser;
 use PeeHaa\MailGrab\Cli\Input\Validator;
 use PeeHaa\MailGrab\Cli\Option;
 use PeeHaa\MailGrab\Cli\Output\Help;
+use PeeHaa\MailGrab\Cli\Output\Version;
 use PeeHaa\MailGrab\Configuration;
 use PeeHaa\MailGrab\Http\Command\Delete;
 use PeeHaa\MailGrab\Http\Command\DeleteNotification;
@@ -33,6 +34,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $command = new Command('Starts the MailGrab SMTP catch-all SMTP server', ...[
     (new Option('Displays this help information'))->setShort('h')->setLong('help'),
+    (new Option('Displays the version'))->setShort('v')->setLong('version'),
     (new Option('Sets the hostname of the web interface'))->setLong('hostname')->setDefault('localhost')->input('HOST'),
     (new Option('Sets the IPs on which to listen for connections. By default listens to all interfaces.'))->setLong('ips')->setDefault('0.0.0.0,[::]')->input('IPS'),
     (new Option('Sets the port for the web interface'))->setLong('port')->setDefault('9000')->input('PORT'),
@@ -52,6 +54,12 @@ if (!$validator->isValid()) {
 
 if ($command->isHelp(...$arguments)) {
     echo (new Help())->render($argv[0], $command);
+
+    exit;
+}
+
+if ($command->isVersion(...$arguments)) {
+    echo (new Version())->render();
 
     exit;
 }
