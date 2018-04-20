@@ -32,7 +32,7 @@ class Help
 
         /** @var Option $option */
         foreach ($command->getOptions() as $option) {
-            if ($option->getShort() === 'h') {
+            if ($option->getShort() === 'h' || $option->getShort() === 'v') {
                 continue;
             }
 

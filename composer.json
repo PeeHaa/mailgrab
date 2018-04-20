@@ -56,10 +56,20 @@
         "phar-builder": {
             "compression": "None",
             "name": "mailgrab.phar",
-            "include": ["public"],
+            "include": ["public", "info"],
             "output-dir": "./build",
             "entry-point": "./bin/mailgrab",
-            "skip-shebang": false
+            "skip-shebang": false,
+            "events": {
+                "command.package.start": [
+                    "mkdir info",
+                    "git describe --tags > info/build.version"
+                ],
+                "command.package.end": [
+                    "rm -rf info",
+                    "chmod +x build/mailgrab.phar"
+                ]
+            }
         }
     },
     "config": {

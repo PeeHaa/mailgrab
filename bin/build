@@ -6,3 +6,7 @@ namespace PeeHaa\MailGrab\Bin;
 $builder = realpath(__DIR__ . '/../vendor/macfja/phar-builder/bin/phar-builder');
 
 passthru('php -d phar.readonly=0 ' . $builder . ' package composer.json');
+
+echo 'Create new phar with version:' . PHP_EOL;
+
+passthru('git describe --tags');

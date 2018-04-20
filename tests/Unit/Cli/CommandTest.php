@@ -82,10 +82,73 @@ class CommandTest extends TestCase
         $this->assertTrue($command->isHelp(...$arguments));
     }
 
+    public function testIsHelpReturnsTrueWhenShortArgumentIsFound()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Help option'))->setShort('h')->setLong('help'),
+            (new Option('Long option'))->setLong('long'),
+            (new Option('Short option'))->setShort('short'),
+        ]);
+
+        $arguments = [
+            new Argument('--long'),
+            new Argument('-h'),
+        ];
+
+        $this->assertTrue($command->isHelp(...$arguments));
+    }
+
     public function testIsHelpReturnsFalseWhenHelpArgumentIsNotFound()
     {
         $command = new Command('Test command', ...[
             (new Option('Help option'))->setShort('h')->setLong('help'),
+            (new Option('Long option'))->setLong('long'),
+            (new Option('Short option'))->setShort('short'),
+        ]);
+
+        $arguments = [
+            new Argument('--long'),
+        ];
+
+        $this->assertFalse($command->isHelp(...$arguments));
+    }
+
+    public function testIsVersionReturnsTrueWhenLongArgumentIsFound()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Version option'))->setShort('v')->setLong('version'),
+            (new Option('Long option'))->setLong('long'),
+            (new Option('Short option'))->setShort('short'),
+        ]);
+
+        $arguments = [
+            new Argument('--long'),
+            new Argument('--version'),
+        ];
+
+        $this->assertTrue($command->isVersion(...$arguments));
+    }
+
+    public function testIsVersionReturnsTrueWhenShortArgumentIsFound()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Version option'))->setShort('v')->setLong('version'),
+            (new Option('Long option'))->setLong('long'),
+            (new Option('Short option'))->setShort('short'),
+        ]);
+
+        $arguments = [
+            new Argument('--long'),
+            new Argument('-v'),
+        ];
+
+        $this->assertTrue($command->isVersion(...$arguments));
+    }
+
+    public function testIsVersionReturnsFalseWhenHelpArgumentIsNotFound()
+    {
+        $command = new Command('Test command', ...[
+            (new Option('Version option'))->setShort('v')->setLong('version'),
             (new Option('Long option'))->setLong('long'),
             (new Option('Short option'))->setShort('short'),
         ]);
