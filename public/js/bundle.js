@@ -18161,9 +18161,9 @@ var HtmlWithoutImages = function () {
             var container = document.querySelector('main');
             var iframe = document.createElement('iframe');
 
-            container.appendChild(iframe);
-
             iframe.addEventListener('load', callback);
+
+            container.appendChild(iframe);
         }
     }, {
         key: 'fixLinkTargets',
@@ -18231,9 +18231,9 @@ var Source = function () {
                                     var container = document.querySelector('main');
                                     var iframe = document.createElement('iframe');
 
-                                    container.appendChild(iframe);
-
                                     iframe.addEventListener('load', callback);
+
+                                    container.appendChild(iframe);
                         }
             }]);
 
