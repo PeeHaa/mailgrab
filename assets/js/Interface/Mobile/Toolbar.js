@@ -39,4 +39,8 @@ export default class Toolbar {
         this.hamburger.classList.remove('menu-expanded');
         this.toolbar.classList.remove('menu-expanded');
     }
+
+    openMail() {
+        this.hamburger.classList.add('message-selected');
+    }
 }
