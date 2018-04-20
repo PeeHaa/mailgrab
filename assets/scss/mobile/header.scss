@@ -9,6 +9,14 @@ header {
     .hamburger {
         display: none;
     }
+
+    > ul.active {
+        display: none;
+    }
+
+    .mobile-close {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -73,6 +81,10 @@ header {
                 width: 16.6666666%;
                 text-align: center;
             }
+        }
+
+        .mobile-close {
+            display: inline-block;
         }
     }
 }
