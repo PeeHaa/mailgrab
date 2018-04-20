@@ -176,6 +176,8 @@ section.info {
   section.info th {
     text-align: left;
     padding-right: 15px; }
+  section.info td {
+    word-break: break-word; }
 
 header .expander {
   display: none; }
