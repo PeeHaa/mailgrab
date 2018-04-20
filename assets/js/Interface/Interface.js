@@ -76,6 +76,8 @@ export default class Interface {
         this.content.openMail(info);
 
         this.activeItem = info.id;
+
+        this.mobileToolbar.openMail();
     }
 
     openText(source) {
