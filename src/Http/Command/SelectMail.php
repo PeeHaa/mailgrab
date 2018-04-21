@@ -42,19 +42,20 @@ class SelectMail implements Command
         $mail->setRead();
 
         return [
-            'id'        => $mail->getId(),
-            'from'      => $mail->getFrom(),
-            'to'        => $mail->getTo(),
-            'cc'        => $mail->getCc(),
-            'bcc'       => $mail->getBcc(),
-            'subject'   => $mail->getSubject(),
-            'read'      => $mail->isRead(),
-            'deleted'   => false,
-            'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
-            'project'   => $mail->getProject(),
-            'content'   => $mail->getHtml() !== null ? $mail->getHtml() : $mail->getText(),
-            'hasText'   => $mail->getText() !== null,
-            'hasHtml'   => $mail->getHtml() !== null,
+            'id'          => $mail->getId(),
+            'from'        => $mail->getFrom(),
+            'to'          => $mail->getTo(),
+            'cc'          => $mail->getCc(),
+            'bcc'         => $mail->getBcc(),
+            'subject'     => $mail->getSubject(),
+            'read'        => $mail->isRead(),
+            'deleted'     => false,
+            'timestamp'   => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
+            'project'     => $mail->getProject(),
+            'content'     => $mail->getHtml() !== null ? $mail->getHtml() : $mail->getText(),
+            'hasText'     => $mail->getText() !== null,
+            'hasHtml'     => $mail->getHtml() !== null,
+            'attachments' => $mail->getAttachments(),
         ];
     }
 }
