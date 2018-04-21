@@ -20,6 +20,9 @@ $mail->addReplyTo('reply.to@example.com', 'Reply Address');
 $mail->addCC('cc@example.com');
 $mail->addBCC('bcc@example.com');
 
+$mail->addAttachment(__DIR__ . '/attachment/pdf-sample.pdf');
+$mail->addAttachment(__DIR__ . '/attachment/pdf-sample-2.pdf', 'With custom name');
+
 $mail->Subject = 'PHPMailer';
 $mail->Body    = file_get_contents(__DIR__ . '/template/leemunroe.php');
 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';

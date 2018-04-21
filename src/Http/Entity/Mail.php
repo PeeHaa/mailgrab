@@ -100,6 +100,21 @@ class Mail
         return $this->rawMessage;
     }
 
+    public function getAttachments(): array
+    {
+        $attachments = [];
+
+        foreach ($this->parsedMessage->getAllAttachmentParts() as $index => $attachment) {
+            $attachments[] = [
+                'id'           => $index,
+                'name'         => $attachment->getHeaderParameter('Content-Disposition', 'filename', '__unknown_file_name_'),
+                'content-type' => $attachment->getHeaderValue('Content-Type'),
+            ];
+        }
+
+        return $attachments;
+    }
+
     public function setRead(): void
     {
         $this->read = true;
