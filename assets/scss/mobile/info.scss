@@ -1,0 +1,19 @@
+@media screen and (max-width: 1024px) {
+    section.info {
+        .basic {
+            width: 100%;
+        }
+
+        .attachments {
+            width: 100%;
+            background: transparent;
+            height: auto !important;
+            padding: 5px;
+
+            li {
+                display: inline-block;
+                margin-right: 15px;
+            }
+        }
+    }
+}
