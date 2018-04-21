@@ -16506,7 +16506,7 @@ var _Application2 = _interopRequireDefault(_Application);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(156);
+__webpack_require__(158);
 
 new _Application2.default().run();
 
@@ -16535,13 +16535,13 @@ var _Interface = __webpack_require__(130);
 
 var _Interface2 = _interopRequireDefault(_Interface);
 
-var _Navigation = __webpack_require__(147);
+var _Navigation = __webpack_require__(149);
 
 var _Navigation2 = _interopRequireDefault(_Navigation);
 
-var _util = __webpack_require__(148);
+var _util = __webpack_require__(150);
 
-var _Init = __webpack_require__(149);
+var _Init = __webpack_require__(151);
 
 var _Init2 = _interopRequireDefault(_Init);
 
@@ -16549,27 +16549,27 @@ var _SelectMail = __webpack_require__(125);
 
 var _SelectMail2 = _interopRequireDefault(_SelectMail);
 
-var _RefreshMail = __webpack_require__(150);
+var _RefreshMail = __webpack_require__(152);
 
 var _RefreshMail2 = _interopRequireDefault(_RefreshMail);
 
-var _GetText = __webpack_require__(151);
+var _GetText = __webpack_require__(153);
 
 var _GetText2 = _interopRequireDefault(_GetText);
 
-var _GetHtml = __webpack_require__(152);
+var _GetHtml = __webpack_require__(154);
 
 var _GetHtml2 = _interopRequireDefault(_GetHtml);
 
-var _GetHtmlWithoutImages = __webpack_require__(153);
+var _GetHtmlWithoutImages = __webpack_require__(155);
 
 var _GetHtmlWithoutImages2 = _interopRequireDefault(_GetHtmlWithoutImages);
 
-var _GetSource = __webpack_require__(154);
+var _GetSource = __webpack_require__(156);
 
 var _GetSource2 = _interopRequireDefault(_GetSource);
 
-var _Delete = __webpack_require__(155);
+var _Delete = __webpack_require__(157);
 
 var _Delete2 = _interopRequireDefault(_Delete);
 
@@ -16908,11 +16908,11 @@ var _Notifier = __webpack_require__(146);
 
 var _Notifier2 = _interopRequireDefault(_Notifier);
 
-var _Expander = __webpack_require__(158);
+var _Expander = __webpack_require__(147);
 
 var _Expander2 = _interopRequireDefault(_Expander);
 
-var _Toolbar3 = __webpack_require__(159);
+var _Toolbar3 = __webpack_require__(148);
 
 var _Toolbar4 = _interopRequireDefault(_Toolbar3);
 
@@ -17953,6 +17953,7 @@ var Info = function () {
         this.addBcc(mail.bcc);
         this.addSubject(mail.subject);
         this.addTimestamp(mail.timestamp);
+        this.addAttachments(mail.attachments);
     }
 
     _createClass(Info, [{
@@ -18002,6 +18003,130 @@ var Info = function () {
         value: function addTimestamp(timestamp) {
             this.element.querySelector('time').dataset.timestamp = timestamp;
             this.element.querySelector('time').textContent = moment(timestamp).fromNow();
+        }
+    }, {
+        key: 'addAttachments',
+        value: function addAttachments(attachments) {
+            // <li><i class="fas fa-file"></i> Attachment 1</li>
+            attachments.forEach(this.addAttachment.bind(this));
+        }
+    }, {
+        key: 'addAttachment',
+        value: function addAttachment(attachment) {
+            var listItem = document.createElement('li');
+            var icon = document.createElement('i');
+
+            icon.classList.add('fas', this.getAttachmentTypeIcon(attachment['content-type']));
+
+            var name = document.createTextNode(attachment.name);
+
+            listItem.appendChild(icon);
+            listItem.appendChild(name);
+
+            this.element.querySelector('.attachments ul').appendChild(listItem);
+        }
+    }, {
+        key: 'getAttachmentTypeIcon',
+        value: function getAttachmentTypeIcon(type) {
+            switch (type) {
+                case 'application/vnd.kde.kword':
+                case 'application/vnd.lotus-wordpro':
+                case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                case 'application/msword':
+                case 'application/vnd.ms-word.document.macroenabled.12':
+                case 'application/vnd.ms-word.template.macroenabled.12':
+                case 'application/vnd.wordperfect':
+                case 'application/vnd.sun.xml.writer':
+                case 'application/vnd.sun.xml.writer.global':
+                case 'application/vnd.sun.xml.writer.template':
+                    return 'fa-file-word';
+                case 'video/3gpp':
+                case 'video/3gpp2':
+                case 'video/x-msvideo':
+                case 'video/vnd.dece.hd':
+                case 'video/vnd.dece.mobile':
+                case 'video/vnd.uvvu.mp4':
+                case 'video/vnd.dece.pd':
+                case 'video/vnd.dece.sd':
+                case 'video/vnd.dece.video':
+                case 'video/h261':
+                case 'video/h263':
+                case 'video/h264':
+                case 'video/x-ms-wm':
+                case 'video/x-ms-wmv':
+                case 'video/mpeg':
+                case 'video/mp4':
+                case 'application/mp4':
+                case 'video/ogg':
+                case 'video/webm':
+                case 'video/quicktime':
+                    return 'fa-file-video';
+                case 'application/vnd.ms-powerpoint':
+                case 'application/vnd.ms-powerpoint.addin.macroenabled.12':
+                case 'application/vnd.ms-powerpoint.slide.macroenabled.12':
+                case 'application/vnd.ms-powerpoint.slide.macroenabled.12':
+                case 'application/vnd.ms-powerpoint.slideshow.macroenabled.12':
+                case 'application/vnd.ms-powerpoint.template.macroenabled.12':
+                case 'application/vnd.kde.kpresenter':
+                case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+                case 'application/vnd.openxmlformats-officedocument.presentationml.slide':
+                case 'application/vnd.openxmlformats-officedocument.presentationml.slideshow':
+                case 'application/vnd.openxmlformats-officedocument.presentationml.template':
+                case 'application/vnd.oasis.opendocument.presentation':
+                case 'application/vnd.oasis.opendocument.presentation-template':
+                    return 'fa-file-powerpoint';
+                case 'application/pdf':
+                    return 'fa-file-pdf';
+                case 'image/vnd.dxf':
+                case 'image/bmp':
+                case 'image/vnd.xiff':
+                case 'image/gif':
+                case 'image/x-icon':
+                case 'image/jpeg':
+                case 'image/vnd.adobe.photoshop':
+                case 'image/png':
+                case 'image/svg+xml':
+                case 'image/tiff':
+                case 'image/webp':
+                    return 'fa-file-image';
+                case 'application/vnd.ms-excel':
+                case 'application/vnd.ms-excel.addin.macroenabled.12':
+                case 'application/vnd.ms-excel.sheet.binary.macroenabled.12':
+                case 'application/vnd.ms-excel.template.macroenabled.12':
+                case 'application/vnd.ms-excel.sheet.macroenabled.12':
+                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.template':
+                case 'application/vnd.oasis.opendocument.spreadsheet':
+                case 'application/vnd.oasis.opendocument.spreadsheet-template':
+                    return 'fa-file-excel';
+                case 'text/html':
+                case 'application/java-archive':
+                case 'application/java-vm':
+                case 'application/javascript':
+                case 'application/json':
+                    return 'fa-file-code';
+                case 'audio/x-aac':
+                case 'audio/x-aiff':
+                case 'audio/x-ms-wma':
+                case 'audio/midi':
+                case 'audio/mpeg':
+                case 'audio/mp4':
+                case 'audio/ogg':
+                case 'audio/webm':
+                case 'audio/x-wav':
+                    return 'fa-file-audio';
+                case 'application/vnd.android.package-archive':
+                case 'application/x-bzip':
+                case 'application/x-bzip2':
+                case 'application/x-rar-compressed':
+                case 'application/x-tar':
+                case 'application/zip':
+                    return 'fa-file-archive';
+                case 'text/plain':
+                    return 'fa-file-alt';
+                default:
+                    return 'fa-file';
+            }
         }
     }]);
 
@@ -18454,6 +18579,156 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Expander = function () {
+    function Expander() {
+        _classCallCheck(this, Expander);
+
+        this.isMobile = false;
+
+        this.expander = document.querySelector('header .expander');
+        this.messages = document.querySelector('#messages');
+
+        this.expander.addEventListener('click', this.clickHandler.bind(this));
+    }
+
+    _createClass(Expander, [{
+        key: 'enableMobile',
+        value: function enableMobile() {
+            this.isMobile = true;
+        }
+    }, {
+        key: 'disableMobile',
+        value: function disableMobile() {
+            this.isMobile = false;
+
+            this.collapse();
+        }
+    }, {
+        key: 'clickHandler',
+        value: function clickHandler(e) {
+            if (this.expander.classList.contains('expanded')) {
+                this.collapse();
+
+                return;
+            }
+
+            this.expand();
+        }
+    }, {
+        key: 'expand',
+        value: function expand() {
+            this.expander.classList.add('expanded');
+            this.messages.classList.add('expanded');
+        }
+    }, {
+        key: 'collapse',
+        value: function collapse() {
+            this.expander.classList.remove('expanded');
+            this.messages.classList.remove('expanded');
+        }
+    }]);
+
+    return Expander;
+}();
+
+exports.default = Expander;
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Toolbar = function () {
+    function Toolbar() {
+        _classCallCheck(this, Toolbar);
+
+        this.isMobile = false;
+
+        this.expander = document.querySelector('header .expander');
+        this.title = document.querySelector('header h1');
+        this.hamburger = document.querySelector('header .hamburger');
+        this.toolbar = document.querySelector('header > ul');
+        this.closeButton = document.querySelector('header .mobile-close');
+
+        this.hamburger.addEventListener('click', this.showToolbar.bind(this));
+        this.closeButton.addEventListener('click', this.hideToolbar.bind(this));
+    }
+
+    _createClass(Toolbar, [{
+        key: 'enableMobile',
+        value: function enableMobile() {
+            this.isMobile = true;
+        }
+    }, {
+        key: 'disableMobile',
+        value: function disableMobile() {
+            this.isMobile = false;
+
+            this.hideToolbar();
+        }
+    }, {
+        key: 'showToolbar',
+        value: function showToolbar() {
+            if (!this.isMobile) {
+                return;
+            }
+
+            this.expander.classList.add('menu-expanded');
+            this.title.classList.add('menu-expanded');
+            this.hamburger.classList.add('menu-expanded');
+            this.toolbar.classList.add('menu-expanded');
+        }
+    }, {
+        key: 'hideToolbar',
+        value: function hideToolbar() {
+            this.expander.classList.remove('menu-expanded');
+            this.title.classList.remove('menu-expanded');
+            this.hamburger.classList.remove('menu-expanded');
+            this.toolbar.classList.remove('menu-expanded');
+        }
+    }, {
+        key: 'openMail',
+        value: function openMail() {
+            this.hamburger.classList.add('message-selected');
+        }
+    }, {
+        key: 'closeMail',
+        value: function closeMail() {
+            this.hideToolbar();
+            this.hamburger.classList.remove('message-selected');
+        }
+    }]);
+
+    return Toolbar;
+}();
+
+exports.default = Toolbar;
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _SelectMail = __webpack_require__(125);
 
 var _SelectMail2 = _interopRequireDefault(_SelectMail);
@@ -18549,7 +18824,7 @@ var Navigation = function () {
 exports.default = Navigation;
 
 /***/ }),
-/* 148 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18572,7 +18847,7 @@ function parentByTagName(element, target) {
 }
 
 /***/ }),
-/* 149 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18609,7 +18884,7 @@ var Init = function (_Command) {
 exports.default = Init;
 
 /***/ }),
-/* 150 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18646,7 +18921,7 @@ var RefreshMail = function (_Command) {
 exports.default = RefreshMail;
 
 /***/ }),
-/* 151 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18683,7 +18958,7 @@ var GetText = function (_Command) {
 exports.default = GetText;
 
 /***/ }),
-/* 152 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18720,7 +18995,7 @@ var GetHtml = function (_Command) {
 exports.default = GetHtml;
 
 /***/ }),
-/* 153 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18757,7 +19032,7 @@ var GetHtmlWithoutImages = function (_Command) {
 exports.default = GetHtmlWithoutImages;
 
 /***/ }),
-/* 154 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18794,7 +19069,7 @@ var GetSource = function (_Command) {
 exports.default = GetSource;
 
 /***/ }),
-/* 155 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18831,161 +19106,10 @@ var Delete = function (_Command) {
 exports.default = Delete;
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 157 */,
-/* 158 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Expander = function () {
-    function Expander() {
-        _classCallCheck(this, Expander);
-
-        this.isMobile = false;
-
-        this.expander = document.querySelector('header .expander');
-        this.messages = document.querySelector('#messages');
-
-        this.expander.addEventListener('click', this.clickHandler.bind(this));
-    }
-
-    _createClass(Expander, [{
-        key: 'enableMobile',
-        value: function enableMobile() {
-            this.isMobile = true;
-        }
-    }, {
-        key: 'disableMobile',
-        value: function disableMobile() {
-            this.isMobile = false;
-
-            this.collapse();
-        }
-    }, {
-        key: 'clickHandler',
-        value: function clickHandler(e) {
-            if (this.expander.classList.contains('expanded')) {
-                this.collapse();
-
-                return;
-            }
-
-            this.expand();
-        }
-    }, {
-        key: 'expand',
-        value: function expand() {
-            this.expander.classList.add('expanded');
-            this.messages.classList.add('expanded');
-        }
-    }, {
-        key: 'collapse',
-        value: function collapse() {
-            this.expander.classList.remove('expanded');
-            this.messages.classList.remove('expanded');
-        }
-    }]);
-
-    return Expander;
-}();
-
-exports.default = Expander;
-
-/***/ }),
-/* 159 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Toolbar = function () {
-    function Toolbar() {
-        _classCallCheck(this, Toolbar);
-
-        this.isMobile = false;
-
-        this.expander = document.querySelector('header .expander');
-        this.title = document.querySelector('header h1');
-        this.hamburger = document.querySelector('header .hamburger');
-        this.toolbar = document.querySelector('header > ul');
-        this.closeButton = document.querySelector('header .mobile-close');
-
-        this.hamburger.addEventListener('click', this.showToolbar.bind(this));
-        this.closeButton.addEventListener('click', this.hideToolbar.bind(this));
-    }
-
-    _createClass(Toolbar, [{
-        key: 'enableMobile',
-        value: function enableMobile() {
-            this.isMobile = true;
-        }
-    }, {
-        key: 'disableMobile',
-        value: function disableMobile() {
-            this.isMobile = false;
-
-            this.hideToolbar();
-        }
-    }, {
-        key: 'showToolbar',
-        value: function showToolbar() {
-            if (!this.isMobile) {
-                return;
-            }
-
-            this.expander.classList.add('menu-expanded');
-            this.title.classList.add('menu-expanded');
-            this.hamburger.classList.add('menu-expanded');
-            this.toolbar.classList.add('menu-expanded');
-        }
-    }, {
-        key: 'hideToolbar',
-        value: function hideToolbar() {
-            this.expander.classList.remove('menu-expanded');
-            this.title.classList.remove('menu-expanded');
-            this.hamburger.classList.remove('menu-expanded');
-            this.toolbar.classList.remove('menu-expanded');
-        }
-    }, {
-        key: 'openMail',
-        value: function openMail() {
-            this.hamburger.classList.add('message-selected');
-        }
-    }, {
-        key: 'closeMail',
-        value: function closeMail() {
-            this.hideToolbar();
-            this.hamburger.classList.remove('message-selected');
-        }
-    }]);
-
-    return Toolbar;
-}();
-
-exports.default = Toolbar;
 
 /***/ })
 /******/ ]);

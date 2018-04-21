@@ -173,6 +173,19 @@ nav#messages {
 section.info {
   font-size: 14px;
   padding-bottom: 15px; }
+  section.info .basic {
+    width: 80%;
+    float: left; }
+  section.info .attachments {
+    width: 20%;
+    float: left;
+    padding: 5px;
+    padding-bottom: 10px;
+    overflow-y: auto; }
+    section.info .attachments li {
+      padding-bottom: 5px; }
+      section.info .attachments li svg {
+        margin-right: 5px; }
   section.info th {
     text-align: left;
     padding-right: 15px; }
