@@ -5,6 +5,27 @@ section.info {
     font-size: 14px;
     padding-bottom: 15px;
 
+    .basic {
+        width: 80%;
+        float: left;
+    }
+
+    .attachments {
+        width: 20%;
+        float: left;
+        padding: 5px;
+        padding-bottom: 10px;
+        overflow-y: auto;
+
+        li {
+            padding-bottom: 5px;
+
+            svg {
+                margin-right: 5px;
+            }
+        }
+    }
+
     th {
         text-align: left;
         padding-right: 15px;
