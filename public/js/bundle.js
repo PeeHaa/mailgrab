@@ -18007,8 +18007,19 @@ var Info = function () {
     }, {
         key: 'addAttachments',
         value: function addAttachments(attachments) {
-            // <li><i class="fas fa-file"></i> Attachment 1</li>
+            var attachmentsContainer = this.element.querySelector('.attachments');
+
+            if (!attachments.length) {
+                attachmentsContainer.parentNode.removeChild(attachmentsContainer);
+
+                return;
+            }
+
             attachments.forEach(this.addAttachment.bind(this));
+
+            var height = this.element.querySelector('.basic').clientHeight;
+
+            attachmentsContainer.style.height = height - 5 + 'px';
         }
     }, {
         key: 'addAttachment',
