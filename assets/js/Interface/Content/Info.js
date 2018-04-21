@@ -57,8 +57,19 @@ export default class Info {
     }
 
     addAttachments(attachments) {
-        // <li><i class="fas fa-file"></i> Attachment 1</li>
+        const attachmentsContainer = this.element.querySelector('.attachments');
+
+        if (!attachments.length) {
+            attachmentsContainer.parentNode.removeChild(attachmentsContainer);
+
+            return;
+        }
+
         attachments.forEach(this.addAttachment.bind(this));
+
+        const height = this.element.querySelector('.basic').clientHeight;
+
+        attachmentsContainer.style.height = (height - 5 ) + 'px';
     }
 
     addAttachment(attachment) {
