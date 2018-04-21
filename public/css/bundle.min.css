@@ -263,6 +263,18 @@ header .mobile-close {
     nav#messages.expanded {
       margin-left: 0; } }
 
+@media screen and (max-width: 1024px) {
+  section.info .basic {
+    width: 100%; }
+  section.info .attachments {
+    width: 100%;
+    background: transparent;
+    height: auto !important;
+    padding: 5px; }
+    section.info .attachments li {
+      display: inline-block;
+      margin-right: 15px; } }
+
 body {
   font-family: "Montserrat", sans-serif;
   background: #333333; }
