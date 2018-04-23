@@ -2,6 +2,7 @@
 
 namespace PeeHaa\MailGrab\Http\WebSocket;
 
+use function Amp\call;
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
 use Amp\Http\Server\Websocket\Application;
@@ -121,5 +122,14 @@ class Handler implements Application
     public function onStop()
     {
         // intentionally left blank
+    }
+
+    public function getAttachment(string $mailId, int $attachmentId)
+    {
+        return call(function() use ($mailId, $attachmentId) {
+            $mail = $this->storage->get($mailId);
+
+            return $mail->getAttachment($attachmentId);
+        });
     }
 }
