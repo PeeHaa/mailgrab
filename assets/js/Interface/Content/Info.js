@@ -79,6 +79,8 @@ export default class Info {
 
         icon.classList.add('fas', this.getAttachmentTypeIcon(attachment['content-type']));
 
+        link.setAttribute('target', '_blank');
+
         setTimeout(function() {
             link.setAttribute('href', location.href + '/attachment/' + attachment.id);
         }, 1500);
