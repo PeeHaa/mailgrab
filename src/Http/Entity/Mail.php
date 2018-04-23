@@ -123,7 +123,7 @@ class Mail
             'id'           => $index,
             'name'         => $attachment->getHeaderParameter('Content-Disposition', 'filename', '__unknown_file_name_'),
             'content-type' => $attachment->getHeaderValue('Content-Type'),
-            'content'      => $attachment->getContent()
+            'content'      => $attachment->getContent(),
         ];
     }
 

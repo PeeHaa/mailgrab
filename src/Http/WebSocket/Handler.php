@@ -2,7 +2,6 @@
 
 namespace PeeHaa\MailGrab\Http\WebSocket;
 
-use function Amp\call;
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
 use Amp\Http\Server\Websocket\Application;
@@ -17,6 +16,7 @@ use PeeHaa\MailGrab\Smtp\Log\Output;
 use PeeHaa\MailGrab\Smtp\Message;
 use PeeHaa\MailGrab\Smtp\Server;
 use function Amp\asyncCall;
+use function Amp\call;
 
 class Handler implements Application
 {
