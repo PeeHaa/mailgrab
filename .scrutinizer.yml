@@ -22,9 +22,12 @@ filter:
     excluded_paths:
         - 'bin/*'
         - '*.min.js'
+        - 'src/functions.php'
+        - 'examples/'
         - 'tests/'
 checks:
     php: true
+        duplication: false
 coding_style:
     php:
         spaces:
