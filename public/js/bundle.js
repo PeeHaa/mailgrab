@@ -18026,13 +18026,19 @@ var Info = function () {
         value: function addAttachment(attachment) {
             var listItem = document.createElement('li');
             var icon = document.createElement('i');
+            var link = document.createElement('a');
 
             icon.classList.add('fas', this.getAttachmentTypeIcon(attachment['content-type']));
+
+            setTimeout(function () {
+                link.setAttribute('href', location.href + '/attachment/' + attachment.id);
+            }, 1500);
 
             var name = document.createTextNode(attachment.name);
 
             listItem.appendChild(icon);
-            listItem.appendChild(name);
+            link.appendChild(name);
+            listItem.appendChild(link);
 
             this.element.querySelector('.attachments ul').appendChild(listItem);
         }
