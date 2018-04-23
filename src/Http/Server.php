@@ -2,6 +2,7 @@
 
 namespace PeeHaa\MailGrab\Http;
 
+use Amp\Http\Server\Request;
 use Amp\Http\Server\RequestHandler;
 use Amp\Http\Server\RequestHandler\CallableRequestHandler;
 use Amp\Http\Server\Response;
@@ -13,6 +14,7 @@ use Amp\Http\Server\Websocket\Websocket;
 use Amp\Http\Status;
 use Amp\Promise;
 use Psr\Log\NullLogger;
+use function Amp\call;
 use function Amp\File\get;
 use function Amp\Socket\listen;
 
@@ -43,6 +45,11 @@ class Server
         $router = new Router();
 
         $router->addRoute('GET', '/ws', new Websocket($webSocketApplication));
+        $router->addRoute(
+            'GET',
+            '/{categoryId:\d+}/{categoryName:[^/]+}/{mailId:[^/]+}/{mailSubject:[^/]+}/attachment/{attachmentId:\d+}',
+            $this->buildAttachmentDownloadHandler($webSocketApplication)
+        );
 
         $documentRoot = new DocumentRoot($documentRootPath);
         $documentRoot->setFallback($this->buildFallback($documentRootPath));
@@ -50,6 +57,25 @@ class Server
         $router->setFallback($documentRoot);
 
         return $router;
+    }
+
+    private function buildAttachmentDownloadHandler(Application $webSocketApplication): RequestHandler
+    {
+        return new CallableRequestHandler(function(Request $request) use ($webSocketApplication) {
+            return call(function() use ($webSocketApplication, $request) {
+                $requestParameters = $request->getAttribute(Router::class);
+
+                $attachment = yield $webSocketApplication->getAttachment(
+                    $requestParameters['mailId'],
+                    (int) $requestParameters['attachmentId']
+                );
+
+                return new Response(Status::OK, [
+                    'Content-Type'        => $attachment['content-type'],
+                    'Content-Disposition' => sprintf('attachment; filename="%s"', $attachment['name']),
+                ], $attachment['content']);
+            });
+        });
     }
 
     private function buildFallback(string $documentRootPath): RequestHandler

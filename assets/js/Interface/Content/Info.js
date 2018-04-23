@@ -75,13 +75,19 @@ export default class Info {
     addAttachment(attachment) {
         const listItem = document.createElement('li');
         const icon     = document.createElement('i');
+        const link     = document.createElement('a');
 
         icon.classList.add('fas', this.getAttachmentTypeIcon(attachment['content-type']));
+
+        setTimeout(function() {
+            link.setAttribute('href', location.href + '/attachment/' + attachment.id);
+        }, 1500);
 
         const name = document.createTextNode(attachment.name);
 
         listItem.appendChild(icon);
-        listItem.appendChild(name);
+        link.appendChild(name);
+        listItem.appendChild(link);
 
         this.element.querySelector('.attachments ul').appendChild(listItem);
     }

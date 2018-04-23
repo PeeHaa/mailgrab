@@ -186,6 +186,10 @@ section.info {
       padding-bottom: 5px; }
       section.info .attachments li svg {
         margin-right: 5px; }
+      section.info .attachments li a {
+        color: inherit; }
+        section.info .attachments li a:hover {
+          text-decoration: underline; }
   section.info th {
     text-align: left;
     padding-right: 15px; }
