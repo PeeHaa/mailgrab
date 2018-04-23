@@ -182,6 +182,206 @@ class MailTest extends TestCase
         $this->assertSame(file_get_contents(DATA_DIR . '/raw-message.txt'), $mail->getSource());
     }
 
+    public function testGetAttachmentsWithoutAttachments()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-without-html.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame([], $mail->getAttachments());
+    }
+
+    public function testGetAttachmentsReturnsBothAttachments()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-with-attachments.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertCount(2, $mail->getAttachments());
+    }
+
+    public function testGetAttachmentsReturnsCorrectId()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-with-attachments.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame(0, $mail->getAttachments()[0]['id']);
+    }
+
+    public function testGetAttachmentsReturnsCorrectName()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-with-attachments.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame('pdf-sample.pdf', $mail->getAttachments()[0]['name']);
+    }
+
+    public function testGetAttachmentsReturnsCorrectContentType()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-with-attachments.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame('application/pdf', $mail->getAttachments()[0]['content-type']);
+    }
+
+    public function testGetAttachmentReturnsCorrectId()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-with-attachments.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame(0, $mail->getAttachment(0)['id']);
+    }
+
+    public function testGetAttachmentReturnsCorrectName()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-with-attachments.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame('pdf-sample.pdf', $mail->getAttachment(0)['name']);
+    }
+
+    public function testGetAttachmentReturnsCorrectContentType()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-with-attachments.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame('application/pdf', $mail->getAttachment(0)['content-type']);
+    }
+
     public function testIsReadWhenNotRead()
     {
         $mail = new Mail($this->messageMock);
