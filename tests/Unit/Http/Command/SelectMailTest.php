@@ -172,7 +172,7 @@ class SelectMailTest extends TestCase
         $result = wait($selectMail->execute($this->inputMock));
 
         $this->assertInstanceOf(Success::class, $result);
-        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"HTML","hasText":true,"hasHtml":true}}}', (string) $result);
+        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"HTML","hasText":true,"hasHtml":true,"attachments":[]}}}', (string) $result);
     }
 
     public function testExecuteReturnsResponseWhenMailIsAvailableAndDoesNotHaveHtml()
@@ -284,6 +284,135 @@ class SelectMailTest extends TestCase
         $result = wait($selectMail->execute($this->inputMock));
 
         $this->assertInstanceOf(Success::class, $result);
-        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"TEXT","hasText":true,"hasHtml":false}}}', (string) $result);
+        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"TEXT","hasText":true,"hasHtml":false,"attachments":[]}}}', (string) $result);
+    }
+
+    public function testExecuteReturnsResponseWhenMailIsAvailableAndDoesHaveAttachments()
+    {
+        $this->mailMock
+            ->expects($this->once())
+            ->method('setRead')
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getId')
+            ->willReturn('ID')
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getFrom')
+            ->willReturn('FROM')
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getTo')
+            ->willReturn('TO')
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('GetCc')
+            ->willReturn('CC')
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getBcc')
+            ->willReturn('BCC')
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getSubject')
+            ->willReturn('SUBJECT')
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getTimestamp')
+            ->willReturnCallback(function() {
+                $timestampMock = $this->createMock(\DateTimeImmutable::class);
+
+                $timestampMock
+                    ->expects($this->once())
+                    ->method('format')
+                    ->willReturn('TIMESTAMP')
+                ;
+
+                return $timestampMock;
+            })
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('isRead')
+            ->willReturn(false)
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getProject')
+            ->willReturn('PROJECT')
+        ;
+
+        $this->mailMock
+            ->expects($this->exactly(2))
+            ->method('getText')
+            ->willReturn('TEXT')
+        ;
+
+        $this->mailMock
+            ->expects($this->exactly(2))
+            ->method('GetHtml')
+            ->willReturn(null)
+        ;
+
+        $this->mailMock
+            ->expects($this->once())
+            ->method('getAttachments')
+            ->willReturn([
+                [
+                    'id'           => '11',
+                    'name'         => 'Attachment 1',
+                    'content-type' => 'text/plain',
+                ],
+                [
+                    'id'           => '12',
+                    'name'         => 'Attachment 2',
+                    'content-type' => 'text/html',
+                ],
+            ])
+        ;
+
+        $this->storageMock
+            ->expects($this->once())
+            ->method('has')
+            ->willReturn(true)
+            ->with(self::ID)
+        ;
+
+        $this->storageMock
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->mailMock)
+            ->with(self::ID)
+        ;
+
+        $this->inputMock
+            ->expects($this->once())
+            ->method('getParameter')
+            ->willReturn(self::ID)
+            ->with('id')
+        ;
+
+        $selectMail = new SelectMail($this->storageMock);
+
+        $result = wait($selectMail->execute($this->inputMock));
+
+        $this->assertInstanceOf(Success::class, $result);
+        $this->assertSame('{"success":true,"payload":{"command":"mailInfo","info":{"id":"ID","from":"FROM","to":"TO","cc":"CC","bcc":"BCC","subject":"SUBJECT","read":false,"deleted":false,"timestamp":"TIMESTAMP","project":"PROJECT","content":"TEXT","hasText":true,"hasHtml":false,"attachments":[{"id":"11","name":"Attachment 1","content-type":"text\/plain"},{"id":"12","name":"Attachment 2","content-type":"text\/html"}]}}}', (string) $result);
     }
 }
