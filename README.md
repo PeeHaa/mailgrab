@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/peehaa/mailgrab/v/stable)](https://packagist.org/packages/peehaa/mailgrab)
 [![Build Status](https://travis-ci.org/PeeHaa/mailgrab.svg?branch=master)](https://travis-ci.org/PeeHaa/mailgrab)
 [![Coverage Status](https://coveralls.io/repos/github/PeeHaa/mailgrab/badge.svg?branch=master)](https://coveralls.io/github/PeeHaa/mailgrab?branch=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/0vg23vb7ohyuxjqr/branch/master?svg=true)](https://ci.appveyor.com/project/PeeHaa/mailgrab/branch/master)
 [![License](https://poser.pugx.org/peehaa/mailgrab/license)](https://packagist.org/packages/peehaa/mailgrab)
 
 Catch-all SMTP server for local debugging purposes.
