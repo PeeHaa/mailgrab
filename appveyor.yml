@@ -1,6 +1,5 @@
 build: false
 platform:
-  - x86
   - x64
 clone_folder: c:\projects\php-project-workspace
 
