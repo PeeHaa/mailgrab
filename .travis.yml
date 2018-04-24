@@ -30,9 +30,6 @@ before_script:
   - if [ -z "$dependencies" ]; then travis_retry composer install; fi;
   - if [ "$dependencies" = "lowest" ]; then travis_retry composer update --prefer-lowest -n; fi;
   - if [ "$dependencies" = "highest" ]; then travis_retry composer update -n; fi;
-  - wget https://github.com/infection/infection/releases/download/0.6.0/infection.phar
-  - wget https://github.com/infection/infection/releases/download/0.6.0/infection.phar.pubkey
-  - chmod +x infection.phar
 
 script:
   - phpdbg -qrr vendor/bin/phpunit --coverage-text
