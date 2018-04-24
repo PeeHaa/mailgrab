@@ -8,7 +8,9 @@ use Amp\Artax\Response;
 use Amp\Http\Server\Websocket\Application;
 use Amp\Loop;
 use Amp\Promise;
+use Amp\Success;
 use PeeHaa\MailGrab\Http\Server;
+use PeeHaa\MailGrab\Http\WebSocket\Handler;
 use PHPUnit\Framework\TestCase;
 
 class ServerTest extends TestCase
@@ -45,6 +47,37 @@ class ServerTest extends TestCase
             ]);
 
             $this->assertSame('foobar', yield $response->getBody());
+
+            $server->stop();
+        });
+    }
+
+    public function testDownloadRequest()
+    {
+        Loop::run(function() {
+            $application = $this->createMock(Handler::class);
+
+            $application
+                ->method('getAttachment')
+                ->willReturnCallback(function() {
+                    return new Success([
+                        'content-type' => 'text/html',
+                        'name'         => 'test.html',
+                        'content'      => '<foo>html</foo>',
+                    ]);
+                })
+            ;
+
+            $server = new Server($application, DATA_DIR . '/DocRoot', ['127.0.0.1'], 9998);
+
+            $server->start();
+
+            /** @var Response $response */
+            $response = yield (new DefaultClient())->request('http://127.0.0.1:9998/0/uncategorized/abc-123/test-mail/attachment/0', [
+                Client::OP_TRANSFER_TIMEOUT => 4000,
+            ]);
+
+            $this->assertSame('<foo>html</foo>', yield $response->getBody());
 
             $server->stop();
         });
