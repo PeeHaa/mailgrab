@@ -5,7 +5,6 @@ namespace PeeHaa\MailGrabTest\Unit\Http\WebSocket;
 use Amp\Http\Server\Driver\Client;
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
-use function Amp\Promise\wait;
 use PeeHaa\AmpWebsocketCommand\Executor;
 use PeeHaa\MailGrab\Http\Entity\Mail;
 use PeeHaa\MailGrab\Http\Storage\Storage;
@@ -14,6 +13,7 @@ use PeeHaa\MailGrab\Smtp\Message;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UriInterface;
+use function Amp\Promise\wait;
 
 class HandlerTest extends TestCase
 {
