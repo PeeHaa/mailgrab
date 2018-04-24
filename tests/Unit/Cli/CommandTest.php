@@ -157,7 +157,7 @@ class CommandTest extends TestCase
             new Argument('--long'),
         ];
 
-        $this->assertFalse($command->isHelp(...$arguments));
+        $this->assertFalse($command->isVersion(...$arguments));
     }
 
     public function testGetConfigurationReturnsDefaultWebPort()
