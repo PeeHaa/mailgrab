@@ -25,6 +25,10 @@ matrix:
 before_install:
 - phpenv config-rm xdebug.ini || echo "No xdebug config."
 
+install:
+- wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.0.0/php-coveralls.phar
+- chmod +x php-coveralls.phar
+
 before_script:
   - travis_retry composer self-update
   - if [ -z "$dependencies" ]; then travis_retry composer install; fi;
@@ -32,5 +36,8 @@ before_script:
   - if [ "$dependencies" = "highest" ]; then travis_retry composer update -n; fi;
 
 script:
-  - phpdbg -qrr vendor/bin/phpunit --coverage-text
+  - phpdbg -qrr vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
   - vendor/bin/phpcs -s
+
+after_success:
+  - travis_retry php php-coveralls.phar
