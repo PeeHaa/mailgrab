@@ -13,7 +13,9 @@ class ServerTest extends TestCase
     {
         $server = new Server(
             $this->createMock(Factory::class),
+            // phpcs:disable
             function() {},
+            // phpcs:enable
             $this->createMock(Output::class),
             [],
             9025

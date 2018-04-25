@@ -17,7 +17,9 @@ class ClientTest extends TestCase
         $client = new Client(
             $this->createMock(ServerSocket::class),
             $this->createMock(Factory::class),
+            // phpcs:disable
             function() {},
+            // phpcs:enable
             $this->createMock(Output::class)
         );
 
