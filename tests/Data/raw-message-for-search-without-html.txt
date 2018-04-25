@@ -1,0 +1,13 @@
+Date: Wed, 25 Apr 2018 11:17:15 +0000
+To: Joe User <joe@example.net>, ellen@example.com
+From: Mailer <from@example.com>
+Cc: cc@example.com
+Reply-To: Information <info@example.com>
+Subject: PHPMailer
+Message-ID: <OVhuBTY99dkKuu9hS0cwCe61FCanC1muNDwFvjlloo@MSIGL72M7RDX>
+X-Mailer: PHPMailer 6.0.5 (https://github.com/PHPMailer/PHPMailer)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+
+This is the body in plain text for non-HTML mail clients
+

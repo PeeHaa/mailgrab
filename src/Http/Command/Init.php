@@ -41,11 +41,12 @@ class Init implements Command
         /** @var Mail $mail */
         foreach ($this->storage as $mail) {
             $list[] = [
-                'id'        => $mail->getId(),
-                'subject'   => $mail->getSubject(),
-                'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
-                'read'      => $mail->isRead(),
-                'project'   => $mail->getProject(),
+                'id'                => $mail->getId(),
+                'subject'           => $mail->getSubject(),
+                'searchableContent' => $mail->getSearchableContent(),
+                'timestamp'         => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
+                'read'              => $mail->isRead(),
+                'project'           => $mail->getProject(),
             ];
         }
 

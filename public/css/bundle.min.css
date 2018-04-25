@@ -143,7 +143,6 @@ nav#messages {
   nav#messages .search input {
     width: calc(100% - 36px); }
   nav#messages .search button {
-    cursor: pointer;
     color: #ffffff; }
   nav#messages li {
     box-shadow: inset 0 -1px #242424, inset 6px 0 transparent;
@@ -152,6 +151,8 @@ nav#messages {
     nav#messages li.active, nav#messages li:hover {
       box-shadow: inset 0 -1px #242424, inset 6px 0 #1ab394;
       color: #ffffff; }
+    nav#messages li.filtered {
+      display: none; }
     nav#messages li time {
       font-size: 11px;
       padding: 10px 10px 10px 15px; }

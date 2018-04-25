@@ -182,6 +182,81 @@ class MailTest extends TestCase
         $this->assertSame(file_get_contents(DATA_DIR . '/raw-message.txt'), $mail->getSource());
     }
 
+    public function testGetSearchableContentReturnsCorrectContentWhenHtmlNotAvailable()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-for-search-without-html.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame('phpmailer this is the body in plain text for non-html mail clients', $mail->getSearchableContent());
+    }
+
+    public function testGetSearchableContentReturnsCorrectContentWhenTextNotAvailable()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-for-search-without-text.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame('phpmailer this is the html message body in bold!', $mail->getSearchableContent());
+    }
+
+    public function testGetSearchableContentReturnsAllContentWhenAvailable()
+    {
+        /** @var MockObject|Message $messageMock */
+        $messageMock = $this->getMockBuilder(Message::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRawMessage')
+            ->willReturn(file_get_contents(DATA_DIR . '/raw-message-for-search.txt'))
+        ;
+
+        $messageMock
+            ->expects($this->any())
+            ->method('getRecipients')
+            ->willReturn([])
+        ;
+
+        $mail = new Mail($messageMock);
+
+        $this->assertSame('phpmailer this is the body in plain text for non-html mail clients this is the html message body in bold!', $mail->getSearchableContent());
+    }
+
     public function testGetAttachmentsWithoutAttachments()
     {
         /** @var MockObject|Message $messageMock */

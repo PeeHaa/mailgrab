@@ -41,12 +41,13 @@ class NewMail implements Command
 
         return [
             [
-                'id'        => $mail->getId(),
-                'subject'   => $mail->getSubject(),
-                'timestamp' => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
-                'read'      => $mail->isRead(),
-                'deleted'   => false,
-                'project'   => $mail->getProject(),
+                'id'                => $mail->getId(),
+                'subject'           => $mail->getSubject(),
+                'searchableContent' => $mail->getSearchableContent(),
+                'timestamp'         => $mail->getTimestamp()->format(\DateTime::RFC3339_EXTENDED),
+                'read'              => $mail->isRead(),
+                'deleted'           => false,
+                'project'           => $mail->getProject(),
             ],
         ];
     }

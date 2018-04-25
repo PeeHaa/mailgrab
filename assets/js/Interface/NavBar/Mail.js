@@ -10,6 +10,8 @@ export default class Mail {
         this.addSubject(mail.subject);
         this.addTimestamp(mail.timestamp);
         this.setReadStatus(mail.read);
+
+        this.searchableContent = mail.searchableContent;
     }
 
     addToDom() {
@@ -62,5 +64,23 @@ export default class Mail {
 
     markAsRead() {
         this.element.classList.remove('new');
+    }
+
+    filter(search) {
+        if (this.searchableContent.indexOf(search)=== -1) {
+            this.hide();
+
+            return;
+        }
+
+        this.show();
+    }
+
+    hide() {
+        this.element.classList.add('filtered');
+    }
+
+    show() {
+        this.element.classList.remove('filtered');
     }
 }
