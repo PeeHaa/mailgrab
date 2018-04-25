@@ -59,7 +59,7 @@ if ($command->isHelp(...$arguments)) {
 }
 
 if ($command->isVersion(...$arguments)) {
-    echo (new Version())->render();
+    echo (new Version(__DIR__ . '/..'))->render();
 
     exit;
 }

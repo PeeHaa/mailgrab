@@ -7,8 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 class VersionTest extends TestCase
 {
-    public function testRender()
+    public function testRenderGitVersion()
     {
-        $this->assertRegExp('~\d+\.\d+\.\d+~', (new Version())->render());
+        $this->assertRegExp('~\d+\.\d+\.\d+~', (new Version(__DIR__ . '/../../../..'))->render());
+    }
+
+    public function testRenderBuildVersion()
+    {
+        $this->assertSame('120.13.99', (new Version(DATA_DIR))->render());
     }
 }

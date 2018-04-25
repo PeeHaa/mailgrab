@@ -4,14 +4,38 @@ namespace PeeHaa\MailGrab\Cli\Output;
 
 class Version
 {
+    private const BUILD_INFO_PATH = '%s/info/build.version';
+
+    private $basePath;
+
+    public function __construct(string $basePath)
+    {
+        $this->basePath = $basePath;
+    }
+
     public function render(): string
     {
-        if (file_exists(__DIR__ . '/../../../.git')) {
-            $version = shell_exec('git describe --tags');
+        if ($this->hasBuildInfo()) {
+            $version = $this->getVersionFromBuildInfo();
         } else {
-            $version = file_get_contents(__DIR__ . '/../../../info/build.version');
+            $version = $this->getVersionInfoFromGit();
         }
 
         return substr(trim($version), 1);
+    }
+
+    private function hasBuildInfo(): bool
+    {
+        return file_exists(sprintf(self::BUILD_INFO_PATH, $this->basePath));
+    }
+
+    private function getVersionFromBuildInfo(): string
+    {
+        return file_get_contents(sprintf(self::BUILD_INFO_PATH, $this->basePath));
+    }
+
+    private function getVersionInfoFromGit(): string
+    {
+        return shell_exec('git describe --tags');
     }
 }
