@@ -100,6 +100,37 @@ class Mail
         return $this->rawMessage;
     }
 
+    public function getSearchableContent(): string
+    {
+        $searchableContent = $this->getSubject();
+
+        if ($this->getText()) {
+            $searchableContent .= ' ' . $this->getText();
+        }
+
+        if ($this->getHtml()) {
+            $internalErrors = libxml_use_internal_errors(true);
+            $dom = new \DOMDocument();
+            $dom->loadHTML($this->getHtml());
+            libxml_use_internal_errors($internalErrors);
+
+            $xpath = new \DOMXPath($dom);
+            $textNodes = $xpath->query('//*[not(self::script or self::style)]/text()');
+
+            /** @var \DOMText $textNode */
+            foreach ($textNodes as $textNode) {
+                $searchableContent .= ' ' . $textNode->textContent;
+            }
+        }
+
+        $searchableContent = trim($searchableContent);
+        $searchableContent = str_replace(["\r", "\n"], ' ', $searchableContent);
+        $searchableContent = mb_strtolower($searchableContent);
+        $searchableContent = preg_replace('~\s+~', ' ', $searchableContent);
+
+        return $searchableContent;
+    }
+
     public function getAttachments(): array
     {
         $attachments = [];

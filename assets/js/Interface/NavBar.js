@@ -3,6 +3,11 @@ import Mail from './NavBar/Mail';
 export default class NavBar {
     constructor() {
         this.mails = {};
+
+        document.querySelector('#messages .search input').addEventListener('keyup', this.search.bind(this));
+        document.querySelector('#messages .search input').addEventListener('keypress', this.search.bind(this));
+        document.querySelector('#messages .search input').addEventListener('paste', this.search.bind(this));
+        document.querySelector('#messages .search input').addEventListener('input', this.search.bind(this));
     }
 
     addMails(mails) {
@@ -33,6 +38,12 @@ export default class NavBar {
     reset() {
         Object.keys(this.mails).forEach((id) => {
             this.mails[id].deactivate();
+        });
+    }
+
+    search(e) {
+        Object.keys(this.mails).forEach((key)=> {
+            this.mails[key].filter(e.target.value.toLowerCase());
         });
     }
 }
