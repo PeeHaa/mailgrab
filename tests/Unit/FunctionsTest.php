@@ -39,7 +39,7 @@ class FunctionsTest extends TestCase
 
         $this->expectException(\Throwable::class);
 
-        $server = listen($logger, 'tcp://0.0.0.1:9000');
+        $server = listen($logger, 'tcp://512.512.512.512:9000');
 
         $this->assertInstanceOf(Promise::class, $server->accept());
 
