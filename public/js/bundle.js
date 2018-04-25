@@ -17105,6 +17105,11 @@ var NavBar = function () {
         _classCallCheck(this, NavBar);
 
         this.mails = {};
+
+        document.querySelector('#messages .search input').addEventListener('keyup', this.search.bind(this));
+        document.querySelector('#messages .search input').addEventListener('keypress', this.search.bind(this));
+        document.querySelector('#messages .search input').addEventListener('paste', this.search.bind(this));
+        document.querySelector('#messages .search input').addEventListener('input', this.search.bind(this));
     }
 
     _createClass(NavBar, [{
@@ -17149,6 +17154,15 @@ var NavBar = function () {
                 _this3.mails[id].deactivate();
             });
         }
+    }, {
+        key: 'search',
+        value: function search(e) {
+            var _this4 = this;
+
+            Object.keys(this.mails).forEach(function (key) {
+                _this4.mails[key].filter(e.target.value.toLowerCase());
+            });
+        }
     }]);
 
     return NavBar;
@@ -17185,6 +17199,8 @@ var Mail = function () {
         this.addSubject(mail.subject);
         this.addTimestamp(mail.timestamp);
         this.setReadStatus(mail.read);
+
+        this.searchableContent = mail.searchableContent;
     }
 
     _createClass(Mail, [{
@@ -17248,6 +17264,27 @@ var Mail = function () {
         key: 'markAsRead',
         value: function markAsRead() {
             this.element.classList.remove('new');
+        }
+    }, {
+        key: 'filter',
+        value: function filter(search) {
+            if (this.searchableContent.indexOf(search) === -1) {
+                this.hide();
+
+                return;
+            }
+
+            this.show();
+        }
+    }, {
+        key: 'hide',
+        value: function hide() {
+            this.element.classList.add('filtered');
+        }
+    }, {
+        key: 'show',
+        value: function show() {
+            this.element.classList.remove('filtered');
         }
     }]);
 

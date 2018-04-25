@@ -131,6 +131,6 @@ class NewMailTest extends TestCase
         $result = wait($newMail->execute($this->inputMock));
 
         $this->assertInstanceOf(Success::class, $result);
-        $this->assertSame('{"success":true,"payload":{"command":"newMail","mails":[{"id":"ID","subject":"SUBJECT","timestamp":"TIMESTAMP","read":false,"deleted":false,"project":"PROJECT"}]}}', (string) $result);
+        $this->assertSame('{"success":true,"payload":{"command":"newMail","mails":[{"id":"ID","subject":"SUBJECT","searchableContent":"","timestamp":"TIMESTAMP","read":false,"deleted":false,"project":"PROJECT"}]}}', (string) $result);
     }
 }

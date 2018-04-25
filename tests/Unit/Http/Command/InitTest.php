@@ -147,6 +147,6 @@ class InitTest extends TestCase
 
         $result = wait($init->execute($this->inputMock));
 
-        $this->assertSame('{"success":true,"payload":{"command":"init","mails":[{"id":"ID","subject":"SUBJECT","timestamp":"TIMESTAMP","read":false,"project":"PROJECT"}],"config":{"hostname":"HOSTNAME","smtpport":"SMTPPORT"}}}', (string) $result);
+        $this->assertSame('{"success":true,"payload":{"command":"init","mails":[{"id":"ID","subject":"SUBJECT","searchableContent":"","timestamp":"TIMESTAMP","read":false,"project":"PROJECT"}],"config":{"hostname":"HOSTNAME","smtpport":"SMTPPORT"}}}', (string) $result);
     }
 }

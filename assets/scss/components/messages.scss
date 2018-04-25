@@ -26,7 +26,6 @@ nav#messages {
         }
 
         button {
-            cursor: pointer;
             color: #ffffff;
         }
     }
@@ -39,6 +38,10 @@ nav#messages {
         &.active, &:hover {
             box-shadow: inset 0 -1px $color-theme-2, inset 6px 0 $color-theme-7;
             color: #ffffff;
+        }
+
+        &.filtered {
+            display: none;
         }
 
         time {
